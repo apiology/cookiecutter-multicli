@@ -41,6 +41,7 @@ commands:
             "LANG": "C.UTF-8"
 
 jobs:
+  test:
     docker:
       - image: circleci/python
     steps:
