@@ -1,8 +1,11 @@
 {
+  "full_name": "Vince Broz",
+  "email": "vince@broz.cc",
+  "github_username": "apiology",
   "project_name": "Chrome Extension Boilerplate",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-  "description": "A minimal Google Chrome extension.",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_short_description": "Chrome Extension Boilerplate contains all the boilerplate you need to create a Chrome Extension project.",
   "version": "0.1.0",
-  "year": "2015",
-  "full_name": "Audrey Roy Greenfeld"
+  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
+  "type_of_github_repo": ["private", "public", "none"]
 }

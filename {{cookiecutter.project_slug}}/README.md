@@ -2,7 +2,7 @@
 
 WARNING: This is not ready for use yet!
 
-{{ cookiecutter.description }}
+{{ cookiecutter.project_short_description }}
 
 ## Usage
 
