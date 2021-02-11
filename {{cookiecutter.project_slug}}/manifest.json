@@ -1,6 +1,6 @@
 {
   "name": "{{ cookiecutter.project_name }}",
-  "description": "{{ cookiecutter.description }}",
+  "description": "{{ cookiecutter.project_short_description }}",
   "version": "{{ cookiecutter.version }}",
   "permissions": [
     "activeTab"
