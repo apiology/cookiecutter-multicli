@@ -6,10 +6,6 @@ import subprocess
 import datetime
 from cookiecutter.utils import rmtree
 
-from click.testing import CliRunner
-
-import importlib
-
 
 @contextmanager
 def inside_dir(dirpath):
