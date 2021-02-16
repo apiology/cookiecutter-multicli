@@ -15,6 +15,7 @@ if __name__ == '__main__':
         remove_file('LICENSE')
 
     subprocess.check_call('./fix.sh')
+    subprocess.check_call(['bundle', 'exec', 'overcommit', '--sign'])
     subprocess.check_call(['git', 'init'])
     subprocess.check_call(['git', 'add', '-A'])
     subprocess.check_call(['git', 'commit', '-m',
