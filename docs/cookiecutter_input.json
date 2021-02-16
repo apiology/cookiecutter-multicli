@@ -7,5 +7,6 @@
     "project_name": "Cookiecutter Chrome Extension",
     "project_short_description": "Chrome Extension Boilerplate contains all the boilerplate you need to create a Chrome Extension project.",
     "project_slug": "cookiecutter-chrome-extension",
-    "project_super_short_description": "Cookiecutter template for a Chrome Extension project."
+    "project_super_short_description": "Cookiecutter template for a Chrome Extension project.",
+    "type_of_github_repo": "private"
 }
