@@ -1,0 +1,12 @@
+{
+    "_template": "https://github.com/apiology/cookiecutter-cookiecutter",
+    "email": "vince@broz.cc",
+    "full_name": "Vince Broz",
+    "github_username": "apiology",
+    "language_or_tool": "Multi-CLI",
+    "project_name": "Cookiecutter Multi-CLI",
+    "project_short_description": "A cookiecutter template for text-based commands, featuring Chrome Omnibox support for now, with other platforms like Alfred and OS-level CLI in the future",
+    "project_slug": "cookiecutter-multicli",
+    "project_super_short_description": "Cookiecutter template for modern multi-platform command-line-style apps",
+    "type_of_github_repo": "public"
+}
