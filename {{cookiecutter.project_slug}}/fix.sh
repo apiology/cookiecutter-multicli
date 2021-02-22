@@ -2,6 +2,28 @@
 
 set -o pipefail
 
+install_npm() {
+  if [ "$(uname)" == "Darwin" ]
+  then
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install npm || true
+  elif type apt-get >/dev/null 2>&1
+  then
+    sudo apt-get update -y
+    sudo apt-get install npm
+  fi
+}
+
+ensure_npm() {
+  if ! type npm >/dev/null 2>&1
+  then
+    install_npm
+  fi
+}
+
+ensure_npm_modules() {
+  npm install
+}
+
 install_rbenv() {
   if [ "$(uname)" == "Darwin" ]
   then
@@ -196,6 +218,10 @@ ensure_shellcheck() {
     install_shellcheck
   fi
 }
+
+ensure_npm
+
+ensure_npm_modules
 
 ensure_rbenv
 
