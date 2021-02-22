@@ -5,7 +5,7 @@ Cookiecutter Multi-CLI
 .. image:: https://circleci.com/gh/apiology/cookiecutter-multicli.svg?style=svg
     :target: https://circleci.com/gh/apiology/cookiecutter-multicli
 
-A `Cookiecutter <https://github.com/audreyr/cookiecutter>`_ template for a Google Chrome extension.
+A cookiecutter template for text-based commands, featuring Chrome Omnibox support for now, with other platforms like Alfred and OS-level CLI in the future.
 
 This is a fork
 --------------
