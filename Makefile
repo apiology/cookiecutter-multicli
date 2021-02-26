@@ -39,3 +39,15 @@ watch: bake
 replay: BAKE_OPTIONS=--replay
 replay: watch
 	;
+
+update_from_cookiecutter: ## Bring in changes from template project used to create this repo
+	git checkout main && bundle exec overcommit --sign && git pull && git checkout -b update-from-upstream-cookiecutter-$$(date +%Y-%m-%d-%H%M)
+	git fetch upstream
+	git fetch -a
+	git merge upstream/main --allow-unrelated-histories || true
+	@echo
+	@echo "Please resolve any merge conflicts below and push up a PR with:"
+	@echo
+	@echo '   gh pr create --title "Update from upstream" --body "Automated PR to update from upstream"'
+	@echo
+	@echo
