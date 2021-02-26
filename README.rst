@@ -5,6 +5,8 @@ Cookiecutter Chrome Extension
 .. image:: https://circleci.com/gh/apiology/cookiecutter-chrome-extension.svg?style=svg
     :target: https://circleci.com/gh/apiology/cookiecutter-chrome-extension
 
+Chrome Extension Boilerplate contains all the boilerplate you need to create a Chrome Extension project.
+
 This is a fork
 --------------
 
