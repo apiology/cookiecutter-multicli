@@ -9,7 +9,7 @@ install_npm() {
   elif type apt-get >/dev/null 2>&1
   then
     sudo apt-get update -y
-    sudo apt-get install npm
+    sudo apt-get install -y npm
   fi
 }
 
