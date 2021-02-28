@@ -2,11 +2,33 @@
 
 set -o pipefail
 
-ensure_npm() {
-  if ! type npm >/dev/null 2>&1
+install_nvm() {
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+}
+
+set_nvm_env_variables() {
+  set +eu
+  export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1090
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1090
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  set -eu
+}
+
+ensure_nvm() {
+  if ! [ -f "${HOME}/.nvm/nvm.sh" ]
   then
-    install_package npm
+    install_nvm
   fi
+  if ! type nvm >/dev/null 2>&1
+  then
+    set_nvm_env_variables
+  fi
+}
+
+ensure_node_versions() {
+  nvm install
 }
 
 ensure_npm_modules() {
@@ -260,7 +282,9 @@ ensure_shellcheck() {
   fi
 }
 
-ensure_npm
+ensure_nvm
+
+ensure_node_versions
 
 ensure_npm_modules
 
