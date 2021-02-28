@@ -2,21 +2,10 @@
 
 set -o pipefail
 
-install_npm() {
-  if [ "$(uname)" == "Darwin" ]
-  then
-    HOMEBREW_NO_AUTO_UPDATE=1 brew install npm || true
-  elif type apt-get >/dev/null 2>&1
-  then
-    sudo apt-get update -y
-    sudo apt-get install -y npm
-  fi
-}
-
 ensure_npm() {
   if ! type npm >/dev/null 2>&1
   then
-    install_npm
+    install_package npm
   fi
 }
 
