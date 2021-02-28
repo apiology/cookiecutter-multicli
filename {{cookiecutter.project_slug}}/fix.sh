@@ -28,6 +28,13 @@ ensure_nvm() {
 }
 
 ensure_node_versions() {
+  # not sure why this is needed again...
+  #
+  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/60/workflows/a0f0105a-023c-4b86-a4be-1859ee9c162a/jobs/74
+  if ! type nvm >/dev/null 2>&1
+  then
+    set_nvm_env_variables
+  fi
   nvm install
 }
 
