@@ -1,6 +1,6 @@
 {
   "name": "{{ cookiecutter.project_name }}",
-  "description": "{{ cookiecutter.project_short_description }}",
+  "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
   "version": "{{ cookiecutter.version }}",
   "permissions": [
     "activeTab"
