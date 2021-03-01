@@ -7,6 +7,11 @@ install_nvm() {
 }
 
 set_nvm_env_variables() {
+  #
+  # nvm doesn't seem to be -e clean:
+  #
+  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/72/workflows/789c4aac-d150-4b0c-962f-83f8d04dd288/jobs/98
+  #
   set +e
   export NVM_DIR="$HOME/.nvm"
   # shellcheck disable=SC1090
