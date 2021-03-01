@@ -28,14 +28,18 @@ ensure_nvm() {
 }
 
 ensure_node_versions() {
+  # Looks like nvm isn't -u clean
+  #
+  # https://github.com/nvm-sh/nvm/issues/2420
+  #
+  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/67/workflows/ae764563-1f72-49d1-a663-a6cc6e64060a/jobs/88
+  set +u
   nvm install
+  set -u
 }
 
 ensure_npm_modules() {
-  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/67/workflows/ae764563-1f72-49d1-a663-a6cc6e64060a/jobs/88
-  set +u
   npm install
-  set -u
 }
 
 install_rbenv() {
