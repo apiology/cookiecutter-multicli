@@ -28,7 +28,6 @@ ensure_nvm() {
 }
 
 ensure_node_versions() {
-  ls -l ~/.nvm
   nvm install
 }
 
