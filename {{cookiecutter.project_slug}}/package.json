@@ -1,0 +1,31 @@
+{
+  "name": "{{ cookiecutter.project_slug }}",
+  "version": "{{ cookiecutter.version }}",
+  "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
+  "private": true,
+  "scripts": {
+    "start": "webpack --mode=development --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}.git"
+  },
+  "keywords": [
+    "chrome-extension"
+  ],
+  "author": "{{ cookiecutter.full_name.replace('\"', '\\\"') }} <{{ cookiecutter.email }}>",
+  "license": "{{ cookiecutter.open_source_license }}",
+  "bugs": {
+    "url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+  },
+  "homepage": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}#readme",
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {}
+}
