@@ -17,6 +17,8 @@
 # Uncomment the following lines to make the configuration take effect.
 
 PreCommit:
+  EsLint:
+    enabled: true
   PythonFlake8:
     enabled: true
   ShellCheck:
