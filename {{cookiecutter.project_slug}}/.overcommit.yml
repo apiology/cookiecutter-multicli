@@ -18,6 +18,7 @@
 
 PreCommit:
   EsLint:
+    required_executable: 'npx'
     command: ['npx', 'eslint']
     enabled: true
   PythonFlake8:
