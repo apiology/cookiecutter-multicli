@@ -5,6 +5,7 @@
   "permissions": [
     "activeTab"
   ],
+  "omnibox": { "keyword": "{{ cookiecutter.multicli_keyword }}" },
   "background": {
     "scripts": ["config.js", "dist/background.js"],
     "persistent": false

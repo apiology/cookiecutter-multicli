@@ -7,5 +7,6 @@
   "project_short_description": "Multi-CLI Boilerplate contains all the boilerplate you need to create a Multi-CLI project.",
   "version": "0.1.0",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
-  "type_of_github_repo": ["private", "public", "none"]
+  "type_of_github_repo": ["private", "public", "none"],
+  "multicli_keyword": "kw"
 }
