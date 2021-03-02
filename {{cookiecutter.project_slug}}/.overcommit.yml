@@ -18,6 +18,7 @@
 
 PreCommit:
   EsLint:
+    command: ['npx', 'eslint']
     enabled: true
   PythonFlake8:
     enabled: true
