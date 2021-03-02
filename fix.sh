@@ -2,6 +2,51 @@
 
 set -o pipefail
 
+install_nvm() {
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+}
+
+set_nvm_env_variables() {
+  #
+  # nvm doesn't seem to be -e clean:
+  #
+  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/72/workflows/789c4aac-d150-4b0c-962f-83f8d04dd288/jobs/98
+  #
+  set +e
+  export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1090
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1090
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  set -e
+}
+
+ensure_nvm() {
+  if ! [ -f "${HOME}/.nvm/nvm.sh" ]
+  then
+    install_nvm
+  fi
+  if ! type nvm >/dev/null 2>&1
+  then
+    set_nvm_env_variables
+  fi
+}
+
+ensure_node_versions() {
+  # Looks like nvm isn't -u clean
+  #
+  # https://github.com/nvm-sh/nvm/issues/2420
+  #
+  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/67/workflows/ae764563-1f72-49d1-a663-a6cc6e64060a/jobs/88
+  set +u
+  nvm install
+  set -u
+}
+
+ensure_npm_modules() {
+  npm install
+}
+
 install_rbenv() {
   if [ "$(uname)" == "Darwin" ]
   then
@@ -248,6 +293,12 @@ ensure_shellcheck() {
     install_package shellcheck
   fi
 }
+
+ensure_nvm
+
+ensure_node_versions
+
+ensure_npm_modules
 
 ensure_rbenv
 
