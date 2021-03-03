@@ -37,7 +37,7 @@ commands:
       - restore_cache:
           key: gems-v4-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}
       - restore_cache:
-          key: ruby-and-python-v4-{% raw %}{{ checksum "fix.sh" }}{% endraw %}
+          key: node_modules-v1-{% raw %}{{ checksum "package-lock.json" }}{% endraw %}
       - run:
           name: Initialize packages
           command: |
@@ -51,11 +51,17 @@ commands:
               >&2 echo "Please resolve changes to Gemfile.lock after bundle install to avoid caching difficulties"
               exit 1
             fi
+      - run:
+          name: Verify package-lock.json
+          command: |
+            if ! git diff --exit-code package-lock.json
+            then
+              >&2 echo "Please resolve changes to package-lock.json after npm install to avoid caching difficulties"
+              exit 1
+            fi
       - save_cache:
-          key: ruby-and-python-v4-{% raw %}{{ checksum "fix.sh" }}{% endraw %}
+          key: node_modules-v1-{% raw %}{{ checksum "package-lock.json" }}{% endraw %}
           paths:
-            - "/home/circleci/.rbenv"
-            - "/home/circleci/.pyenv"
             - "/home/circleci/project/node_modules"
       - save_cache:
           key: gems-v4-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}
