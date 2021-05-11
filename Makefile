@@ -17,6 +17,18 @@ export PRINT_HELP_PYSCRIPT
 
 all: test quality
 
+requirements_dev.txt.installed: requirements_dev.txt
+	pip install -q --disable-pip-version-check -r requirements_dev.txt
+	touch requirements_dev.txt.installed
+
+pip_install: requirements_dev.txt.installed ## Install Python dependencies
+
+Gemfile.lock.installed: Gemfile.lock
+	bundle install
+	touch Gemfile.lock.installed
+
+bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
+
 clean: ## remove all built artifacts
 
 default: test ## run default typechecking and tests
@@ -41,10 +53,12 @@ replay: watch
 	;
 
 update_from_cookiecutter: ## Bring in changes from template project used to create this repo
-	git checkout main && bundle exec overcommit --sign && git pull && git checkout -b update-from-upstream-cookiecutter-$$(date +%Y-%m-%d-%H%M)
+	bundle exec overcommit --uninstall
+	git checkout main && git pull && git checkout -b update-from-upstream-cookiecutter-$$(date +%Y-%m-%d-%H%M)
 	git fetch upstream
 	git fetch -a
 	git merge upstream/main --allow-unrelated-histories || true
+	bundle exec overcommit --install
 	@echo
 	@echo "Please resolve any merge conflicts below and push up a PR with:"
 	@echo
