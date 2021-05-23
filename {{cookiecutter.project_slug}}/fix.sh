@@ -22,6 +22,7 @@ set_nvm_env_variables() {
 }
 
 ensure_nvm() {
+  # shellcheck disable=SC1091
   if ! [ -f "${HOME}/.nvm/nvm.sh" ]
   then
     install_nvm
