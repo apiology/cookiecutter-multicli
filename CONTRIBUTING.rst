@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/apiology/cookiecutter-multicli/issues
+Report bugs at https://github.com/apiology/cookiecutter-chrome-extension/issues
 
 If you are reporting a bug, please include:
 
@@ -36,7 +36,7 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Cookiecutter Multi-CLI could always use more documentation, whether as part of
+Cookiecutter Chrome Extension could always use more documentation, whether as part of
 the official docs, in docstrings, or even on the web in blog posts, articles,
 and such.
 
@@ -44,7 +44,7 @@ Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/apiology/cookiecutter-multicli/issues.
+https://github.com/apiology/cookiecutter-chrome-extension/issues.
 
 If you are proposing a new feature:
 
@@ -56,11 +56,11 @@ If you are proposing a new feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `cookiecutter-multicli` for local
+Ready to contribute? Here's how to set up `cookiecutter-chrome-extension` for local
 development. Please note this documentation assumes you already have
 `virtualenv` and `Git` installed and ready to go.
 
-1. Fork the `cookiecutter-multicli` repo on GitHub.
+1. Fork the `cookiecutter-chrome-extension` repo on GitHub.
 
 ::
 
@@ -69,7 +69,7 @@ development. Please note this documentation assumes you already have
    .. code-block:: bash
 
     $ cd path_for_the_repo
-    $ git clone git@github.com:YOUR_NAME/cookiecutter-multicli.git
+    $ git clone git@github.com:YOUR_NAME/cookiecutter-chrome-extension.git
 
 ::
 
@@ -79,14 +79,14 @@ development. Please note this documentation assumes you already have
 
    .. code-block:: bash
 
-        $ virtualenv cookiecutter-multicli-env
-        $ source cookiecutter-multicli-env/bin/activate
+        $ virtualenv cookiecutter-chrome-extension-env
+        $ source cookiecutter-chrome-extension-env/bin/activate
 
    This should change the shell to look something like:
 
    .. code-block:: bash
 
-        (cookiecutter-multicli-env) $
+        (cookiecutter-chrome-extension-env) $
 
 ::
 
@@ -110,7 +110,7 @@ development. Please note this documentation assumes you already have
 
 ::
 
-6. The next step would be to run the test cases. `cookiecutter-multicli` uses
+6. The next step would be to run the test cases. `cookiecutter-chrome-extension` uses
    pytest, you can run PyTest. Before you run pytest you should ensure all
    dependancies are installed:
 
@@ -171,8 +171,8 @@ Before you submit a pull request, check that it meets these guidelines:
    new functionality into a function with a docstring, and add the feature to
    the list in README.rst.
 
-3. The pull request should work for Python 3.6 and 3.7, 3.8, 3.9 and for PyPy. Check
-   https://app.circleci.com/pipelines/github/apiology/cookiecutter-multicli and
+3. The pull request should work for Python 3.6, 3.7, 3.8, 3.9 and 3.10. Check
+   https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension and
    make sure that the tests pass for all supported Python versions.
 
 Add a New Test
@@ -230,6 +230,6 @@ To write and run your new test, follow these steps:
 6. Rerun your test and confirm that your test passes. If it passes,
    congratulations!
 
-.. cookiecutter: https://github.com/apiology/cookiecutter-multicli
+.. cookiecutter: https://github.com/apiology/cookiecutter-chrome-extension
 .. virtualenv: https://virtualenv.pypa.io/en/stable/installation
 .. git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
