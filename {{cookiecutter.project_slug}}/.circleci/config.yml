@@ -109,7 +109,6 @@ jobs:
           steps:
             - run: echo "overcommit only runs on main branch"
   build:
-    working_directory: ~/{{cookiecutter.project_slug}}
     docker:
       - image: apiology/circleci:latest
     steps:
