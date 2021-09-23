@@ -4,5 +4,5 @@
 # actually evaluate templates first in the future?
 
 cd '{{cookiecutter.project_slug}}'
-rm package-lock.json
+rm package-lock.json || true
 npm i --package-lock-only
