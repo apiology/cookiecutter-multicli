@@ -1,4 +1,4 @@
-const { doWork } = require('./{{cookiecutter.project_slug}}.js');
+const { doWork } = require('./{{cookiecutter.project_slug}}');
 
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(doWork);
