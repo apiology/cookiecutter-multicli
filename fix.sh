@@ -43,10 +43,6 @@ ensure_node_versions() {
   set -u
 }
 
-ensure_npm_modules() {
-  npm install
-}
-
 apt_upgraded=0
 
 update_apt() {
@@ -384,8 +380,6 @@ ensure_overcommit() {
 ensure_nvm
 
 ensure_node_versions
-
-ensure_npm_modules
 
 ensure_rbenv
 
