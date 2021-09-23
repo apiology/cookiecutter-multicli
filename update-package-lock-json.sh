@@ -5,4 +5,4 @@
 
 cd '{{cookiecutter.project_slug}}'
 rm package-lock.json
-npm i
+npm i --package-lock-only
