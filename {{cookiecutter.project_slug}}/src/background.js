@@ -1,4 +1,4 @@
-const { doWork } = require('./{{cookiecutter.project_slug}}');
+const _ = require('lodash');
 
 const { pullSuggestions, actOnInputData } = require('./{{cookiecutter.project_slug}}.js');
 
