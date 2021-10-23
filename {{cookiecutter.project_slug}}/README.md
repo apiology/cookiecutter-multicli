@@ -6,6 +6,8 @@ WARNING: This is not ready for use yet!
 
 {{ cookiecutter.project_short_description }}
 
+## Using
+
 ## Installing
 
 This isn't in the Chrome App Store, so welcome to the Chrome Extension
@@ -16,6 +18,4 @@ development experience!
 2. Go to [chrome://extensions/](chrome://extensions/)
 3. Make sure 'Developer mode' is flipped on in the upper right.
 4. Click the 'Load unpacked' button.
-5. Choose the `dist/` directory containing your Chrome extension code.
-
-## Usage
+5. Choose this directory
