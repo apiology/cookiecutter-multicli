@@ -9,5 +9,6 @@ sed -i.bak -e 's/{{ cookiecutter.project_slug }}/my_fake_package/g' '{{cookiecut
 cd '{{cookiecutter.project_slug}}'
 rm yarn.json || true
 yarn upgrade "${packages}" --no-progress
+rm -fr node_modules
 cd ..
 sed -i.bak -e 's/my_fake_package/{{ cookiecutter.project_slug }}/g' '{{cookiecutter.project_slug}}/package.json'
