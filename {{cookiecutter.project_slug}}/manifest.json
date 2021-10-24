@@ -7,7 +7,7 @@
   ],
   "omnibox": { "keyword": "{{ cookiecutter.multicli_keyword }}" },
   "background": {
-    "scripts": ["config.js", "dist/background.js"],
+    "scripts": ["dist/background.js"],
     "persistent": false
   },
   "manifest_version": 2
