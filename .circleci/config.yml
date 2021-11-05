@@ -129,6 +129,8 @@ jobs:
             equal: [<< pipeline.git.branch >>, "main"]
           steps:
             - tox
+    # This seemed to shave 5ish% of the build time off when added
+    resource_class: large
   overcommit:
     docker:
       - image: apiology/circleci:latest
