@@ -103,7 +103,7 @@ commands:
 jobs:
   test:
     docker:
-      - image: apiology/circleci:latest
+      - image: apiology/circleci-python:latest
     steps:
       - unless:
           condition:
