@@ -10,16 +10,11 @@ const escapeHTML = (str) => str.replace(/[&<>'"]/g,
     '"': '&quot;',
   }[tag]));
 
-const pullSuggestions = (text) => [{
+export const pullSuggestions = (text) => [{
   content: `some input data for next step, maybe containing ${text}`,
   description: escapeHTML('some human readable text'),
 }];
 
-const actOnInputData = (text) => {
+export const actOnInputData = (text) => {
   console.log(`Acting upon ${text}`);
-};
-
-module.exports = {
-  pullSuggestions,
-  actOnInputData,
 };
