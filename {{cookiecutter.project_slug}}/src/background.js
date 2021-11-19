@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const { pullSuggestions, actOnInputData } = require('./{{cookiecutter.project_slug}}');
+import { pullSuggestions, actOnInputData } from './{{cookiecutter.project_slug}}';
 
 const logError = (err) => {
   alert(err);
