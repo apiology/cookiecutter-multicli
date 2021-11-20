@@ -1,43 +1,55 @@
+// https://github.com/GoogleChrome/chrome-extensions-samples/blob/1d8d137d20fad5972292377dc22498529d2a4039/api/omnibox/simple-example/background.js
+
 import * as _ from 'lodash';
+import { SuggestFunction } from './chrome-types';
 
-import { pullSuggestions, actOnInputData } from './{{cookiecutter.project_slug}}';
+import {
+  actOnInputData, logError as logErrorOrig, logSuccess, pullOmniboxSuggestions,
+} from './{{cookiecutter.project_slug}}';
 
-const logError = (err) => {
-  alert(err);
-  throw err;
-};
+// As of 4.4.4, TypeScript's control flow analysis is wonky with
+// narrowing and functions that return never.  This is a workaround:
+//
+// https://github.com/microsoft/TypeScript/issues/36753
+const logError: (err: string) => never = logErrorOrig;
 
-const logSuccess = (result) => console.log('Acted:', result);
-
-let omniboxInputChangedListenerDebounced = null;
-
-const setSuggestionsFn = (suggest) => (suggestions) => {
+const populateOmnibox = async (text: string, suggest: SuggestFunction) => {
+  const suggestions = await pullOmniboxSuggestions(text);
   suggest(suggestions);
+  console.log(`${suggestions.length} suggestions from ${text}:`, suggestions);
+  const description = `<dim>${suggestions.length} results for ${text}:</dim>`;
+  chrome.omnibox.setDefaultSuggestion({ description });
+};
+
+const pullAndReportSuggestions = async (text: string, suggest: SuggestFunction) => {
+  try {
+    await populateOmnibox(text, suggest);
+  } catch (err) {
+    logError(`Problem getting suggestions for ${text}: ${err}`);
+  }
+};
+
+const pullAndReportSuggestionsDebounced = _.debounce(pullAndReportSuggestions,
+  500);
+
+const omniboxInputChangedListener = (text: string, suggest: SuggestFunction) => {
   chrome.omnibox.setDefaultSuggestion({
-    description: '<dim>Results:</dim>',
+    description: `<dim>Waiting for results from ${text}...</dim>`,
   });
+  return pullAndReportSuggestionsDebounced(text, suggest);
 };
-
-const omniboxInputChangedListener = (text, suggest) => {
-  pullSuggestions(text)
-    .then(setSuggestionsFn(suggest))
-    .catch(logError);
-};
-
-omniboxInputChangedListenerDebounced = _.debounce(omniboxInputChangedListener, 500);
 
 // This event is fired each time the user updates the text in the omnibox,
 // as long as the extension's keyword mode is still active.
-chrome.omnibox.onInputChanged.addListener(omniboxInputChangedListenerDebounced);
+chrome.omnibox.onInputChanged.addListener(omniboxInputChangedListener);
 
-//
-// Process when the user selects one of our options
-//
-
-const omniboxInputEnteredListener = (inputData) => {
-  actOnInputData(inputData)
-    .then(logSuccess)
-    .catch(logError);
+const omniboxInputEnteredListener = async (inputData: string) => {
+  try {
+    const out = await actOnInputData(inputData);
+    logSuccess(out);
+  } catch (err) {
+    logError(`Failed to process ${inputData}: ${err}`);
+  }
 };
 
 // This event is fired with the user accepts the input in the omnibox.
