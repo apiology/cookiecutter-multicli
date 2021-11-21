@@ -2,16 +2,8 @@
 
 import * as _ from 'lodash';
 import { SuggestFunction } from './chrome-types';
-
-import {
-  actOnInputData, logError as logErrorOrig, logSuccess, pullOmniboxSuggestions,
-} from './{{cookiecutter.project_slug}}';
-
-// As of 4.4.4, TypeScript's control flow analysis is wonky with
-// narrowing and functions that return never.  This is a workaround:
-//
-// https://github.com/microsoft/TypeScript/issues/36753
-const logError: (err: string) => never = logErrorOrig;
+import { logError } from './error';
+import { actOnInputData, logSuccess, pullOmniboxSuggestions } from './{{cookiecutter.project_slug}}';
 
 const populateOmnibox = async (text: string, suggest: SuggestFunction) => {
   const suggestions = await pullOmniboxSuggestions(text);
