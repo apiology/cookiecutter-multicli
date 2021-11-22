@@ -1,9 +1,24 @@
+/**
+ * background module.
+ *
+ * Registers listeners with chrome.omnibox API.
+ */
+
 // https://github.com/GoogleChrome/chrome-extensions-samples/blob/1d8d137d20fad5972292377dc22498529d2a4039/api/omnibox/simple-example/background.js
 
 import * as _ from 'lodash';
-import { SuggestFunction } from './chrome-types';
-import { logError } from './error';
-import { actOnInputData, logSuccess, pullOmniboxSuggestions } from './{{cookiecutter.project_slug}}';
+import {
+  actOnInputData, logSuccess, pullOmniboxSuggestions,
+} from './{{cookiecutter.project_slug}}';
+import { logError as logErrorOrig } from './error';
+
+// As of 4.4.4, TypeScript's control flow analysis is wonky with
+// narrowing and functions that return never.  This is a workaround:
+//
+// https://github.com/microsoft/TypeScript/issues/36753
+const logError: (err: string) => never = logErrorOrig;
+
+type SuggestFunction = (suggestResults: chrome.omnibox.SuggestResult[]) => void;
 
 const populateOmnibox = async (text: string, suggest: SuggestFunction) => {
   const suggestions = await pullOmniboxSuggestions(text);
