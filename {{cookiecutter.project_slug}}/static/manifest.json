@@ -2,12 +2,17 @@
   "name": "{{ cookiecutter.project_name }}",
   "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
   "version": "{{ cookiecutter.version }}",
+  "icons": {
+    "16": "apiology-16x16.png",
+    "48": "apiology-48x48.png",
+    "128": "apiology-128x128.png"
+  },
   "permissions": [
     "activeTab"
   ],
   "omnibox": { "keyword": "{{ cookiecutter.multicli_keyword }}" },
   "background": {
-    "scripts": ["dist/background.js"],
+    "scripts": ["background.js"],
     "persistent": false
   },
   "manifest_version": 2
