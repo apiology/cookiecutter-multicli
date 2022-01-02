@@ -14,7 +14,7 @@
   "keywords": [
     "chrome-extension"{% if cookiecutter.asana_related == 'yes' -%},
     "asana"
-{% endif -%}
+{%- endif %}
   ],
   "author": "{{ cookiecutter.full_name.replace('\"', '\\\"') }} <{{ cookiecutter.email }}>",
   "license": "{{ cookiecutter.open_source_license }}",
@@ -24,9 +24,9 @@
   "homepage": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}#readme",
   "_devDependenciesNotes": "copy-webpack-plugin 10 failed with this - https://stackoverflow.com/questions/70080671/copy-webpack-plugin-error-invalid-host-defined-options",
   "devDependencies": {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     "@types/asana": "^0.18.5",
-{% endif -%}
+{%- endif %}
     "@types/chrome": "^0.0.163",
     "@types/lodash": "^4.14.176",
     "@types/node": "^16.11.7",
@@ -42,9 +42,9 @@
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     "asana": "^0.18.5",
-{% endif -%}
+{%- endif %}
     "lodash": "^4.17.21"
   }{% if cookiecutter.asana_api == 'yes' %},
   "_resolutionsComments": "asana requires request ^2.88.2 (which is deprecated and not receiving updates), which requires http-signature ~1.2.0, which requires jsprim ^1.2.2, which requires json-schema@0.2.3, which is perhaps vulnerable to CVE-2021-3918 (moderate)",
