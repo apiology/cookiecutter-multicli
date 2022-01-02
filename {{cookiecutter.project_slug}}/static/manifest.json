@@ -16,5 +16,11 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "browser_action": {
+    "default_title": "Make this page red"
+  },
+{% if cookiecutter.chrome_extension_options == 'yes' -%}
+  "options_page": "options.html",
+{% endif -%}
   "manifest_version": 2
 }

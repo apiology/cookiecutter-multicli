@@ -10,5 +10,6 @@
   "type_of_github_repo": ["private", "public", "none"],
   "asana_related": ["no", "yes"],
   "asana_api": ["no", "yes"],
+  "chrome_extension_options": ["no", "yes"],
   "multicli_keyword": "kw"
 }

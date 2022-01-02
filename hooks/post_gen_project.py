@@ -11,7 +11,11 @@ def remove_file(filepath):
 
 
 if __name__ == '__main__':
-    if '{{ cookiecutter.asana_api }}' == 'no':
+    if 'no' == '{{ cookiecutter.chrome_extension_options }}':
+        remove_file('src/options.ts')
+        remove_file('static/options.html')
+
+    if 'no' == '{{ cookiecutter.asana_api }}':
         remove_file('src/asana-typeahead.ts')
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
