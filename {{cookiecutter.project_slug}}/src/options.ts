@@ -34,16 +34,16 @@ const saveElement = () => htmlElement('save', HTMLButtonElement);
 
 // Saves options to chrome.storage
 const saveOptions = () => {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
   const asanaAccessToken = tokenElement().value;
   const workspace = workspaceElement().value;
-{% endif -%}
+{%- endif %}
   // const example = exampleElement().value;
   chrome.storage.sync.set({
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     asanaAccessToken,
     workspace,
-{% endif -%}
+{%- endif %}
     // example,
   }, () => {
     // Update status to let user know options were saved.
@@ -58,16 +58,16 @@ const saveOptions = () => {
 // stored in chrome.storage.
 const restoreOptions = () => {
   chrome.storage.sync.get({
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     asanaAccessToken: null,
     workspace: null,
-{% endif -%}
-//    example: 'example default value',
+{%- endif %}
+    // example: 'example default value',
   }, (items) => {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     tokenElement().value = items.asanaAccessToken;
     workspaceElement().value = items.workspace;
-{% endif -%}
+{%- endif %}
     // exampleElement().value = items.example;
   });
 };
