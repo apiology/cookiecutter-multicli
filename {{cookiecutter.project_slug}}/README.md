@@ -8,6 +8,22 @@ WARNING: This is not ready for use yet!
 
 ## Using
 
+{% if cookiecutter.chrome_extension_options == 'yes' -%}
+## Configuration
+
+{% if cookiecutter.asana_api == 'yes' -%}
+1. Create a new "Personal access token" in
+   [Asana](https://app.asana.com/0/my-apps)
+{% endif %}
+1. Set up options directly
+   [here](chrome-extension://olnbepiojfjbimgfnfdalnpkfbaphjjc/options.html)
+   or in Chrome | … | More Tools | Extensions | Upvoter for Asana |
+   Details | Extension options.
+{% if cookiecutter.asana_api == 'yes' -%}
+1. Paste in your personal access token.
+1. Provide the rest of the configuration and hit 'Save'
+{% endif -%}
+{% endif -%}
 {% if cookiecutter.asana_related == 'yes' -%}
 ## Legal
 
