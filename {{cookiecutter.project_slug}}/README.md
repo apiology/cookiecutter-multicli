@@ -8,6 +8,12 @@ WARNING: This is not ready for use yet!
 
 ## Using
 
+{% if cookiecutter.asana_related == 'yes' -%}
+## Legal
+
+Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
+
+{% endif %}
 ## Installing
 
 This isn't in the Chrome App Store, so welcome to the Chrome Extension
