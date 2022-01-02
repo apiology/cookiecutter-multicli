@@ -16,7 +16,7 @@ WARNING: This is not ready for use yet!
    [Asana](https://app.asana.com/0/my-apps)
 {% endif %}
 1. Set up options directly
-   [here](chrome-extension://olnbepiojfjbimgfnfdalnpkfbaphjjc/options.html)
+   [here](chrome-extension://TBD/options.html)
    or in Chrome | … | More Tools | Extensions | Upvoter for Asana |
    Details | Extension options.
 {% if cookiecutter.asana_api == 'yes' -%}
