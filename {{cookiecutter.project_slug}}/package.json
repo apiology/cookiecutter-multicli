@@ -24,6 +24,9 @@
   "homepage": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}#readme",
   "_devDependenciesNotes": "copy-webpack-plugin 10 failed with this - https://stackoverflow.com/questions/70080671/copy-webpack-plugin-error-invalid-host-defined-options",
   "devDependencies": {
+{% if cookiecutter.asana_api == 'yes' -%},
+    "@types/asana": "^0.18.5",
+{% endif -%}
     "@types/chrome": "^0.0.163",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
@@ -37,5 +40,14 @@
     "webpack": "^5",
     "webpack-cli": "^4.5.0"
   },
-  "dependencies": {}
+  "dependencies": {
+{% if cookiecutter.asana_api == 'yes' -%}
+    "asana": "^0.18.5",
+{% endif -%}
+  }{% if cookiecutter.asana_api == 'yes' %},
+  "_resolutionsComments": "asana requires request ^2.88.2 (which is deprecated and not receiving updates), which requires http-signature ~1.2.0, which requires jsprim ^1.2.2, which requires json-schema@0.2.3, which is perhaps vulnerable to CVE-2021-3918 (moderate)",
+  "resolutions": {
+    "asana/**/json-schema": "^0.4"
+  }
+{% endif -%}
 }
