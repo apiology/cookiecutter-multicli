@@ -50,7 +50,8 @@ const omniboxInputEnteredListener = async (inputData: string) => {
     const out = await actOnInputData(inputData);
     logSuccess(out);
   } catch (err) {
-    throw new Error(`Failed to process ${inputData}: ${err}`);
+    alert(`Failed to process ${inputData}: ${err}`);
+    throw err;
   }
 };
 
