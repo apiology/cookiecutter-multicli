@@ -12,7 +12,9 @@
     "url": "git+https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}.git"
   },
   "keywords": [
-    "chrome-extension"
+    "chrome-extension"{% if cookiecutter.asana_related == 'yes' -%},
+    "asana"
+{% endif -%}
   ],
   "author": "{{ cookiecutter.full_name.replace('\"', '\\\"') }} <{{ cookiecutter.email }}>",
   "license": "{{ cookiecutter.open_source_license }}",
