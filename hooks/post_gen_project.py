@@ -11,6 +11,9 @@ def remove_file(filepath):
 
 
 if __name__ == '__main__':
+    if '{{ cookiecutter.asana_api }}' == 'no':
+        remove_file('src/asana-typeahead.ts')
+
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
 
