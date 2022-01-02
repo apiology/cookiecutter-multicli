@@ -14,7 +14,7 @@ WARNING: This is not ready for use yet!
 {% if cookiecutter.asana_api == 'yes' -%}
 1. Create a new "Personal access token" in
    [Asana](https://app.asana.com/0/my-apps)
-{% endif %}
+{%- endif %}
 1. Set up options directly
    [here](chrome-extension://TBD/options.html)
    or in Chrome | … | More Tools | Extensions | Upvoter for Asana |

@@ -12,7 +12,7 @@ module.exports = {
     background: ['./src/background.ts', './src/{{cookiecutter.project_slug}}.ts'],
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
     options: ['./src/options.ts'],
-{% endif %}
+{%- endif %}
   },
   // https://webpack.js.org/guides/typescript/
   module: {

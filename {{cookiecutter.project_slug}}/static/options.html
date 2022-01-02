@@ -2,7 +2,7 @@
 <html>
   <head><title>{{ cookiecutter.project_name }} Options</title></head>
   <body>
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
     <h3>Asana API personal access token:</h3>
 
     <div>You can generate this from the Asana <a href="https://app.asana.com/0/my-apps">Developer App Console</a>.</div>
@@ -29,7 +29,7 @@
         <input id="workspace">
       </label>
     </div>
-{% endif -%}
+{%- endif %}
     <h3>Example config name:</h3>
 
     <div>Enter the name of a fake config thing I made up</div>
