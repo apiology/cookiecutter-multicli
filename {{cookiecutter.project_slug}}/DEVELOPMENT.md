@@ -23,6 +23,7 @@ development.  See the `.envrc` file for detail.
 1. Finalize [promotional image](docs/{{cookiecutter.project_slug}}.paint).
 1. Stage the .paint file in git.
 1. File | Save As... | png | `{{cookiecutter.project_slug}}-440x280.png` | Save
+1. Plan out what screenshots you'd like to have in the gallery
 1. Generate 1280x800 (or scaled up) screenshots and save as
    `docs/screenshot-1-raw.png` and so on.
 1. Stage the screenshot raw files in git.
