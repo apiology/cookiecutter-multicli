@@ -17,7 +17,7 @@ WARNING: This is not ready for use yet!
 {%- endif %}
 1. Set up options directly
    [here](chrome-extension://TBD/options.html)
-   or in Chrome | … | More Tools | Extensions | Upvoter for Asana |
+   or in Chrome | … | More Tools | Extensions | {{ cookiecutter.project_name }} |
    Details | Extension options.
 {% if cookiecutter.asana_api == 'yes' -%}
 1. Paste in your personal access token.
