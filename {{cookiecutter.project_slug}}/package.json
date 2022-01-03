@@ -41,9 +41,17 @@
     "webpack": "^5",
     "webpack-cli": "^4.5.0"
   },
+{%- if cookiecutter.asana_api == 'yes' %}
+  "_dependenciesComments": "buffer, process, stream-browserify, url and util are node polyfills needed by asana library",
+{%- endif %}
   "dependencies": {
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana": "^0.18.5",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.0",
+    "util": "^0.12.4",
 {%- endif %}
     "lodash": "^4.17.21"
   }{% if cookiecutter.asana_api == 'yes' %},
