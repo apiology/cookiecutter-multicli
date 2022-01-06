@@ -66,8 +66,11 @@ development.  See the `.envrc` file for detail.
 1. `git checkout main && git pull`
 1. `make clean && make`
 1. Update [package.zip](./package.zip) in [developer dashboard](https://chrome.google.com/u/1/webstore/devconsole/d34ba2e8-8b5a-4417-889e-4047c35522d0) as `apiology-cws` user.
+1. Upload any new screenshots
 1. Update description to match current README.md - manually translate
    from markdown to text.
+1. Save draft
+1. ... | Preview
 1. [Publish](https://developer.chrome.com/docs/webstore/update/)
 {% if cookiecutter.chrome_extension_options == 'yes' -%}
 1. Update options.html link in README.md
