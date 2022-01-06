@@ -33,6 +33,10 @@ Implement Features
 Look through the GitHub issues for features. Anything tagged with "enhancement"
 and "help wanted" is open to whoever wants to implement it.
 
+If you have a new feature in mind, please start it by filing an issue
+so we can discuss the need and approach before you invest time into
+coding it.
+
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
