@@ -29,7 +29,7 @@ module.exports = {
   //
   // https://stackoverflow.com/questions/43595555/webpack-cant-resolve-typescript-modules
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   mode: 'development', // override with webpack --mode=production on CLI builds
   output: {
