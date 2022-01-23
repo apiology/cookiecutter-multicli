@@ -9,7 +9,7 @@ const CopyPlugin = require('copy-webpack-plugin'); // eslint-disable-line @types
 
 module.exports = {
   entry: {
-    background: ['./src/background.ts', './src/{{cookiecutter.project_slug}}.ts'],
+    background: ['./src/background.ts'],
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
     options: ['./src/options.ts'],
 {%- endif %}
