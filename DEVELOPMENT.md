@@ -1,12 +1,5 @@
 # Development
 
-## Updating baseline packages
-
-Run `./update-package-lock-json.sh` to update to the latest version of
-various packages installed in
-`{{cookiecutter.project_slug}}/package.json`.  Useful when there's a
-security alert.
-
 ## fix.sh
 
 If you want to use rbenv/pyenv/etc to manage versions of tools,
