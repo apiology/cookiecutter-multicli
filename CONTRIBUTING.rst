@@ -41,7 +41,7 @@ Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
 Cookiecutter Chrome Extension could always use more documentation, whether as part of
-the official docs, in docstrings, or even on the web in blog posts, articles,
+the official Cookiecutter Chrome Extension docs, in docstrings, or even on the web in blog posts, articles,
 and such.
 
 Submit Feedback
@@ -77,9 +77,7 @@ development. Please note this documentation assumes you already have
 
 ::
 
-3. Assuming you have virtualenv installed (If you have Python3.6 this should
-   already be there), you can create a new environment for your local
-   development by typing:
+3. You can create a new environment for your local development by typing:
 
    .. code-block:: bash
 
@@ -175,7 +173,7 @@ Before you submit a pull request, check that it meets these guidelines:
    new functionality into a function with a docstring, and add the feature to
    the list in README.rst.
 
-3. The pull request should work for Python 3.6, 3.7, 3.8, 3.9 and 3.10. Check
+3. The pull request should work for Python 3.7, 3.8, 3.9 and 3.10. Check
    https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension and
    make sure that the tests pass for all supported Python versions.
 
