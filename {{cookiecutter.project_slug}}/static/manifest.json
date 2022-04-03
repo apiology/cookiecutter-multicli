@@ -22,5 +22,5 @@
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
   "options_page": "options.html",
 {%- endif %}
-  "manifest_version": 2
+  "manifest_version": 3
 }
