@@ -30,6 +30,21 @@ module.exports = {
   // https://stackoverflow.com/questions/43595555/webpack-cant-resolve-typescript-modules
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+{%- if cookiecutter.asana_api == 'yes' %}
+    fallback: {
+      // The node-asana library uses the node API and expects users to
+      // use webpack to polyfill it when using BrowserJS:
+      //
+      // https://webpack.js.org/configuration/resolve/
+      fs: false, // not particularly used by asana
+      url: require.resolve('url'),
+      util: require.resolve('util'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer'),
+      // see the plugins key below for more complex handling of
+      // process.
+    },
+{%- endif %}
   },
   mode: 'development', // override with webpack --mode=production on CLI builds
   output: {
