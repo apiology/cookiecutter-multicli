@@ -16,6 +16,7 @@ if __name__ == '__main__':
         remove_file('static/options.html')
 
     if 'no' == '{{ cookiecutter.asana_api }}':
+        remove_file('src/asana-base.ts')
         remove_file('src/asana-typeahead.ts')
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
