@@ -13,7 +13,7 @@ export const pullOmniboxSuggestions = async (text: string) => [{
   description: escapeHTML('some human readable text'),
 }];
 
-export const actOnInputData = (text: string) => {
+export const actOnInputData = async (text: string) => {
   console.log(`Acting upon ${text}`);
   return 'a success message or status';
 };
