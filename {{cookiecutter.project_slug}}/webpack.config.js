@@ -1,13 +1,14 @@
-// webpack requires a 'require' here, which seems reasonable as it's,
-// you know, the thing that provides import to begin with:
-//
-// SyntaxError: Cannot use import statement outside a module
-{%- if cookiecutter.asana_api == 'yes' %}
-const webpack = require('webpack'); // eslint-disable-line @typescript-eslint/no-var-requires
-{%- endif %}
-const CopyPlugin = require('copy-webpack-plugin'); // eslint-disable-line @typescript-eslint/no-var-requires
+{% if cookiecutter.asana_api == 'yes' -%}
+import webpack from 'webpack';
+import { createRequire } from 'module';
+{% endif -%}
+import CopyPlugin from 'copy-webpack-plugin';
 
-module.exports = {
+{% if cookiecutter.asana_api == 'yes' -%}
+const require = createRequire(import.meta.url);
+
+{% endif -%}
+export default {
   entry: {
     background: ['./src/background.ts'],
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
@@ -30,6 +31,21 @@ module.exports = {
   // https://stackoverflow.com/questions/43595555/webpack-cant-resolve-typescript-modules
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+{%- if cookiecutter.asana_api == 'yes' %}
+    fallback: {
+      // The node-asana library uses the node API and expects users to
+      // use webpack to polyfill it when using BrowserJS:
+      //
+      // https://webpack.js.org/configuration/resolve/
+      fs: false, // not particularly used by asana
+      url: require.resolve('url'),
+      util: require.resolve('util'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer'),
+      // see the plugins key below for more complex handling of
+      // process.
+    },
+{%- endif %}
   },
   mode: 'development', // override with webpack --mode=production on CLI builds
   output: {
