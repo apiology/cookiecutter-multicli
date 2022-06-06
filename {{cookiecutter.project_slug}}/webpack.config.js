@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import { createRequire } from 'module';
 {% endif -%}
 import CopyPlugin from 'copy-webpack-plugin';
+import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
 
 {% if cookiecutter.asana_api == 'yes' -%}
 const require = createRequire(import.meta.url);
@@ -31,6 +32,7 @@ export default {
   // https://stackoverflow.com/questions/43595555/webpack-cant-resolve-typescript-modules
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    plugins: [new ResolveTypeScriptPlugin()],
 {%- if cookiecutter.asana_api == 'yes' %}
     fallback: {
       // The node-asana library uses the node API and expects users to
