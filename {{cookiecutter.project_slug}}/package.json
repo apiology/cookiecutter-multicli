@@ -48,6 +48,7 @@
   "_dependenciesComments": "buffer, process, stream-browserify, url and util are node polyfills needed by asana library",
 {%- endif %}
   "dependencies": {
+    "alfy": "^1.0.0",
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana": "^0.18.5",
     "buffer": "^6.0.3",
