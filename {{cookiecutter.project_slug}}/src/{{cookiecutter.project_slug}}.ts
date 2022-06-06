@@ -4,7 +4,7 @@
  * {{ cookiecutter.project_short_description }}
  */
 
-import { escapeHTML } from './omnibox';
+import { escapeHTML } from './omnibox.js';
 
 export const logSuccess = (result: string | object): void => console.log('Upvoted task:', result);
 

@@ -10,7 +10,7 @@
 import * as _ from 'lodash';
 import {
   actOnInputData, logSuccess, pullOmniboxSuggestions,
-} from './{{cookiecutter.project_slug}}';
+} from './{{cookiecutter.project_slug}}.js';
 
 type SuggestFunction = (suggestResults: chrome.omnibox.SuggestResult[]) => void;
 
