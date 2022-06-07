@@ -12,7 +12,7 @@ def remove_file(filepath):
 
 if __name__ == '__main__':
     if 'no' == '{{ cookiecutter.chrome_extension_options }}':
-        remove_file('src/options.ts')
+        remove_file('src/chrome-extension/options.ts')
         remove_file('static/options.html')
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':

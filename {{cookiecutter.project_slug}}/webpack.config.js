@@ -15,9 +15,9 @@ const dirname = path.dirname(filename);
 
 export default {
   entry: {
-    background: ['./src/background.ts'],
+    background: ['./src/chrome-extension/background.ts'],
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
-    options: ['./src/options.ts'],
+    options: ['./src/chrome-extension/options.ts'],
 {%- endif %}
   },
   // https://webpack.js.org/guides/typescript/
