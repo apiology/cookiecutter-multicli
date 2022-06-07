@@ -16,7 +16,7 @@ quality checks.  `bundle exec overcommit --install` will install it.
 This project uses direnv to manage environment variables used during
 development.  See the `.envrc` file for detail.
 
-{%- if cookiecutter.asana_api == 'yes' %}
+{% if cookiecutter.asana_api == 'yes' -%}
 ## Interactive development with Asana API
 
 1. Save off the configured Asana client object in asana-base.ts#fetchClient():
@@ -80,7 +80,7 @@ development.  See the `.envrc` file for detail.
 
 ## Releasing to Chrome Web Store
 
-1. Update screenshots for any new features
+1. Update screenshots in `docs/` for any new features
 1. Update [README.md](./README.md) with new screenshots
 1. PR screenshot updates in
 1. PR a bump to the version in `static/manifest.json`
