@@ -40,7 +40,7 @@ development.  See the `.envrc` file for detail.
 ## Initial release to Chrome Web Store
 
 1. `make clean && make`
-1. Load resulting dist directory into local [Chrome](chrome://extensions/) and test.
+1. Load resulting `extension-dist` directory into local [Chrome](chrome://extensions/) and test.
 1. Finalize [promotional image](docs/{{cookiecutter.project_slug}}.paint).
 1. Stage the .paint file in git.
 1. File | Save As... | png | `{{cookiecutter.project_slug}}-440x280.png` | Save
