@@ -1,14 +1,18 @@
+import path from 'path';
 {% if cookiecutter.asana_api == 'yes' -%}
 import webpack from 'webpack';
 import { createRequire } from 'module';
 {% endif -%}
 import CopyPlugin from 'copy-webpack-plugin';
 import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
+import { fileURLToPath } from 'url';
 
 {% if cookiecutter.asana_api == 'yes' -%}
 const require = createRequire(import.meta.url);
-
 {% endif -%}
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+
 export default {
   entry: {
     background: ['./src/background.ts'],
@@ -51,6 +55,7 @@ export default {
   },
   mode: 'development', // override with webpack --mode=production on CLI builds
   output: {
+    path: path.resolve(dirname, 'extension-dist'),
     filename: '[name].js',
   },
   // 'inline-source-map' is suggested by https://webpack.js.org/guides/typescript/
