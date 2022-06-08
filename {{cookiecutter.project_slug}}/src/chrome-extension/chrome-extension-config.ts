@@ -41,11 +41,11 @@ async function fetchConfig<T>(key: string, name: string,
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export default class ChromeExtensionConfig {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
   fetchAsanaAccessToken = async () => fetchConfig('asanaAccessToken', 'Asana access token', 'string');
 
   fetchWorkspaceName = async () => fetchConfig('workspace', 'workspace name', 'string');
-{% endif -%}
+{%- endif %}
   // fetchSomeConfigItem = async () => fetchConfig('mumble',
   //                                               'example config item',
   //                                               'string');
