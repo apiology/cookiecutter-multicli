@@ -34,6 +34,12 @@ Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
 This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
 
+## Installing Alfred workflow
+
+1. `npm install -g filer-for-asana`
+2. Alfred | Workflows | File Asana task | Configure workflow and
+   variables icon | configure workspace name and access key.
+
 ## Contributions
 
 This project, as with all others, rests on the shoulders of a broad

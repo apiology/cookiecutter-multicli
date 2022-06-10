@@ -56,7 +56,7 @@ Gemfile.lock.installed: Gemfile.lock
 bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 
 clean: ## remove all built artifacts
-	rm -fr package.zip dist/chrome-extension/* || true
+	rm -fr package.zip dist/alfred/* dist/extension/* || true
 
 test: webpack ## run tests quickly
 
