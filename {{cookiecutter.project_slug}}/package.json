@@ -2,7 +2,7 @@
   "name": "alfred-{{ cookiecutter.project_slug }}",
   "version": "{{ cookiecutter.version }}",
   "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
-  "private": true,
+  "private": {% if cookiecutter.open_source_license == 'Not open source' -%}true{% else %}false{% endif %},
   "scripts": {
     "start": "webpack --mode=development --watch",
     "build-alfy": "tsc -p tsconfig.alfred.json",
