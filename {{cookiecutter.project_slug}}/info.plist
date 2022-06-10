@@ -88,7 +88,7 @@ set -eu
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>fa</string>
+				<string>{{ cookiecutter.multicli_keyword }}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
