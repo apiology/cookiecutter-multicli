@@ -25,6 +25,13 @@ development.  See the `.envrc` file for detail.
 4. Click the 'Load unpacked' button.
 5. Choose the [dist/chrome-extension](./dist/chrome-extension) directory
 
+## Run Alfred workflow from local checkout
+
+1. `npx alfy-init`
+2. You should now see the worfklow show up in Alfred's configuration.
+3. Alfred | Workflows | File Asana task | Configure workflow and
+   variables icon | configure workspace name and access key.
+
 {% if cookiecutter.asana_api == 'yes' -%}
 ## Interactive development with Asana API
 
