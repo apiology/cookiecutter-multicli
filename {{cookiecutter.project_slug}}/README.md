@@ -22,6 +22,7 @@ WARNING: This is not ready for use yet!
 {% if cookiecutter.asana_api == 'yes' -%}
 1. Paste in your personal access token.
 1. Provide the rest of the configuration and hit 'Save'
+
 {% endif -%}
 {% endif -%}
 {% if cookiecutter.asana_related == 'yes' -%}
@@ -29,7 +30,7 @@ WARNING: This is not ready for use yet!
 
 Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
-{% endif %}
+{% endif -%}
 ## Installing Chrome Extension
 
 This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
