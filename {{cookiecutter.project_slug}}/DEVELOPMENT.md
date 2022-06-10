@@ -55,12 +55,24 @@ development.  See the `.envrc` file for detail.
 
 ## Publishing Alfred package to npm
 
-1. `git stash push info.plist`
-2. `update_type= # patch/minor/major`
-3. `npm version ${update_type:?}`
-4. `git push`
-5. `npm publish`
-6. `npm install -g alfred-{{cookiecutter.project_slug}} --upgrade`
+Related backlog tasks:
+
+* Do npm Alfred release of cookiecutter-multicli projects in CircleCI (after other tests pass)
+
+```sh
+git checkout main
+git pull
+git stash
+last_released_version=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
+git log ${last_released_version:?}..
+update_type= # patch/minor/major
+npm version ${update_type:?}
+git push
+git push --tags
+npm publish
+alfy-cleanup
+npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
+```
 
 ## Initial release to Chrome Web Store
 
