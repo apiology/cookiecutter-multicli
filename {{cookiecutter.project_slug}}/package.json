@@ -18,7 +18,11 @@
     "asana"
 {%- endif %}
   ],
-  "author": "{{ cookiecutter.full_name.replace('\"', '\\\"') }} <{{ cookiecutter.email }}>",
+  "author": {
+    "name": "{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
+    "email": "{{ cookiecutter.email }}",
+    "url": "https://www.github.com/{{ cookiecutter.github_username }}/"
+  },
   "license": "{{ cookiecutter.open_source_license }}",
   "bugs": {
     "url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
