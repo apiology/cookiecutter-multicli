@@ -27,10 +27,9 @@ development.  See the `.envrc` file for detail.
 
 ## Run Alfred workflow from local checkout
 
-1. `npx alfy-init`
-2. You should now see the worfklow show up in Alfred's configuration.
-3. Alfred | Workflows | File Asana task | Configure workflow and
-   variables icon | configure workspace name and access key.
+1. `make`
+2. `yarn install`  (only needed once)
+3. You should now see the worfklow show up in Alfred's configuration.
 
 {% if cookiecutter.asana_api == 'yes' -%}
 ## Interactive development with Asana API
@@ -52,6 +51,19 @@ development.  See the `.envrc` file for detail.
    stories = await client.stories.getStoriesForTask('1234);
    ```
 {%- endif %}
+
+1. Update README.md with CWS icon linking to listing after the first paragraph - example: `[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](WEBSTORE LINK HERE)`
+
+## Initial publish of Alfred package to npm
+
+1. Go through 'Publishing Alfred package to npm' below.
+2. Drop the following markdown into README.md in the 'Installing Alfred workflow' section.
+
+```markdown
+1. `npm install -g alfred-{{ cookiecutter.project_slug }}`
+2. Alfred | Workflows | File Asana task | Configure workflow and
+   variables icon | configure workspace name and access key.
+```
 
 ## Publishing Alfred package to npm
 
