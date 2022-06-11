@@ -5,10 +5,9 @@ import * as Asana from 'asana';
 export default class AlfredFormatter {
 {%- if cookiecutter.asana_api == 'yes' %}
   formatTask = (task: Asana.resources.Tasks.Type) => {
-    if (task.memberships == null) {
-      throw new Error('Memberships required to format!');
-    }
-    const project = task.memberships[0]?.project;
+    const memberships = task.memberships || [];
+
+    const project = memberships[0]?.project;
 
     let membership = '';
 
