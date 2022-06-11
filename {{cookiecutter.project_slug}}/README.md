@@ -6,7 +6,21 @@ WARNING: This is not ready for use yet!
 
 {{ cookiecutter.project_short_description }}
 
-## Using
+## Using Chrome Extension
+
+Go to the URL bar ("Chrome Omnibox"), then type '{{ cookiecutter.multicli_keyword }}', a space, then...
+
+## Using Alfred Workflow
+
+Similarly, activate Alfred, then type '{{ cookiecutter.multicli_keyword }}', a space, then...
+
+## Installing Chrome Extension
+
+This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
+
+## Installing Alfred workflow
+
+The Alfred package isn't published yet - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
 
 {% if cookiecutter.chrome_extension_options == 'yes' -%}
 ## Chrome Extension Configuration
@@ -25,21 +39,21 @@ WARNING: This is not ready for use yet!
 
 {% endif -%}
 {% endif -%}
+
+## Alfred Workflow Configuration
+
+1. Create a new "Personal access token" in
+   [Asana](https://app.asana.com/0/my-apps)
+1. Alfred | Workflows | {{ cookiecutter.project_name }} | [≈] icon in upper right
+1. Add values to Workflow Environment Variables section
+1. Save
+
 {% if cookiecutter.asana_related == 'yes' -%}
 ## Legal
 
 Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
 {% endif -%}
-## Installing Chrome Extension
-
-This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
-
-## Installing Alfred workflow
-
-1. `npm install -g alfred-{{cookiecutter.project_slug}}`
-2. Alfred | Workflows | File Asana task | Configure workflow and
-   variables icon | configure workspace name and access key.
 
 ## Contributions
 
