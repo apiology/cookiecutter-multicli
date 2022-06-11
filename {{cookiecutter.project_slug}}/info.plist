@@ -98,7 +98,7 @@ set -eu
 				<key>queuemode</key>
 				<integer>2</integer>
 				<key>runningsubtext</key>
-				<string></string>
+				<string>Running {{cookiecutter.project_name}}...</string>
 				<key>script</key>
 				<string>query=$1
 
@@ -111,7 +111,7 @@ set -eu
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string></string>
+				<string>Enter text for {{cookiecutter.project_name}}</string>
 				<key>title</key>
 				<string>{{ cookiecutter.project_name }}</string>
 				<key>type</key>
