@@ -4,15 +4,18 @@ import { isString } from '../types.js';
 import AlfredPlatform from './alfred-platform.js';
 import { setPlatform } from '../platform.js';
 
-setPlatform(new AlfredPlatform());
+const p = new AlfredPlatform();
+setPlatform(p);
 
 const run = async () => {
+  await p.config().validate();
+
   let items: ScriptFilterItem[];
   try {
     const suggestions = await pullSuggestions(alfy.input);
     items = suggestions.map((suggestion): ScriptFilterItem => ({
       title: suggestion.description,
-      subtitle: '{{ cookiecutter.project_name }}',
+      subtitle: 'Upvoter for Asana',
       arg: suggestion.url,
     }));
     alfy.output(items);

@@ -1,4 +1,5 @@
 import { chromeStorageSyncFetch } from './chrome-extension-cache.js';
+import Config from '../config.js';
 
 // https://2ality.com/2020/04/classes-as-values-typescript.html
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -48,7 +49,7 @@ async function fetchConfig<T>(key: string, name: string,
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
-export default class ChromeExtensionConfig {
+export default class ChromeExtensionConfig extends Config {
 {%- if cookiecutter.asana_api == 'yes' %}
   fetchAsanaAccessToken = async () => fetchConfig('asanaAccessToken', 'Asana access token', 'string');
 
