@@ -15,7 +15,7 @@ const run = async () => {
     const suggestions = await pullSuggestions(alfy.input);
     items = suggestions.map((suggestion): ScriptFilterItem => ({
       title: suggestion.description,
-      subtitle: 'Upvoter for Asana',
+      subtitle: '{{ cookiecutter.project_name }}',
       arg: suggestion.url,
     }));
     alfy.output(items);
