@@ -27,4 +27,6 @@ export default class AlfredFormatter {
     return `${task.name}${membership}`;
   };
 {% endif -%}
+
+  escapeDescriptionPlainText = (text: string) => text;
 }
