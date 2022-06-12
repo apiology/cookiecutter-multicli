@@ -29,7 +29,17 @@
     "email": "{{ cookiecutter.email }}",
     "url": "https://github.com/{{ cookiecutter.github_username }}/"
   },
-  "license": "{{ cookiecutter.open_source_license }}",
+{%
+set license_name = {
+  "MIT license": "MIT",
+  "BSD license": "BSD-3-Clause",
+  "ISC license": "ISC",
+  "Apache Software License 2.0": "Apache-2.0"
+}
+-%}
+{%- if cookiecutter.open_source_license != 'Not open source' %}
+  "license": "{{ license_name[cookiecutter.open_source_license] }}",
+{%- endif %}
   "bugs": {
     "url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
   },
