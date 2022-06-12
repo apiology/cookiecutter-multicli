@@ -3,7 +3,7 @@ import * as Asana from 'asana';
 
 {% endif -%}
 export default class AlfredFormatter {
-{%- if cookiecutter.asana_api == 'yes' %}
+  {% if cookiecutter.asana_api == 'yes' -%}
   formatTask = (task: Asana.resources.Tasks.Type) => {
     const memberships = task.memberships || [];
 
@@ -26,5 +26,7 @@ export default class AlfredFormatter {
     }
     return `${task.name}${membership}`;
   };
+
 {% endif -%}
+  escapeDescriptionPlainText = (text: string) => text;
 }

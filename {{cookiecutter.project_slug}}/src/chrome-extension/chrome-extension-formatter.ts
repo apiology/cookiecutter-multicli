@@ -23,7 +23,7 @@ export const escapeHTML = (str: string) => {
 };
 
 export default class ChromeExtensionFormatter {
-{%- if cookiecutter.asana_api == 'yes' %}
+  {% if cookiecutter.asana_api == 'yes' -%}
   formatTask = (task: Asana.resources.Tasks.Type) => {
     if (task.memberships == null) {
       throw new Error('Memberships required to format!');
@@ -47,5 +47,7 @@ export default class ChromeExtensionFormatter {
     }
     return `${escapeHTML(task.name)}${membership}`;
   };
+
 {% endif -%}
+  escapeDescriptionPlainText = escapeHTML;
 }
