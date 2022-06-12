@@ -51,7 +51,7 @@ const fetchConfigInteger = (envVarName: string): number => {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export default class AlfredConfig extends Config {
-{%- if cookiecutter.asana_api == 'yes' %}
+{% if cookiecutter.asana_api == 'yes' -%}
   fetchAsanaAccessToken = async () => fetchNonEmptyConfigString('asana_access_key');
 
   fetchWorkspaceName = async (): Promise<string> => fetchNonEmptyConfigString('workspace_name');
