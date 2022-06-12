@@ -52,7 +52,7 @@ development.  See the `.envrc` file for detail.
    ```
 {%- endif %}
 
-## Initial publish of Alfred package to npm
+## Initial release of Alfred package to npm
 
 Walk through these steps:
 
@@ -73,7 +73,9 @@ Drop the following markdown into README.md in the 'Installing Alfred workflow' s
    variables icon | configure workspace name and access key.
 ```
 
-## Publishing Alfred package to npm
+Remove this section.
+
+## Releasing Alfred package to npm
 
 Related backlog tasks:
 
