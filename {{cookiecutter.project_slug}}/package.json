@@ -29,7 +29,7 @@
     "email": "{{ cookiecutter.email }}",
     "url": "https://github.com/{{ cookiecutter.github_username }}/"
   },
-{%
+{%-
 set license_name = {
   "MIT license": "MIT",
   "BSD license": "BSD-3-Clause",
