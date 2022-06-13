@@ -23,6 +23,10 @@ const populateOmnibox = async (text: string, suggest: SuggestFunction) => {
   const suggestions = await pullOmniboxSuggestions(text);
 
   if (suggestions.length <= 0) {
+    chrome.omnibox.setDefaultSuggestion({
+      description: 'No results found',
+    });
+
     return;
   }
 
