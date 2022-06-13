@@ -30,11 +30,8 @@ export const pullSuggestions = async (text: string): Promise<Suggestion[]> => {
 };
 
 export const actOnInputData = async (text: string) => {
-  let parsedText = text;
-  if (text.startsWith('{{cookiecutter.project_slug}}:')) {
-    const url = new URL(text);
-    parsedText = decodeURIComponent(url.pathname);
-  }
+  const url = new URL(text);
+  const parsedText = decodeURIComponent(url.pathname);
   console.log(`Acting upon ${parsedText}`);
   return 'a success message or status';
 };
