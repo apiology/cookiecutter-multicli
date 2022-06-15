@@ -79,14 +79,8 @@ gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflo
 Drop the following markdown into README.md in the 'Installing Alfred workflow' section.
 
 ```markdown
-Either download and double click the latest release's [.alfredworkflow
-file](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/releases)
-or install via npm with `npm install -g
-alfred-{{cookiecutter.project_slug}}`
-
-Once down, configure: Alfred | Workflows |
-{{cookiecutter.project_name}} | Configure workflow and variables icon
-| configure workspace name and access key.
+Download and double click the latest release's [.alfredworkflow
+file](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/releases).
 ```
 
 Remove this section.
