@@ -61,3 +61,4 @@ requirements_dev.txt.installed
 # From release process
 /package.zip
 /alfred-{{cookiecutter.project_slug}}-*.tgz
+/{{cookiecutter.project_name}}.alfredworkflow
