@@ -68,9 +68,14 @@ npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
 Drop the following markdown into README.md in the 'Installing Alfred workflow' section.
 
 ```markdown
-1. `npm install -g alfred-{{ cookiecutter.project_slug }}`
-2. Alfred | Workflows | File Asana task | Configure workflow and
-   variables icon | configure workspace name and access key.
+Either download and double click the latest release's [.alfredworkflow
+file](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/releases)
+or install via npm with `npm install -g
+alfred-{{cookiecutter.project_slug}}`
+
+Once down, configure: Alfred | Workflows |
+{{cookiecutter.project_name}} | Configure workflow and variables icon
+| configure workspace name and access key.
 ```
 
 Remove this section.
@@ -80,6 +85,8 @@ Remove this section.
 Related backlog tasks:
 
 * Do npm Alfred release of cookiecutter-multicli projects in CircleCI (after other tests pass)
+
+First, run these commands:
 
 ```sh
 git checkout main
@@ -95,6 +102,19 @@ npm publish
 alfy-cleanup
 npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
 ```
+
+Then, load Alfred | Preferences | Workflows |
+{{cookiecutter.project_name}} | right click | Export ... | Export | choose this
+directory | Export
+
+Once done, make a GitHub release with the exported file:
+
+```
+new_release=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
+gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
+```
+
+Download file.  Install.
 
 ## Initial release to Chrome Web Store
 
