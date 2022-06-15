@@ -52,7 +52,7 @@ development.  See the `.envrc` file for detail.
    ```
 {%- endif %}
 
-## Initial release of Alfred package to npm
+## Initial release of Alfred package
 
 Walk through these steps:
 
@@ -63,6 +63,17 @@ git stash
 npm publish
 alfy-cleanup
 npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
+```
+
+Then, load Alfred | Preferences | Workflows |
+{{cookiecutter.project_name}} | right click | Export ... | Export | choose this
+directory | Export
+
+Once done, make a GitHub release with the exported file:
+
+```
+new_release=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
+gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
 ```
 
 Drop the following markdown into README.md in the 'Installing Alfred workflow' section.
@@ -80,7 +91,7 @@ Once down, configure: Alfred | Workflows |
 
 Remove this section.
 
-## Releasing Alfred package to npm
+## Releasing Alfred package
 
 Related backlog tasks:
 
@@ -152,7 +163,7 @@ Download file.  Install.
 1. PR related changes in here
 1. Submit for review
 1. Wait for approval
-1. Update README.md with CWS icon linking to listing after the first paragraph - example: `[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](WEBSTORE LINK HERE)`
+1. Update README.md with CWS icon linking to listing after the first paragraph - example: p`[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](WEBSTORE LINK HERE)`
 1. Replace 'Installing Chrome Extension' in README.md with the CWS icon.
 1. Update README.md with screenshots - example: `<img src="./docs/screenshot-1.png" alt="screenshot showing Asana task description and repeating above keystrokes" height="400"/>`
 1. Drop this section
