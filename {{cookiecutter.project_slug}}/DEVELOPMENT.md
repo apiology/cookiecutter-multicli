@@ -105,6 +105,11 @@ git push
 git push --tags
 npm publish
 alfy-cleanup
+```
+
+Now, remove your current installation from Alfred on your machine.
+
+```sh
 npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
 ```
 
@@ -112,14 +117,17 @@ Then, load Alfred | Preferences | Workflows |
 {{cookiecutter.project_name}} | right click | Export ... | Export | choose this
 directory | Export
 
-Once done, make a GitHub release with the exported file:
+Once done, make a GitHub release with the exported file (do this in a
+new tab):
 
-```
+```sh
 new_release=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
 gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
 ```
 
-Download file.  Install.
+Remove your current installation again.
+
+open '{{cookiecutter.project_name}}.alfredworkflow'
 
 ## Initial release to Chrome Web Store
 
