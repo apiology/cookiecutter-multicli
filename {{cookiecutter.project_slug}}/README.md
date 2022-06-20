@@ -25,16 +25,16 @@ WARNING: This is not ready for use yet!
 
 {% endif -%}
 {% endif -%}
+## Installing Chrome Extension
+
+This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
+
 {% if cookiecutter.asana_related == 'yes' -%}
 ## Legal
 
 Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
 {% endif -%}
-## Installing Chrome Extension
-
-This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
-
 ## Contributions
 
 This project, as with all others, rests on the shoulders of a broad
