@@ -4,7 +4,7 @@
   "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
   "private": true,
   "scripts": {
-    "start": "webpack --mode=development --watch",
+    "chrome-extension-start": "webpack --mode=development --watch",
     "test": "jest"
   },
   "type": "module",
