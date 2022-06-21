@@ -98,7 +98,7 @@ git checkout main
 git pull
 git stash
 last_released_version=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
-git log ${last_released_version:?}..
+git log v${last_released_version:?}..
 update_type= # patch/minor/major
 npm version ${update_type:?}
 git push
@@ -110,12 +110,12 @@ alfy-cleanup
 Now, remove your current installation from Alfred on your machine.
 
 ```sh
-npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
+npm install --location=global alfred-{{cookiecutter.project_slug}} --upgrade
 ```
 
 Then, load Alfred | Preferences | Workflows |
-{{cookiecutter.project_name}} | right click | Export ... | Export | choose this
-directory | Export
+{{cookiecutter.project_name}} | right click | Export ... | (type
+in version from CLI output) | Export | choose this directory | Export
 
 Once done, make a GitHub release with the exported file (do this in a
 new tab):
