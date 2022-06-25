@@ -109,6 +109,8 @@ alfy-cleanup
 
 Now, remove your current installation from Alfred on your machine.
 
+Then, install the newly published version via npm:
+
 ```sh
 npm install --location=global alfred-{{cookiecutter.project_slug}} --upgrade
 ```
@@ -129,7 +131,7 @@ Remove your current installation again.
 
 open '{{cookiecutter.project_name}}.alfredworkflow'
 
-Now update [packal](http://www.packal.org/)
+[packal](http://www.packal.org/) | Login if needed | Dashboard | {{cookiecutter.project_name}} | edit | Workflow File | Remove | Choose File | (.alfredworkflow file) | Upload | Version | (update) | (scroll to bottom) | Submit
 
 ## Initial release to packal.org
 
