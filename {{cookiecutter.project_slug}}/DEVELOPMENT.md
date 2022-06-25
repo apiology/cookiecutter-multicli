@@ -66,8 +66,12 @@ npm install -g alfred-{{cookiecutter.project_slug}} --upgrade
 ```
 
 Then, load Alfred | Preferences | Workflows |
-{{cookiecutter.project_name}} | right click | Export ... | Export | choose this
-directory | Export
+{{cookiecutter.project_name}}
+
+right click | Edit Details | Description | Copy from README.md |
+Category | (set as appropriate) | Save
+
+right click | Export ... | Export | choose this directory | Export
 
 Once done, make a GitHub release with the exported file:
 
