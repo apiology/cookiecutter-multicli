@@ -129,6 +129,8 @@ Remove your current installation again.
 
 open '{{cookiecutter.project_name}}.alfredworkflow'
 
+Now update [packal](http://www.packal.org/)
+
 ## Initial release to packal.org
 
 1. Go to the [form](http://www.packal.org/node/add/alfred2-workflow)
@@ -148,6 +150,8 @@ open '{{cookiecutter.project_name}}.alfredworkflow'
 1. Tags: (fill in - e.g., asana)
 1. Applications: (fill in - probably blank)
 1. Webservices: (fill in - e.g. Asana)
+1. Packal Documentation Page: Leave blank
+1. Submit
 
 ## Initial release to Chrome Web Store
 
