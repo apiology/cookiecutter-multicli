@@ -16,7 +16,7 @@ help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 repl: ## Bring up an interactive JavaScript prompt
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
 	@echo "const asana = require('asana');"
 	@echo "const clientOptions = {"
 	@echo "    defaultHeaders: {"
