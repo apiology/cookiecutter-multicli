@@ -48,6 +48,9 @@ PreCommit:
 #  IndexTags:
 #    enabled: true # Generate a tags file with `ctags` each time HEAD changes
 
-PrePush:
-  Pytest:
-    enabled: true
+# The tests in cookiecutter-multicli take a bit too long to repeat
+# between a push and CircleCI.
+#
+# PrePush:
+#  Pytest:
+#    enabled: true
