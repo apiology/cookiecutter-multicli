@@ -139,6 +139,27 @@ open '{{cookiecutter.project_name}}.alfredworkflow'
 
 ## Initial release to packal.org
 
+1. Go through at least the screenshot generation steps of 'Initial
+   release to Chrome Web Store'
+1. Note down what the existing screenshots are, including the existing
+   left and right sides of split screen images: `open
+   docs/screenshot-*.png`
+1. Plan out what additional screenshots you'd like to have in the
+   gallery and what will be reused.
+1. Generate 1280x800 (or scaled up) screenshots and save as
+   `docs/screenshot-n-raw.png` and so on
+1. Stage the screenshot raw files in git.
+1. Add any annotations and save `docs/screenshot-n.paint` and so on.
+   Open a similar `.paint` from a sibling project to copy and paste
+   the annotation text to keep to the same style.
+1. Stage the screenshot paint files in git.
+1. File | Save As... | png | `docs/screenshot-n.png` (and so on) | Save
+1. Image | Adjust Size... | Scale proportionally ☑ | Resample image ☑
+   | Get to 1280x800 (or just under if ratio isn't right) | OK
+1. Use adjust size to add transparent border until exactly as 1200x800
+   (don't 'Scale proportionally' or 'Resample image' this time) | OK
+1. Stage `screenshot-n.png` (and so on) in git.
+1. Ensure `docs/screenshot-n.png` is scaled to 1280x800 with `file` command
 1. Go to the [form](http://www.packal.org/node/add/alfred2-workflow)
 1. Workflow Name: {{cookiecutter.project_name}}
 1. Version: (take latest version from package.json)
