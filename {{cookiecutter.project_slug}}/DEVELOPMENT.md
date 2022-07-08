@@ -119,6 +119,11 @@ Then, install the newly published version via npm:
 npm install --location=global alfred-{{cookiecutter.project_slug}} --upgrade
 ```
 
+Verify the version installed matches what you just published:
+
+```sh
+npm list --location=global | grep alfred-{{cookiecutter.project_slug}}
+```
 Then, load Alfred | Preferences | Workflows |
 {{cookiecutter.project_name}} | right click | Export ... | (type
 in version from CLI output) | Export | choose this directory | Export
@@ -131,9 +136,9 @@ new_release=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}
 gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
 ```
 
-Remove your current installation again.
+Delete your current installation in Alfred again.
 
-open '{{cookiecutter.project_name}}.alfredworkflow'
+open '{{cookiecutter.project_name}}.alfredworkflow' | configure as prompted | Import
 
 [packal](http://www.packal.org/) | Login if needed | Dashboard | {{cookiecutter.project_name}} | edit | Workflow File | Remove | Choose File | (.alfredworkflow file) | Upload | Version | (update) | (scroll to bottom) | Submit
 
