@@ -124,6 +124,7 @@ Verify the version installed matches what you just published:
 ```sh
 npm list --location=global | grep alfred-{{cookiecutter.project_slug}}
 ```
+
 Then, load Alfred | Preferences | Workflows |
 {{cookiecutter.project_name}} | right click | Export ... | (type
 in version from CLI output) | Export | choose this directory | Export
