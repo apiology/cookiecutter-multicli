@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "chrome-extension-start": "webpack --mode=development --watch",
-    "test": "jest"
+    "test": "jest --coverage --collectCoverageFrom='./src/**'"
   },
   "type": "module",
   "repository": {
@@ -53,6 +53,8 @@ set license_name = {
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.22.1",
     "jest": "^28.1.1",
+    "jest-chrome": "^0.7.2",
+    "jest-environment-jsdom": "^29.2.1",
     "resolve-typescript-plugin": "^1.2.0",
     "ts-jest": "^28.0.5",
     "ts-loader": "^9.3.0",
@@ -88,6 +90,8 @@ set license_name = {
     },
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
+    },
+    "setupFilesAfterEnv": ["./jest.setup.js"],
+    "extensionsToTreatAsEsm": [".ts", ".tsx"]
   }
 }

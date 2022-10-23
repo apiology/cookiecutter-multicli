@@ -57,3 +57,6 @@ requirements_dev.txt.installed
 
 # Provided by user
 /config.js
+
+# from jest
+/coverage
