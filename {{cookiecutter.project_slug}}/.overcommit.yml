@@ -26,6 +26,7 @@ PreCommit:
     include:
       - '**/*.js'
       - '**/*.ts'
+      - '**/*.tsx'
   PythonFlake8:
     enabled: true
     on_warn: fail
