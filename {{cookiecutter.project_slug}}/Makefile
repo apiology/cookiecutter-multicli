@@ -42,7 +42,7 @@ chrome-extension-start: ## run webpack continuously and watch files
 
 build-chrome-extension: webpack
 
-default: clean-coverage test coverage clean-typecoverage typecheck typecoverage package quality ## run default typechecking and tests, then package up and check code quality
+default: clean-typecoverage typecheck typecoverage package clean-coverage test coverage quality ## run default typechecking and tests, then package up and check code quality
 
 build: build-chrome-extension
 
