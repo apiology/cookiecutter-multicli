@@ -91,7 +91,10 @@ set license_name = {
     "moduleNameMapper": {
       "^(\\.{1,2}/.*)\\.js$": "$1"
     },
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
     "setupFilesAfterEnv": ["./jest.setup.js"],
-    "extensionsToTreatAsEsm": [".ts", ".tsx"]
+    "extensionsToTreatAsEsm": [".ts", ".tsx", ".jsx"]
   }
 }
