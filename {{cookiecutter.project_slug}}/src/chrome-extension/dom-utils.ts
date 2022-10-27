@@ -13,3 +13,26 @@ export const htmlElement = <T extends HTMLElement>(id: string, clazz: Class<T>):
   }
   return element;
 };
+
+// https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
+export function waitForElement(selector: string): Promise<Element> {
+  return new Promise<Element>((resolve) => {
+    const e = document.querySelector(selector);
+    if (e) {
+      resolve(e);
+    }
+
+    const observer = new MutationObserver(() => {
+      const element = document.querySelector(selector);
+      if (element) {
+        resolve(element);
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  });
+}

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { htmlElement } from './dom-utils.js';
+import { htmlElement, waitForElement } from './dom-utils.js';
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -46,4 +46,16 @@ test('htmlElementBadHtmlWrongElement', async () => {
 </div>
 `;
   expect(() => htmlElement('foo', HTMLAnchorElement)).toThrowError('element with id foo not an HTMLAnchorElement as expected');
+});
+
+test('waitForElementAlreadyExists', async () => {
+  document.body.innerHTML = `
+<div>
+  <div id='foo'>1</div>
+  <div id='bar'>2</div>
+  <div id='baz'>3</div>
+</div>
+`;
+  const element = await waitForElement('#bar');
+  expect(element.textContent).toEqual('2');
 });
