@@ -1,5 +1,4 @@
 // https://developer.chrome.com/docs/extensions/mv2/options/
-
 import { htmlElement } from './dom-utils.js';
 
 const htmlInputElement = (id: string) => htmlElement(id, HTMLInputElement);
@@ -58,8 +57,12 @@ export function restoreOptions() {
   });
 }
 
-/* istanbul ignore next */
-if (typeof jest === 'undefined') {
+export function registerEventListeners() {
   document.addEventListener('DOMContentLoaded', restoreOptions);
   saveElement().addEventListener('click', saveOptions);
+}
+
+/* istanbul ignore next */
+if (typeof jest === 'undefined') {
+  registerEventListeners();
 }
