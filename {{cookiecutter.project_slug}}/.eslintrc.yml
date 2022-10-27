@@ -55,7 +55,13 @@ rules:
     - error
     # Avoids this error:
     #  'jest-chrome' should be listed in the project's dependencies, not devDependencies. []
-    - devDependencies: ["**/*.test.ts", "**/*.spec.ts", "jest.setup.js", "webpack.config.js"]
+    - devDependencies:
+        - "**/*.test.tsx"
+        - "**/*.test.ts"
+        - "**/*.spec.ts"
+        - "**/*.spec.tsx"
+        - "jest.setup.js"
+        - "webpack.config.js"
   # I don't know whether 'use strict' is the default in Chrome
   # extensions, so let's assume not.
   strict:
