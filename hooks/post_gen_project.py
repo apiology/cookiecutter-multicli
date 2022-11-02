@@ -12,7 +12,10 @@ def remove_file(filepath):
 
 if __name__ == '__main__':
     if 'no' == '{{ cookiecutter.chrome_extension_options }}':
+        remove_file('src/chrome-extension/dom-utils.ts')
+        remove_file('src/chrome-extension/dom-utils.test.ts')
         remove_file('src/chrome-extension/options.ts')
+        remove_file('src/chrome-extension/options.test.ts')
         remove_file('static/chrome-extension/options.html')
 
     if 'no' == '{{ cookiecutter.asana_api }}':
