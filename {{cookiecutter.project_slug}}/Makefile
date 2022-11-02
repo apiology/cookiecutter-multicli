@@ -51,7 +51,7 @@ package: package-chrome-extension
 package-chrome-extension: build-chrome-extension
 	cd dist/chrome-extension && zip -r ../../package.zip .
 
-typecheck: webpack  ## typecheck by running webpack
+typecheck: webpack  ## validate types in code and configuration
 	jsonschema --instance static/chrome-extension/manifest.json docs/chrome-manifest-v3-schema.json
 
 citypecheck: typecheck ## Run type check from CircleCI
