@@ -56,3 +56,9 @@ requirements_dev.txt.installed
 /package.zip
 /alfred-{{cookiecutter.project_slug}}-*.tgz
 /{{cookiecutter.project_name}}.alfredworkflow
+
+# Provided by user
+/config.js
+
+# from jest
+/coverage

@@ -11,6 +11,6 @@ export default abstract class Config {
     await this.fetchAsanaAccessToken();
     await this.fetchWorkspaceName();
 {%- endif %}
-    // await fetchSomeConfigItem();
+    // await this.fetchSomeConfigItem();
   }
 }
