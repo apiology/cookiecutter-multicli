@@ -7,7 +7,7 @@
     "chrome-extension-start": "webpack --mode=development --watch",
     "alfred-start": "tsc --watch -p tsconfig.alfred.json ",
     "build-alfy": "tsc -p tsconfig.alfred.json",
-    "test": "jest --coverage --collectCoverageFrom='./src/**'"
+    "test": "jest --coverage --collectCoverageFrom='./src/**'",
     "postinstall": "alfy-init",
     "preuninstall": "alfy-cleanup"
   },
@@ -87,14 +87,14 @@ set license_name = {
     "util": "^0.12.4",
 {%- endif %}
     "lodash": "^4.17.21"
-  }{% if cookiecutter.asana_api == 'yes' %},
+  },{% if cookiecutter.asana_api == 'yes' %}
   "_asanaResolutionsComments": "asana requires request ^2.88.2 (which is deprecated and not receiving updates), which requires http-signature ~1.2.0, which requires jsprim ^1.2.2, which requires json-schema@0.2.3, which is perhaps vulnerable to CVE-2021-3918 (moderate).  minimatch < 3.0.5 is vulnerable to CVE-2022-3517.",
-{%- endif %},
+{%- endif %}
   "_alfyResolutionsComments": "alfy@1.0.0 requires plist@^2.0.1 (which has a critical security bug) via a transitive dependency on {alfred-link@0.3.1,alfred-notifier@0.2.3}.  alfy@1.0.0 requires got@^6.7.1 (which has a moderate security bug) via a transitive dependency on package-json@4.0.1.  alfy@1.0.0 requires got@^12.0.3 (which has a moderate security bug)",
   "resolutions": {
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana/**/json-schema": "^0.4",
-    "**/minimatch": "^3.0.5"
+    "**/minimatch": "^3.0.5",
 {%- endif %}
     "alfy/**/plist": "^3.0.5",
     "alfy/**/got": "^12.1.0"
