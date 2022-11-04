@@ -113,7 +113,13 @@ set license_name = {
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest"
     },
-    "setupFilesAfterEnv": ["./jest.setup.js"],
-    "extensionsToTreatAsEsm": [".ts", ".tsx", ".jsx"]
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts",
+      ".tsx",
+      ".jsx"
+    ]
   }
 }
