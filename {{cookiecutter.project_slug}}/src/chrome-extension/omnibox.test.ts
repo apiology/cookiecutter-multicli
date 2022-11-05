@@ -60,7 +60,7 @@ test('omniboxInputEnteredListenerDefaultMultipleItems', async () => {
   const mockPullSuggestions = jest.mocked(pullSuggestions);
   const task = {} as Asana.resources.Tasks.Type;
   mockActOnInputData.mockResolvedValue(task);
-  const item1: Suggestion = { url: '{{cookiecutter.project_slug}}:foo', description: 'dfoo', text: 'Foo'};
+  const item1: Suggestion = { url: '{{cookiecutter.project_slug}}:foo', description: 'dfoo', text: 'Foo' };
   const item2: Suggestion = { url: '{{cookiecutter.project_slug}}:bar', description: 'dbar', text: 'Bar' };
   const item3: Suggestion = { url: '{{cookiecutter.project_slug}}:baz', description: 'dbaz', text: 'Baz' };
   mockPullSuggestions.mockResolvedValue([item1, item2, item3]);
