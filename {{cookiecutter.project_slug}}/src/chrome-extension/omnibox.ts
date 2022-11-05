@@ -41,7 +41,7 @@ export const omniboxInputChangedListener = _.debounce(pullAndReportSuggestions, 
 
 export const omniboxInputEnteredListener = async (inputData: string) => {
   let urlText = inputData;
-  if (!inputData.startsWith('upvoter-for-asana:')) {
+  if (!inputData.startsWith('{{cookiecutter.project_slug}}:')) {
     // all we got was the default suggestion, so we have to do search
     // again
     const suggestions = await pullSuggestions(inputData);

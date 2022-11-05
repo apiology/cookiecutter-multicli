@@ -1,4 +1,3 @@
-import Asana from 'asana';
 import { omniboxInputEnteredListener } from './omnibox.js';
 import {
   actOnInputData, logSuccess, pullSuggestions, Suggestion,
@@ -13,8 +12,8 @@ afterEach(() => {
 test('omniboxInputEnteredListenerNonDefault', async () => {
   const mockActOnInputData = jest.mocked(actOnInputData);
   const mockLogSuccess = jest.mocked(logSuccess);
-  const resovledValue = 'foo';
-  mockActOnInputData.mockResolvedValue(resovledValue);
+  const resolvedValue = 'foo';
+  mockActOnInputData.mockResolvedValue(resolvedValue);
 
   await omniboxInputEnteredListener('{{cookiecutter.project_slug}}:mumble');
   expect(mockActOnInputData).toHaveBeenCalledWith('{{cookiecutter.project_slug}}:mumble');
@@ -45,8 +44,8 @@ test('omniboxInputEnteredListenerDefaultEmptyList', async () => {
   const mockActOnInputData = jest.mocked(actOnInputData);
   const mockLogSuccess = jest.mocked(logSuccess);
   const mockPullSuggestions = jest.mocked(pullSuggestions);
-  const task = {} as Asana.resources.Tasks.Type;
-  mockActOnInputData.mockResolvedValue(task);
+  const resolvedValue = '';
+  mockActOnInputData.mockResolvedValue(resolvedValue);
   mockPullSuggestions.mockResolvedValue([]);
 
   await expect(omniboxInputEnteredListener('blah')).rejects.toEqual(new Error('No results for "blah"'));
@@ -58,8 +57,8 @@ test('omniboxInputEnteredListenerDefaultMultipleItems', async () => {
   const mockActOnInputData = jest.mocked(actOnInputData);
   const mockLogSuccess = jest.mocked(logSuccess);
   const mockPullSuggestions = jest.mocked(pullSuggestions);
-  const task = {} as Asana.resources.Tasks.Type;
-  mockActOnInputData.mockResolvedValue(task);
+  const resolvedValue = '';
+  mockActOnInputData.mockResolvedValue(resolvedValue);
   const item1: Suggestion = { url: '{{cookiecutter.project_slug}}:foo', description: 'dfoo', text: 'Foo' };
   const item2: Suggestion = { url: '{{cookiecutter.project_slug}}:bar', description: 'dbar', text: 'Bar' };
   const item3: Suggestion = { url: '{{cookiecutter.project_slug}}:baz', description: 'dbaz', text: 'Baz' };
@@ -67,5 +66,5 @@ test('omniboxInputEnteredListenerDefaultMultipleItems', async () => {
 
   await omniboxInputEnteredListener('foo');
   expect(mockActOnInputData).toHaveBeenCalledWith('{{cookiecutter.project_slug}}:foo');
-  expect(mockLogSuccess).toHaveBeenCalledWith(task);
+  expect(mockLogSuccess).toHaveBeenCalledWith(resolvedValue);
 });
