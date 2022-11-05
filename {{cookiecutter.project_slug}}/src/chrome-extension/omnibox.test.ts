@@ -2,9 +2,9 @@ import Asana from 'asana';
 import { omniboxInputEnteredListener } from './omnibox.js';
 import {
   actOnInputData, logSuccess, pullSuggestions, Suggestion,
-} from '../upvoter-for-asana.js';
+} from '../{{cookiecutter.project_slug}}.js';
 
-jest.mock('../upvoter-for-asana');
+jest.mock('../{{cookiecutter.project_slug}}');
 
 afterEach(() => {
   jest.clearAllMocks();

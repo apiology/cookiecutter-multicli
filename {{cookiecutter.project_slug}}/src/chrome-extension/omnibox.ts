@@ -7,7 +7,7 @@
 import _ from 'lodash';
 import {
   pullSuggestions, Suggestion, actOnInputData, logSuccess,
-} from '../upvoter-for-asana.js';
+} from '../{{cookiecutter.project_slug}}.js';
 
 const pullOmniboxSuggestions = async (text: string) => {
   const suggestions = await pullSuggestions(text);
