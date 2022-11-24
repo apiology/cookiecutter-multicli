@@ -36,3 +36,11 @@ export function waitForElement(selector: string): Promise<Element> {
     });
   });
 }
+
+export const parent = (element: Element): Element => {
+  const p = element.parentElement;
+  if (p === null) {
+    throw new Error('parent of element is unexpectedly null');
+  }
+  return p;
+};
