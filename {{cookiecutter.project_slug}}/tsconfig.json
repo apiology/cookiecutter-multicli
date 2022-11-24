@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist/chrome-extension/",
     "strict": true,
+    "noImplicitAny": true,
     "module": "node16",
     "target": "es2015",
     "jsx": "react",
