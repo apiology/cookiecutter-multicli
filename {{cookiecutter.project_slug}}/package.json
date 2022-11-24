@@ -44,6 +44,7 @@ set license_name = {
 {%- endif %}
     "@types/chrome": "^0.0.163",
     "@types/jest": "^28.1.2",
+    "@types/jsdom": "^20.0.1",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
