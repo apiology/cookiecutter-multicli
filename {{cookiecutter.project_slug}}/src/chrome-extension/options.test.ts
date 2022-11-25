@@ -6,7 +6,7 @@ import { chrome } from 'jest-chrome';
 import { readFile } from 'node:fs/promises';
 import { restoreOptions, saveOptions } from './options.js';
 // we will assume these are tested well by dom-utils.test.js and feel free to use them here
-import { htmlElement } from './dom-utils.js';
+import { htmlElementById } from './dom-utils.js';
 
 beforeEach(async () => {
   document.body.innerHTML = await readFile('static/chrome-extension/options.html',
@@ -20,7 +20,7 @@ afterEach(() => {
 });
 
 test('saveOptionsSendsValueToChromeStorage', async () => {
-  const token = htmlElement('token', HTMLInputElement);
+  const token = htmlElementById('token', HTMLInputElement);
 
   token.value = 'my_token';
 
@@ -78,6 +78,6 @@ test('restoreOptions', async () => {
 
   restoreOptions();
 
-  expect(htmlElement('token', HTMLInputElement).value).toBe('');
-  expect(htmlElement('workspace', HTMLInputElement).value).toBe('my_workspace');
+  expect(htmlElementById('token', HTMLInputElement).value).toBe('');
+  expect(htmlElementById('workspace', HTMLInputElement).value).toBe('my_workspace');
 });

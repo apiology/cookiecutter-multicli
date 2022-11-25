@@ -1,9 +1,9 @@
 // https://developer.chrome.com/docs/extensions/mv2/options/
-import { htmlElement } from './dom-utils.js';
+import { htmlElementById } from './dom-utils.js';
 
-const htmlInputElement = (id: string) => htmlElement(id, HTMLInputElement);
+const htmlInputElement = (id: string) => htmlElementById(id, HTMLInputElement);
 
-const htmlDivElement = (id: string) => htmlElement(id, HTMLDivElement);
+const htmlDivElement = (id: string) => htmlElementById(id, HTMLDivElement);
 
 const statusElement = () => htmlDivElement('status');
 
@@ -15,7 +15,7 @@ const workspaceElement = () => htmlInputElement('workspace');
 {% endif -%}
 // const example = () => htmlInputElement('example');
 
-const saveElement = () => htmlElement('save', HTMLButtonElement);
+const saveElement = () => htmlElementById('save', HTMLButtonElement);
 
 // Saves options to chrome.storage
 export function saveOptions() {
