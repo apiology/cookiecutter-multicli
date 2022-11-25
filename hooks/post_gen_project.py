@@ -14,6 +14,7 @@ if __name__ == '__main__':
     if 'no' == '{{ cookiecutter.chrome_extension_options }}':
         remove_file('src/config.ts')
         remove_file('src/config.test.ts')
+        remove_file('src/__mocks__/test-config.ts')
         remove_file('src/chrome-extension/chrome-extension-config.ts')
         remove_file('src/chrome-extension/chrome-extension-config.test.ts')
         remove_file('src/cache.ts')
