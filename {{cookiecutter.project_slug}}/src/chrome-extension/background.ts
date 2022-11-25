@@ -5,7 +5,7 @@
  */
 
 import { setPlatform } from '../platform.js';
-import ChromeExtensionPlatform from './chrome-extension-platform.js';
+import { ChromeExtensionPlatform } from './chrome-extension-platform.js';
 import { doWork } from '../{{cookiecutter.project_slug}}.js';
 
 setPlatform(new ChromeExtensionPlatform());

@@ -11,4 +11,3 @@ export const doWork = (tab: chrome.tabs.Tab) => {
     code: 'document.body.style.backgroundColor="red"',
   });
 };
-export { doWork as default };
