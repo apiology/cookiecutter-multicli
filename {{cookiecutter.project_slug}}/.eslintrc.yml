@@ -51,6 +51,10 @@ rules:
     #
     # https://stackoverflow.com/a/60675852/2625807
     - "off"
+  # Disallow default exports, as they seem to stochastically cause
+  # babel+jest failures as of 2022-11
+  import/no-default-export:
+    - error
   import/no-extraneous-dependencies:
     - error
     # Avoids this error:
