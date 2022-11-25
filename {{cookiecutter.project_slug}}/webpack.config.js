@@ -20,6 +20,7 @@ export default {
 {%- if cookiecutter.chrome_extension_options == 'yes' %}
     options: ['./src/chrome-extension/options.ts'],
 {%- endif %}
+    'content-script': ['./src/chrome-extension/content-script.ts'],
   },
   // https://webpack.js.org/guides/typescript/
   module: {

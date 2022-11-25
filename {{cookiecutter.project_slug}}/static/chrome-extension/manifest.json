@@ -11,6 +11,12 @@
     "activeTab",
     "storage"
   ],
+  "content_scripts": [
+    {
+      "matches": ["https://app.asana.com/*"],
+      "js": ["content-script.js"]
+    }
+  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
