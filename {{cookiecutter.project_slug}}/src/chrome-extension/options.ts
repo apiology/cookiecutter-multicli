@@ -50,8 +50,8 @@ export function restoreOptions() {
     // example: 'example default value',
   }, (items) => {
 {%- if cookiecutter.asana_api == 'yes' %}
-    tokenElement().value = items.asanaAccessToken;
-    workspaceElement().value = items.workspace;
+    tokenElement().value = items['asanaAccessToken'];
+    workspaceElement().value = items['workspace'];
 {%- endif %}
     // exampleElement().value = items.example;
   });
