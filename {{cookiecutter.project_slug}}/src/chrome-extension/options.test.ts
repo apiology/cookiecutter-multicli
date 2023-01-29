@@ -6,7 +6,7 @@ import { chrome } from 'jest-chrome';
 import { readFile } from 'node:fs/promises';
 import { restoreOptions, saveOptions } from './options.js';
 // we will assume these are tested well by dom-utils.test.js and feel free to use them here
-import { htmlElement } from './dom-utils.js';
+import { htmlElementById } from './dom-utils.js';
 
 beforeEach(async () => {
   document.body.innerHTML = await readFile('static/chrome-extension/options.html',
@@ -20,12 +20,12 @@ afterEach(() => {
 });
 
 test('saveOptionsSendsValueToChromeStorage', async () => {
-  const token = htmlElement('token', HTMLInputElement);
+  const token = htmlElementById('token', HTMLInputElement);
 
   token.value = 'my_token';
 
   const fakeChromeStorageSyncSet = (items: { [key: string]: object; }): void => {
-    expect(items.asanaAccessToken).toBe('my_token');
+    expect(items['asanaAccessToken']).toBe('my_token');
   };
 
   chrome.storage.sync.set.mockImplementation(fakeChromeStorageSyncSet);
@@ -63,7 +63,7 @@ test('saveOptionsUpdatesStatusOnSuccess', async () => {
 
 test('restoreOptions', async () => {
   const fakeChromeStorageSyncGet = (keys: string | string[] | { [key: string]: object } | null,
-    callback: (items: { [key: string]: object | string }) => void): void => {
+    callback: (items: { [key: string]: object | string | undefined }) => void): void => {
     if (Array.isArray(keys)) {
       fail('Did not expect this to be array!');
     }
@@ -71,13 +71,13 @@ test('restoreOptions', async () => {
       fail('Did not expect this to be string!');
     }
     // let's pretend asanaAccessToken was not yet set, but workspace was
-    callback({ asanaAccessToken: alwaysDefined(keys).asanaAccessToken, workspace: 'my_workspace' });
+    callback({ asanaAccessToken: alwaysDefined(keys)['asanaAccessToken'], workspace: 'my_workspace' });
   };
 
   chrome.storage.sync.get.mockImplementation(fakeChromeStorageSyncGet);
 
   restoreOptions();
 
-  expect(htmlElement('token', HTMLInputElement).value).toBe('');
-  expect(htmlElement('workspace', HTMLInputElement).value).toBe('my_workspace');
+  expect(htmlElementById('token', HTMLInputElement).value).toBe('');
+  expect(htmlElementById('workspace', HTMLInputElement).value).toBe('my_workspace');
 });

@@ -1,4 +1,4 @@
-export default abstract class Config {
+export abstract class Config {
 {%- if cookiecutter.asana_api == 'yes' %}
   abstract fetchAsanaAccessToken(): Promise<string>;
 

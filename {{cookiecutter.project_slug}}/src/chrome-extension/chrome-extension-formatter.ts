@@ -22,8 +22,8 @@ export const escapeHTML = (str: string) => {
   return str.replace(/[&<>'"]/g, escape);
 };
 
-export default class ChromeExtensionFormatter {
-  {% if cookiecutter.asana_api == 'yes' -%}
+export class ChromeExtensionFormatter {
+{%- if cookiecutter.asana_api == 'yes' %}
   formatTask = (task: Asana.resources.Tasks.Type) => {
     if (task.memberships == null) {
       throw new Error('Memberships required to format!');
