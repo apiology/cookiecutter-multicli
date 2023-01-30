@@ -32,7 +32,7 @@ const pullAndReportSuggestions = async (text: string, suggest: SuggestFunction) 
   }
 
   chrome.omnibox.setDefaultSuggestion({
-    description: suggestions[0].description,
+    description: suggestion.description,
   });
   suggest(suggestions.slice(1, -1));
   console.log(`${suggestions.length} suggestions from ${text}: `, suggestions);
