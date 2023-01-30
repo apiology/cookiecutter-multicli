@@ -10,4 +10,6 @@ export class TestLogger {
   warn = console.warn;
 
   error = console.error;
+
+  userVisibleStatus = console.info;
 }
