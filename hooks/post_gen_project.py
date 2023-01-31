@@ -23,6 +23,7 @@ if __name__ == '__main__':
         remove_file('src/chrome-extension/chrome-extension-config.ts')
         remove_file('src/chrome-extension/chrome-extension-config.test.ts')
         remove_file('src/cache.ts')
+        remove_file('src/alfred/alfred-config.ts')
         remove_file('src/chrome-extension/chrome-extension-cache.ts')
         remove_file('src/chrome-extension/options.ts')
         remove_file('src/chrome-extension/options.test.ts')
