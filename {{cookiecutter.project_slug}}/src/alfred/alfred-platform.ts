@@ -1,13 +1,16 @@
-import AlfredCache from './alfred-cache.js';
-import AlfredConfig from './alfred-config.js';
-import AlfredLogger from './alfred-logger.js';
-import AlfredFormatter from './alfred-formatter.js';
+{% if cookiecutter.options == 'yes' -%}
+import { AlfredCache } from './alfred-cache.js';
+import { AlfredConfig } from './alfred-config.js';
+{% endif -%}
+import { AlfredLogger } from './alfred-logger.js';
+import { AlfredFormatter } from './alfred-formatter.js';
 
 // needed to create virtual functions implementing an abstract class
 // for TypeScript
 /* eslint-disable class-methods-use-this */
 
-export default class AlfredPlatform {
+export class AlfredPlatform {
+{%- if cookiecutter.options == 'yes' %}
   config() {
     return new AlfredConfig();
   }
@@ -15,7 +18,7 @@ export default class AlfredPlatform {
   cache() {
     return new AlfredCache();
   }
-
+{% endif %}
   logger() {
     return new AlfredLogger();
   }

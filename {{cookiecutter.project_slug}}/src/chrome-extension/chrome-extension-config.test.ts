@@ -1,7 +1,7 @@
 {%- if cookiecutter.asana_api == 'yes' -%}
 import { chrome } from 'jest-chrome';
 {% endif -%}
-import ChromeExtensionConfig from './chrome-extension-config.js';
+import { ChromeExtensionConfig } from './chrome-extension-config.js';
 
 test('create class', () => {
   expect(new ChromeExtensionConfig()).not.toBeNull();

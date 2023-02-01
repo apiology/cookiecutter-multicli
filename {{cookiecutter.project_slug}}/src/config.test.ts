@@ -1,4 +1,4 @@
-import Config from './config.js';
+import { Config } from './config.js';
 
 class ConfigSpy extends Config {
 {% if cookiecutter.asana_api == 'yes' -%}

@@ -12,13 +12,19 @@
     "storage"
   ],
   "omnibox": { "keyword": "{{ cookiecutter.multicli_keyword }}" },
+  "content_scripts": [
+    {
+      "matches": ["https://app.asana.com/*"],
+      "js": ["content-script.js"]
+    }
+  ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_title": "Make this page red"
   },
-{%- if cookiecutter.chrome_extension_options == 'yes' %}
+{%- if cookiecutter.options == 'yes' %}
   "options_page": "options.html",
 {%- endif %}
   "manifest_version": 3
