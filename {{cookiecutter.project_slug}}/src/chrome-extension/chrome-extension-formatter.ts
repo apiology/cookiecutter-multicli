@@ -47,6 +47,6 @@ export class ChromeExtensionFormatter {
     }
     return `${escapeHTML(task.name)}${membership}`;
   };
-
-{% endif %}  escapeDescriptionPlainText = escapeHTML;
+{% endif %}
+  escapeDescriptionPlainText = escapeHTML;
 }
