@@ -1,4 +1,4 @@
-{% if cookiecutter.chrome_extension_options == 'yes' -%}
+{% if cookiecutter.options == 'yes' -%}
 import { AlfredCache } from './alfred-cache.js';
 import { AlfredConfig } from './alfred-config.js';
 {% endif -%}
@@ -10,7 +10,7 @@ import { AlfredFormatter } from './alfred-formatter.js';
 /* eslint-disable class-methods-use-this */
 
 export class AlfredPlatform {
-{%- if cookiecutter.chrome_extension_options == 'yes' %}
+{%- if cookiecutter.options == 'yes' %}
   config() {
     return new AlfredConfig();
   }

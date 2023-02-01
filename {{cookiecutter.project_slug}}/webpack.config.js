@@ -17,7 +17,7 @@ const dirname = path.dirname(filename);
 export default {
   entry: {
     background: ['./src/chrome-extension/background.ts'],
-{%- if cookiecutter.chrome_extension_options == 'yes' %}
+{%- if cookiecutter.options == 'yes' %}
     options: ['./src/chrome-extension/options.ts'],
 {%- endif %}
     'content-script': ['./src/chrome-extension/content-script.ts'],

@@ -8,8 +8,9 @@ const p = new AlfredPlatform();
 setPlatform(p);
 
 const run = async () => {
+{%- if cookiecutter.options == 'yes' %}
   await p.config().validate();
-
+{% endif %}
   let items: ScriptFilterItem[];
   try {
     const suggestions = await pullSuggestions(alfy.input);

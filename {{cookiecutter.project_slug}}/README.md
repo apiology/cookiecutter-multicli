@@ -22,7 +22,7 @@ This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for 
 
 The Alfred package isn't published yet - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
 
-{% if cookiecutter.chrome_extension_options == 'yes' -%}
+{% if cookiecutter.options == 'yes' -%}
 ## Chrome Extension Configuration
 
 {% if cookiecutter.asana_api == 'yes' -%}

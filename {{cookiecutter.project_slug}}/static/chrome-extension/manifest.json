@@ -24,7 +24,7 @@
   "action": {
     "default_title": "Make this page red"
   },
-{%- if cookiecutter.chrome_extension_options == 'yes' %}
+{%- if cookiecutter.options == 'yes' %}
   "options_page": "options.html",
 {%- endif %}
   "manifest_version": 3
