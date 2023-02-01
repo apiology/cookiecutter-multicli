@@ -102,6 +102,6 @@ development.  See the `.envrc` file for detail.
 1. Save draft
 1. ... | Preview
 1. [Publish](https://developer.chrome.com/docs/webstore/update/)
-{% if cookiecutter.chrome_extension_options == 'yes' -%}
+{% if cookiecutter.options == 'yes' -%}
 1. Update options.html link in README.md
 {% endif -%}

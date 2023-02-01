@@ -8,7 +8,7 @@ WARNING: This is not ready for use yet!
 
 ## Using
 
-{% if cookiecutter.chrome_extension_options == 'yes' -%}
+{% if cookiecutter.options == 'yes' -%}
 ## Chrome Extension Configuration
 
 {% if cookiecutter.asana_api == 'yes' -%}

@@ -126,7 +126,7 @@ def test_bake_and_run_build_christmas_tree(cookies):
                               'The greatest project ever created by name "quote" O\'connor.',
                               'asana_related': 'yes',
                               'asana_api': 'yes',
-                              'chrome_extension_options': 'yes',
+                              'options': 'yes',
                           }) as result:
         assert result.project_path.is_dir()
         assert result.exit_code == 0
