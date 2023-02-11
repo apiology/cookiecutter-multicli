@@ -76,15 +76,18 @@ set license_name = {
     "url": "^0.11.0",
     "util": "^0.12.4"
 {%- endif %}
-  }{% if cookiecutter.asana_api == 'yes' %},
+  },{% if cookiecutter.asana_api == 'yes' %}
   "_asanaResolutionsComments": "asana requires request ^2.88.2 (which is deprecated and not receiving updates), which requires http-signature ~1.2.0, which requires jsprim ^1.2.2, which requires json-schema@0.2.3, which is perhaps vulnerable to CVE-2021-3918 (moderate).",
   "_minimatchResolutionsComments": "minimatch < 3.0.5 is vulnerable to CVE-2022-3517",
+{%- endif %}
   "_json5ResolutionsComments": "json5 < 1.0.2 is vulnerable to CVE-2022-46175",
   "resolutions": {
+{%- if cookiecutter.asana_api == 'yes' %}
     "asana/**/json-schema": "^0.4",
     "**/minimatch": "^3.0.5",
+{%- endif %}
     "**/json5": "^1.0.2"
-  }{% endif -%},
+  },
   "__jest_comments": "https://kulshekhar.github.io/ts-jest/docs/guides/esm-support",
   "jest": {
     "preset": "ts-jest/presets/default-esm",
