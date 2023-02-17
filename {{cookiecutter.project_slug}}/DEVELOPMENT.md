@@ -85,6 +85,9 @@ development.  See the `.envrc` file for detail.
 1. Update README.md with CWS icon linking to listing after the first paragraph - example: `[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](WEBSTORE LINK HERE)`
 1. Move 'Installing' in README.md to 'Installing local version' in DEVELOPMENT.md
 1. Update README.md with screenshots - example: `<img src="./docs/screenshot-1.png" alt="screenshot showing Asana task description and repeating above keystrokes" height="400"/>`
+{% if cookiecutter.options == 'yes' -%}
+1. Update options.html link in README.md
+{% endif -%}
 1. Drop this section
 
 ## Releasing to Chrome Web Store
@@ -102,6 +105,3 @@ development.  See the `.envrc` file for detail.
 1. Save draft
 1. ... | Preview
 1. [Publish](https://developer.chrome.com/docs/webstore/update/)
-{% if cookiecutter.options == 'yes' -%}
-1. Update options.html link in README.md
-{% endif -%}
