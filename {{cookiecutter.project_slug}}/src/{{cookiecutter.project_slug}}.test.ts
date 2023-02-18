@@ -1,5 +1,5 @@
 import { chrome } from 'jest-chrome';
-import { platform, setPlatform } from './platform.js';
+import { setPlatform } from './platform.js';
 import { TestPlatform } from './__mocks__/test-platform.js';
 import { doWork } from './{{cookiecutter.project_slug}}.js';
 
