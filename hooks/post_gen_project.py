@@ -27,6 +27,10 @@ if __name__ == '__main__':
         remove_file('src/chrome-extension/background.ts')
         remove_file('src/chrome-extension/background.test.ts')
 
+    if 'no' == '{{ cookiecutter.content_script }}':
+        remove_file('src/chrome-extension/content-script.ts')
+        remove_file('src/chrome-extension/content-script.test.ts')
+
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
 

@@ -11,5 +11,6 @@
   "asana_api": ["no", "yes"],
   "options": ["no", "yes"],
   "type_of_github_repo": ["private", "public", "none"],
-  "service_worker": ["no", "yes"]
+  "service_worker": ["no", "yes"],
+  "content_script": ["no", "yes"]
 }
