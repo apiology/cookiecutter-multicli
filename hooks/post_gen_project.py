@@ -35,6 +35,10 @@ if __name__ == '__main__':
         remove_file('src/asana-typeahead.ts')
         remove_directory('polyfills')
 
+    if 'no' == '{{ cookiecutter.service_worker }}':
+        remove_file('src/chrome-extension/background.ts')
+        remove_file('src/chrome-extension/background.test.ts')
+
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
 

@@ -18,9 +18,11 @@
       "js": ["content-script.js"]
     }
   ],
+{%- if cookiecutter.service_worker == 'yes' %}
   "background": {
     "service_worker": "background.js"
   },
+{%- endif %}
   "action": {
     "default_title": "Make this page red"
   },
