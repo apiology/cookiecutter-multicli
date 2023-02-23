@@ -12,12 +12,14 @@
     "storage"
   ],
   "omnibox": { "keyword": "{{ cookiecutter.multicli_keyword }}" },
+{%- if cookiecutter.content_script == 'yes' %}
   "content_scripts": [
     {
       "matches": ["https://app.asana.com/*"],
       "js": ["content-script.js"]
     }
   ],
+{%- endif %}
 {%- if cookiecutter.service_worker == 'yes' %}
   "background": {
     "service_worker": "background.js"
