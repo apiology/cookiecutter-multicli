@@ -11,5 +11,6 @@
   "asana_related": ["no", "yes"],
   "asana_api": ["no", "yes"],
   "options": ["no", "yes"],
-  "multicli_keyword": "kw"
+  "multicli_keyword": "kw",
+  "service_worker": ["no", "yes"]
 }

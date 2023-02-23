@@ -16,7 +16,9 @@ const dirname = path.dirname(filename);
 /* eslint-disable-next-line import/no-default-export */
 export default {
   entry: {
+{%- if cookiecutter.service_worker == 'yes' %}
     background: ['./src/chrome-extension/background.ts'],
+{%- endif %}
 {%- if cookiecutter.options == 'yes' %}
     options: ['./src/chrome-extension/options.ts'],
 {%- endif %}
