@@ -22,7 +22,9 @@ export default {
 {%- if cookiecutter.options == 'yes' %}
     options: ['./src/chrome-extension/options.ts'],
 {%- endif %}
+{%- if cookiecutter.content_script == 'yes' %}
     'content-script': ['./src/chrome-extension/content-script.ts'],
+{%- endif %}
   },
   // https://webpack.js.org/guides/typescript/
   module: {
