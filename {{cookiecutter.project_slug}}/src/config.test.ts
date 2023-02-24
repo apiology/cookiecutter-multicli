@@ -6,13 +6,10 @@ class ConfigSpy extends Config {
 
   fetchWorkspaceNameCalled: boolean
 
-  fetchVldApiKeyCalled: boolean
-
   constructor() {
     super();
     this.fetchAsanaAccessTokenCalled = false;
     this.fetchWorkspaceNameCalled = false;
-    this.fetchVldApiKeyCalled = false;
   }
 
   fetchAsanaAccessToken(): Promise<string> {
@@ -24,11 +21,6 @@ class ConfigSpy extends Config {
     this.fetchWorkspaceNameCalled = true;
     return new Promise<string>((resolve) => resolve('foo'));
   }
-
-  fetchVldApiKey(): Promise<string> {
-    this.fetchVldApiKeyCalled = true;
-    return new Promise<string>((resolve) => resolve('foo'));
-  }
 {% endif -%}
 }
 
@@ -38,6 +30,5 @@ test('Config#validate', async () => {
 {%- if cookiecutter.asana_api == 'yes' %}
   expect(config.fetchAsanaAccessTokenCalled).toBeTruthy();
   expect(config.fetchWorkspaceName).toBeTruthy();
-  expect(config.fetchVldApiKey).toBeTruthy();
 {%- endif %}
 });
