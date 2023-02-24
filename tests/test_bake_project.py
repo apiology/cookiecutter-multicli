@@ -127,6 +127,8 @@ def test_bake_and_run_build_christmas_tree(cookies):
                               'asana_related': 'yes',
                               'asana_api': 'yes',
                               'options': 'yes',
+                              'service_worker': 'yes',
+                              'content_scirpt': 'yes',
                           }) as result:
         assert result.project_path.is_dir()
         assert result.exit_code == 0
