@@ -98,7 +98,7 @@ set license_name = {
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana/**/browser-request": "file:polyfills/browser-request-via-fetch",
     "asana/**/json-schema": "^0.4",
-      "**/minimatch": "^3.0.5",
+    "**/minimatch": "^3.0.5",
 {%- endif %}
     "**/json5": "^1.0.2",
     "alfy/**/plist": "^3.0.5",
