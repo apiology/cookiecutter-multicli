@@ -137,7 +137,7 @@ Delete your current installation in Alfred again.
 
 open '{{cookiecutter.project_name}}.alfredworkflow' | configure as prompted | Import
 
-[packal](http://www.packal.org/) | Login if needed | Dashboard | {{cookiecutter.project_name}} | edit | Workflow File | Remove | Choose File | (.alfredworkflow file) | Upload | Version | (update) | (scroll to bottom) | Submit
+[packal](http://www.packal.org/) | Login if needed | Dashboard | {{cookiecutter.project_name}} | Edit current | Workflow File | Remove | Choose File | (.alfredworkflow file) | Upload | Version | (update) | (scroll to bottom) | Submit
 
 ## Initial release to packal.org
 
