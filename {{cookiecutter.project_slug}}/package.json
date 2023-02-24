@@ -82,6 +82,9 @@ set license_name = {
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana": "^0.18.5",
     "buffer": "^6.0.3",
+{%- endif %}
+    "hook-std": "^3.0.0",
+{%- if cookiecutter.asana_api == 'yes' %}
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "url": "^0.11.0",
