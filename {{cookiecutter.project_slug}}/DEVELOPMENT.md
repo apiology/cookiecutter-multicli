@@ -129,8 +129,9 @@ Once done, make a GitHub release with the exported file (do this in a
 new tab):
 
 ```sh
+cd ../{{cookiecutter.project_slug}}
 new_release=$(npm version --json | jq -r '."alfred-{{cookiecutter.project_slug}}"')
-gh release create v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
+gh release create --generate-notes v${new_release:?} '{{cookiecutter.project_name}}.alfredworkflow'
 ```
 
 Delete your current installation in Alfred again.
