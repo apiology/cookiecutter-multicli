@@ -83,6 +83,8 @@ set license_name = {
   "_json5ResolutionsComments": "json5 < 1.0.2 is vulnerable to CVE-2022-46175",
   "resolutions": {
 {%- if cookiecutter.asana_api == 'yes' %}
+    "asana/**/browser-request": "file:polyfills/browser-request-via-fetch",
+    "asana/**/request": "file:polyfills/browser-request-via-fetch",
     "asana/**/json-schema": "^0.4",
     "**/minimatch": "^3.0.5",
 {%- endif %}
