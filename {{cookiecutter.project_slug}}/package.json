@@ -100,6 +100,7 @@ set license_name = {
   "resolutions": {
 {%- if cookiecutter.asana_api == 'yes' %}
     "asana/**/browser-request": "file:polyfills/browser-request-via-fetch",
+    "asana/**/request": "file:polyfills/browser-request-via-fetch",
     "asana/**/json-schema": "^0.4",
     "**/minimatch": "^3.0.5",
 {%- endif %}
