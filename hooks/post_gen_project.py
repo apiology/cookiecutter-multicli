@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import shutil
 import subprocess
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
@@ -8,6 +9,10 @@ PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 
 def remove_file(filepath):
     os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+
+
+def remove_directory(filepath):
+    shutil.rmtree(filepath)
 
 
 if __name__ == '__main__':
@@ -22,6 +27,10 @@ if __name__ == '__main__':
         remove_file('src/chrome-extension/options.ts')
         remove_file('src/chrome-extension/options.test.ts')
         remove_file('static/chrome-extension/options.html')
+
+    if 'no' == '{{ cookiecutter.asana_api }}':
+        remove_file('src/asana-base.ts')
+        remove_directory('polyfills')
 
     if 'no' == '{{ cookiecutter.service_worker }}':
         remove_file('src/chrome-extension/background.ts')
