@@ -1,7 +1,7 @@
 import { Config } from './config.js';
 
 class ConfigSpy extends Config {
-{% if cookiecutter.asana_api == 'yes' -%}
+{%- if cookiecutter.asana_api == 'yes' %}
   fetchAsanaAccessTokenCalled: boolean;
 
   fetchWorkspaceNameCalled: boolean;
@@ -10,8 +10,6 @@ class ConfigSpy extends Config {
     super();
     this.fetchAsanaAccessTokenCalled = false;
     this.fetchWorkspaceNameCalled = false;
-    this.fetchPlateSpinnerApiKeyCalled = false;
-    this.fetchFreedomDeviceNamesCalled = false;
   }
 
   fetchAsanaAccessToken(): Promise<string> {
