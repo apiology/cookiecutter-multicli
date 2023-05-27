@@ -12,5 +12,5 @@ export abstract class Config {
     await this.fetchWorkspaceName();
 {%- endif %}
     // await this.fetchSomeConfigItem();
-  }
+  };
 }
