@@ -58,6 +58,8 @@ PreCommit:
   Punchlist:
     on_warn: fail
     command: ['bundle', 'exec', 'punchlist']
+    exclude:
+      - 'yarn.lock'
     enabled: true
 
 #PostCheckout:
