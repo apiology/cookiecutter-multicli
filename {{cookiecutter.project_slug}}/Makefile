@@ -30,7 +30,7 @@ repl: ## Bring up an interactive JavaScript prompt
 	@echo "await client.tasks.getTask('123')"
 	@echo "const user = (await client.users.findAll({workspace: workspaceGid})).data.find(user => user.name == 'Vince Broz');"
 	@op-ensure-active
-	@ASANA_API_TOKEN=$$(with-op op read 'op://private/Asana access token - upvoter-opener-filer chrome extensions/password') node
+	@ASANA_API_TOKEN=$$(op read 'op://private/Asana access token - upvoter-opener-filer chrome extensions/password') node
 {%- else %}
 	node
 {%- endif %}
