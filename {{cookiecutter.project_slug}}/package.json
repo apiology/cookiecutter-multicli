@@ -112,5 +112,12 @@ set license_name = {
       ".tsx",
       ".jsx"
     ]
+  },
+  "remarkConfig": {
+    "settings": {
+      "bullet": "*",
+      "listItemIndent": "one"
+    },
+    "plugins": []
   }
 }
