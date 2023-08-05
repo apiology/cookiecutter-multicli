@@ -34,6 +34,7 @@ if __name__ == '__main__':
     if 'no' == '{{ cookiecutter.asana_api }}':
         remove_file('src/asana-base.ts')
         remove_file('src/asana-typeahead.ts')
+        remove_file('src/asana-typeahead.test.ts')
         remove_directory('polyfills')
 
     if 'no' == '{{ cookiecutter.service_worker }}':
