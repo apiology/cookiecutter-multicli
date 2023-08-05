@@ -1,11 +1,13 @@
 import path from 'path';
 {% if cookiecutter.asana_api == 'yes' -%}
-import webpack from 'webpack';
 import { createRequire } from 'module';
+{% endif -%}
+import { fileURLToPath } from 'url';
+{% if cookiecutter.asana_api == 'yes' -%}
+import webpack from 'webpack';
 {% endif -%}
 import CopyPlugin from 'copy-webpack-plugin';
 import ResolveTypeScriptPlugin from 'resolve-typescript-plugin';
-import { fileURLToPath } from 'url';
 
 {% if cookiecutter.asana_api == 'yes' -%}
 const require = createRequire(import.meta.url);
