@@ -65,5 +65,6 @@ PreCommit:
 #    enabled: true # Generate a tags file with `ctags` each time HEAD changes
 
 PrePush:
-  Pytest:
-    enabled: true
+# takes too long; might as well just run it once in CI
+#  Pytest:
+#    enabled: true
