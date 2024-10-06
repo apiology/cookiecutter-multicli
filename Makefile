@@ -84,7 +84,7 @@ update_from_cookiecutter: ## Bring in changes from template project used to crea
 	git fetch cookiecutter-upstream
 	git fetch -a
 	git merge cookiecutter-upstream/main --allow-unrelated-histories || true
-	bundle exec overcommit --install
+	bundle exec overcommit --install || true
 	@echo
 	@echo "Please resolve any merge conflicts below and push up a PR with:"
 	@echo

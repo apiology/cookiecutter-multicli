@@ -44,7 +44,7 @@ PreCommit:
       - '**/*.sh'
   YamlLint:
     enabled: true
-    flags: ['-c', '.yamllint.yml']
+    flags: ['-c', '.yamllint.yml', '--format=parsable', '--strict']
     on_warn: fail
   CircleCi:
     required_executable: 'circleci'
@@ -68,5 +68,6 @@ PreCommit:
 # between a push and CircleCI.
 #
 # PrePush:
+# takes too long; might as well just run it once in CI
 #  Pytest:
 #    enabled: true
