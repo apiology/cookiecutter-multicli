@@ -59,6 +59,8 @@ PreCommit:
     command: ['bundle', 'exec', 'punchlist']
     exclude:
       - 'yarn.lock'
+      # vendored
+      - 'docs/chrome-manifest-v3-schema.json'
     enabled: true
     problem_on_unmodified_line: warn
 
