@@ -21,12 +21,6 @@ PreCommit:
   # https://github.com/sds/overcommit/blob/master/config/default.yml
   BrokenSymlinks:
     enabled: true
-    description: 'Check for broken symlinks'
-    quiet: true
-    exclude:
-      # This is a symlink to sibling checkout of plate-spinner, used
-      # only in local development
-      - config/env.1p
   EsLint:
     required_executable: 'npx'
     command: ['npx', 'eslint']
@@ -36,6 +30,19 @@ PreCommit:
       - '**/*.js'
       - '**/*.ts'
       - '**/*.tsx'
+  FixMe:
+    enabled: true
+    on_warn: fail
+    exclude:
+      # sorbet sure likes to crash
+      - 'core.*'
+      # don't freak out over line below
+      - '.overcommit.yml'
+      # vendored
+      - 'docs/chrome-manifest-v3-schema.json'
+      # generated with SHAs
+      - 'yarn.lock'
+    keywords: ['BROKEN', 'BUG', 'FIXME', 'HACK', 'OPTIMIZE', 'REVIEW', 'TODO', 'WTF', 'XXX']
   PythonFlake8:
     enabled: true
     on_warn: fail
@@ -57,12 +64,21 @@ PreCommit:
     enabled: true
   Punchlist:
     command: ['bundle', 'exec', 'punchlist']
-    exclude:
-      - 'yarn.lock'
-      # vendored
-      - 'docs/chrome-manifest-v3-schema.json'
     enabled: true
     problem_on_unmodified_line: warn
+    exclude:
+      # sorbet sure likes to crash
+      - 'core.*'
+      # don't freak out over line below
+      - '.overcommit.yml'
+      # vendored
+      - 'docs/chrome-manifest-v3-schema.json'
+      # generated with SHAs
+      - 'yarn.lock'
+  CustomScript:
+    enabled: true
+    requires_files: false
+    required_executable: 'bin/git-commit-validate'
 
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type

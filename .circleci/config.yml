@@ -19,10 +19,10 @@ commands:
             export PATH="${HOME}/.pyenv/bin:${PATH}"
             export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
             export PATH="${HOME}/project/node_modules/.bin:${PATH}"
+            export PATH="$(pwd)/bin:${PATH}"
             eval "$(pyenv init --path)"
             eval "$(pyenv virtualenv-init -)"
             eval "$(rbenv init -)"
-            export BUNDLE_PATH=vendor/bundle
             . "$HOME/.nvm/nvm.sh"
 
             <<parameters.command>>
@@ -34,40 +34,65 @@ commands:
     description: "Install source environment"
     steps:
       - checkout
+      - run:
+          name: Update timestamps to original commit time
+          command: |
+            git ls-tree -r --name-only HEAD | while read filename; do \
+              unixtime=$(git log -1 --format="%at" -- "${filename}")
+              touchtime=$(date -d @$unixtime +'%Y%m%d%H%M.%S')
+              touch -ht ${touchtime} "${filename}"
+            done
       - restore_cache:
-          key: gems-v2-{{ checksum "Gemfile.lock" }}
+          name: Restore rbenv cache
+          keys:
+            - rbenv-v5-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}-
+            - rbenv-v5-{{ checksum "Gemfile" }}-
+            - rbenv-v5-
+            - rbenv-
       - restore_cache:
-          key: wheels-v1-3.12.1-{{ checksum "requirements_dev.txt" }}
+          name: Restore pyenv cache
+          keys:
+            - pyenv-v2-{{ checksum "requirements_dev.txt" }}-
+            - pyenv-v2-
+            - pyenv-
       - run:
           name: Initialize packages
           command: |
-            export BUNDLE_PATH=vendor/bundle
+            # measuring slows down the script - only enable when you
+            # want to debug where this is spending time
+
+            # export FIX_SH_TIMING_LOG=/tmp/fix_sh_timing.log
+
+            PATH="$(pwd)/bin:${PATH}"
+            export PATH
+
             './fix.sh'
-      - run:
-          name: Verify Gemfile.lock
-          command: |
-            if ! git diff --exit-code Gemfile.lock
-            then
-              >&2 echo "Please resolve changes to Gemfile.lock after bundle install to avoid caching difficulties"
-              exit 1
-            fi
+      - store_artifacts:
+          path: /tmp/fix_sh_timing.log
       - save_cache:
-          key: gems-v2-{{ checksum "Gemfile.lock" }}
+          name: 'Save pyenv cache'
+          key: pyenv-v2-{{ checksum "requirements_dev.txt" }}-{{ checksum ".python-version" }}
           paths:
-            - "vendor/bundle"
-      - save_cache:
-          key: wheels-v1-3.12.1-{{ checksum "requirements_dev.txt" }}
-          paths:
+            - "requirements_dev.txt.installed"
             - "/home/circleci/.cache/pip/wheels"
-            - "/home/circleci/.pyenv/versions/3.12.1/envs/cookiecutter-chrome-extension-3.12.1"
-            - "/home/circleci/.pyenv/versions/cookiecutter-chrome-extension-3.12.1"
+            - "/home/circleci/.pyenv"
+      - save_cache:
+          name: 'Save rbenv cache'
+          key: rbenv-v5-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}-{{ checksum ".ruby-version" }}-{{ checksum "Makefile" }}-{{ checksum ".circleci/config.yml" }} # yamllint disable-line rule:line-length
+          paths:
+            - "Gemfile.lock.installed"
+            - 'vendor/.keep'
+            - "vendor/bundle"
+            - "/home/circleci/.rbenv"
+            - ".bundle"
+            - ".ruby-version"
       - run:
           name: Download new circleci tool
           command: |
             curl -fLSs \
             https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | sudo bash
-  overcommit:
-    description: "Run overcommit"
+  quality:
+    description: "Quality checks"
     steps:
       - set_up_environment
       - run_with_languages:
@@ -88,7 +113,6 @@ commands:
         default: ''
         description: "Which tox arguments to pass"
     steps:
-      - set_up_environment
       - run_with_languages:
           label: Test
           command: |
@@ -103,20 +127,29 @@ commands:
             tox <<parameters.tox_arguments>>
 
 jobs:
+  quality:
+    working_directory: ~/cookiecutter-chrome-extension
+    docker:
+      - image: cimg/base:current
+    steps:
+      - quality
   build:
     working_directory: ~/cookiecutter-chrome-extension
     docker:
-      - image: apiology/circleci-python:latest
+      - image: cimg/base:current
     steps:
+      - set_up_environment
+      - run_with_languages:
+          label: Typecheck
+          command: make citypecheck citypecoverage
       - unless:
           condition:
             equal: [<< pipeline.git.branch >>, "main"]
           steps:
             # skip tox to speed things by not installing another
             # virtualenv, and only run in default Python version.
-            - set_up_environment
             - run_with_languages:
-                label: make test
+                label: Test
                 command: |
                   # These will be used in post_gen_project.py while testing
                   # the cookies, as well as by overcommit
@@ -126,29 +159,29 @@ jobs:
                   bundle exec overcommit --sign
                   bundle exec overcommit --sign pre-commit
 
+                  # measuring slows down the script - only enable when you
+                  # want to debug where this is spending time
+
+                  # export FIX_SH_TIMING_LOG=/tmp/child_fix_sh_timing.log
+
                   make citest cicoverage
+            - store_artifacts:
+                path: /tmp/child_fix_sh_timing.log
       - when:
           condition:
             equal: [<< pipeline.git.branch >>, "main"]
           steps:
             - tox
+      - run:
+          name: Verify deltas
+          command: |
+            if ! git diff --exit-code .
+            then
+              >&2 echo "Please resolve changes to avoid caching difficulties"
+              exit 1
+            fi
     # This seemed to shave 5ish% of the build time off when added
     resource_class: large
-  overcommit:
-    working_directory: ~/cookiecutter-chrome-extension
-    docker:
-      - image: apiology/circleci-python:latest
-    steps:
-      - when:
-          condition:
-            equal: [<< pipeline.git.branch >>, "main"]
-          steps:
-            - overcommit
-      - unless:
-          condition:
-            equal: [<< pipeline.git.branch >>, "main"]
-          steps:
-            - run: echo "overcommit only runs on main branch"
 
 workflows:
   version: 2
@@ -162,10 +195,10 @@ workflows:
                 - main
     jobs:
       - build
-      - overcommit
-  overcommit:
+      - quality
+  quality:
     jobs:
-      - overcommit
+      - quality
   build:
     jobs:
       - build

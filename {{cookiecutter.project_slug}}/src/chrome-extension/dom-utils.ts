@@ -10,6 +10,15 @@ export const ensureNotNull = <T>(value: T | null): T => {
   return value;
 };
 
+const ensureArrayType = <T>(value: object[], clazz: Class<T>): T[] => {
+  for (const element of value) {
+    if (!(element instanceof clazz)) {
+      throw new Error(`element is not a ${clazz.name}`);
+    }
+  }
+  return value as T[];
+};
+
 export const ensureHtmlElement = <T extends HTMLElement>(element: object | null,
   clazz: Class<T>): T => {
   if (element == null) {
@@ -45,6 +54,12 @@ export const htmlElementBySelector = <T extends HTMLElement>(selector: string,
   return element;
 };
 
+export const htmlElementsBySelector = <T extends HTMLElement>(selector: string,
+  clazz: Class<T>): T[] => {
+  const elements = Array.from(document.querySelectorAll(selector));
+  return ensureArrayType(elements, clazz);
+};
+
 export const htmlElementByClass = <T extends HTMLElement>(className: string,
   clazz: Class<T>): T => {
   const elements = document.getElementsByClassName(className);
@@ -62,18 +77,29 @@ export const htmlElementByClass = <T extends HTMLElement>(className: string,
 };
 
 // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-export function waitForElement(selector: string): Promise<Element> {
-  return new Promise<Element>((resolve) => {
+export function waitForElement<T extends HTMLElement>(
+  selector: string,
+  clazz: Class<T> = HTMLElement as Class<T>
+): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
     const e = document.querySelector(selector);
     if (e) {
-      resolve(e);
+      if (!(e instanceof clazz)) {
+        reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
+      } else {
+        resolve(e);
+      }
     }
 
     const observer = new MutationObserver(() => {
       const element = document.querySelector(selector);
       if (element) {
-        resolve(element);
-        observer.disconnect();
+        if (!(element instanceof clazz)) {
+          reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
+        } else {
+          resolve(element);
+          observer.disconnect();
+        }
       }
     });
 

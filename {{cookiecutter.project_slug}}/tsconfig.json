@@ -12,11 +12,11 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "module": "node16",
-    "target": "es2015",
+    "target": "es2017",
     "jsx": "react",
     "esModuleInterop": true,
     "moduleResolution": "node16",
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", {% if cookiecutter.service_worker == 'yes' %}"webworker", {% endif %}"dom"],
     "sourceMap": true
   }
 }
