@@ -428,7 +428,7 @@ ensure_python_versions() {
 
 ensure_pyenv_virtualenvs() {
   latest_python_version="$(cut -d' ' -f1 <<< "${python_versions}")"
-  virtualenv_name="shortcuts-for-asana-${latest_python_version}"
+  virtualenv_name="{{cookiecutter.project_slug}}-${latest_python_version}"
   if ! [ -d ~/".pyenv/versions/${virtualenv_name}" ]
   then
     pyenv virtualenv "${latest_python_version}" "${virtualenv_name}" || true

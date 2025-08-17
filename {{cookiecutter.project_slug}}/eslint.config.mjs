@@ -120,7 +120,7 @@ export default defineConfig([
     },
   },
   {
-    files: ["src/shortcuts-for-asana.test.ts"],
+    files: ["src/{{cookiecutter.project_slug}}.test.ts"],
 
     rules: {
         "max-len": "off",
