@@ -77,9 +77,9 @@ export const htmlElementByClass = <T extends HTMLElement>(className: string,
 };
 
 // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-export function waitForElement<T extends HTMLElement>(
+export function waitForElement<T extends Element>(
   selector: string,
-  clazz: Class<T> = HTMLElement as Class<T>
+  clazz: Class<T> = Element as Class<T>
 ): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const e = document.querySelector(selector);
