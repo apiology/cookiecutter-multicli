@@ -115,7 +115,7 @@ bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 clean: clean-typecoverage clean-typecheck clean-coverage ## remove all built artifacts
 	rm -fr package.zip dist/chrome-extension/* || true
 
-test: ## run tests quickly
+test: yarn.lock.installed ## run tests quickly
 	npm test
 
 citest: test ## Run unit tests from CircleCI
