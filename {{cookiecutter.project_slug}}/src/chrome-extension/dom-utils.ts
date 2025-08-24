@@ -10,14 +10,41 @@ export const ensureNotNull = <T>(value: T | null): T => {
   return value;
 };
 
-const ensureArrayType = <T>(value: object[], clazz: Class<T>): T[] => {
+export function ensureArrayType(value: Array<unknown>, type: 'number'): Array<number>;
+
+export function ensureArrayType(value: Array<unknown>, type: 'string'): Array<string>;
+
+export function ensureArrayType(value: Array<unknown>, type: 'boolean'): Array<boolean>;
+
+export function ensureArrayType<T extends object>(value: Array<unknown>, type: Class<T>): Array<T>;
+
+export function ensureArrayType
+<T extends object | StringConstructor | NumberConstructor | BooleanConstructor>(
+  value: Array<unknown>,
+  type: Class<T> | 'number' | 'string' | 'boolean'
+): Array<T> {
+  if (!Array.isArray(value)) {
+    throw new Error(`value is not an array: ${value}`);
+  }
   for (const element of value) {
-    if (!(element instanceof clazz)) {
-      throw new Error(`element is not a ${clazz.name}`);
+    if (type === 'string') {
+      if (typeof element !== 'string') {
+        throw new Error(`element [${element}] is not a string`);
+      }
+    } else if (type === 'number') {
+      if (typeof element !== 'number') {
+        throw new Error(`element [${element}] is not a number`);
+      }
+    } else if (type === 'boolean') {
+      if (typeof element !== 'boolean') {
+        throw new Error(`element [${element}] is not a boolean`);
+      }
+    } else if (!(element instanceof type)) {
+      throw new Error(`element [${element}] is not a ${type.name}`);
     }
   }
-  return value as T[];
-};
+  return value as Array<T>;
+}
 
 export const ensureHtmlElement = <T extends HTMLElement>(element: object | null,
   clazz: Class<T>): T => {

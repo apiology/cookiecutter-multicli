@@ -249,10 +249,6 @@ ensure_bundle() {
   bundler_version_major=$(cut -d. -f1 <<< "${bundler_version}")
   bundler_version_minor=$(cut -d. -f2 <<< "${bundler_version}")
   bundler_version_patch=$(cut -d. -f3 <<< "${bundler_version}")
-  # Version 2.1 of bundler seems to have some issues with nokogiri:
-  #
-  # https://app.asana.com/0/1107901397356088/1199504270687298
-
   # Version <2.2.22 of bundler isn't compatible with Ruby 3.3:
   #
   # https://stackoverflow.com/questions/70800753/rails-calling-didyoumeanspell-checkers-mergeerror-name-spell-checker-h
