@@ -28,7 +28,7 @@ start: chrome-extension-start ## run server continously and watch files for chan
 	echo "Teach me how to 'make start'"
 	exit 1
 
-webpack: ## run webpack and tie together modules for use by browser
+webpack: yarn.lock.installed ## run webpack and tie together modules for use by browser
 	yarn run webpack </dev/null
 
 build-chrome-extension: yarn.lock webpack
@@ -94,7 +94,6 @@ yarn.lock.installed: package.json
 
 yarn.lock: package.json
 	yarn install
-
 
 .bundle/config:
 	touch .bundle/config
