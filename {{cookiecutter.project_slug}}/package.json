@@ -56,7 +56,6 @@ set license_name = {
     "airbnb-eslint9": "^1.0.3",
     "copy-webpack-plugin": "^9",
     "eslint": "^9.33.0",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-formatter-compact": "^8.40.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.27.5",

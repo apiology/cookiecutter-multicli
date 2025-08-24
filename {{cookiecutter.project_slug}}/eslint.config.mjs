@@ -27,7 +27,6 @@ export default defineConfig([
   {
     extends: fixupConfigRules(compat.extends(
         "eslint:recommended",
-        "airbnb-base",
         "plugin:import/recommended",
         "plugin:import/typescript",
         "plugin:@typescript-eslint/eslint-recommended",
