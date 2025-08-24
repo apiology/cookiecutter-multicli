@@ -89,6 +89,7 @@ Gemfile.lock: Gemfile .bundle/config
 yarn_install: yarn.lock.installed
 
 yarn.lock.installed: package.json
+	touch yarn.lock
 	yarn install
 	touch yarn.lock.installed
 
