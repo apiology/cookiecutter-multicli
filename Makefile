@@ -128,7 +128,7 @@ test: ## run tests quickly
 	pytest --maxfail=1 tests/test_bake_project.py --capture=no --keep-baked-projects -v
 
 citest:  ## Run unit tests from CircleCI
-	pytest --maxfail=1 tests/test_bake_project.py --capture=no --keep-baked-projects -v
+	pytest --keep-baked-projects  --maxfail=1 tests/test_bake_project.py --capture=no -v
 
 overcommit: ## run precommit quality checks
 	bin/overcommit --run

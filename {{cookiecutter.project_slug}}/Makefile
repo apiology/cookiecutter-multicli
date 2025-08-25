@@ -28,7 +28,7 @@ start: chrome-extension-start ## run server continously and watch files for chan
 	echo "Teach me how to 'make start'"
 	exit 1
 
-webpack: ## run webpack and tie together modules for use by browser
+webpack: yarn.lock.installed ## run webpack and tie together modules for use by browser
 	yarn run webpack </dev/null
 
 build-chrome-extension: yarn.lock webpack
@@ -89,12 +89,12 @@ Gemfile.lock: Gemfile .bundle/config
 yarn_install: yarn.lock.installed
 
 yarn.lock.installed: package.json
+	touch yarn.lock
 	yarn install
 	touch yarn.lock.installed
 
 yarn.lock: package.json
 	yarn install
-
 
 .bundle/config:
 	touch .bundle/config
@@ -116,7 +116,7 @@ bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 clean: clean-typecoverage clean-typecheck clean-coverage ## remove all built artifacts
 	rm -fr package.zip dist/chrome-extension/* || true
 
-test: ## run tests quickly
+test: yarn.lock.installed ## run tests quickly
 	npm test
 
 citest: test ## Run unit tests from CircleCI

@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    chef-utils (18.7.10)
+    chef-utils (18.8.11)
       concurrent-ruby
     childprocess (5.1.0)
       logger (~> 1.5)
