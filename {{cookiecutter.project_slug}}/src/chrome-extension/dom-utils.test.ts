@@ -130,7 +130,7 @@ test('htmlElementBySelector - wrong element', async () => {
 <div>
   <div id='foo'>1</div>
   <div id='bar'>2</div>
-  <div id='baz'>3</div>Is not a HTMLAnchorElement as expected: [object HTMLDivElement]
+  <div id='baz'>3</div>
 </div>
 `;
 
@@ -172,13 +172,13 @@ test('htmlElementByIdBadHtmlWrongId', async () => {
   <div id='baz'>3</div>
 </div>
 `;
+
   expect(() => htmlElementById('bing', HTMLDivElement)).toThrowError("Couldn't find element with id bing");
 });
 
 test('htmlElementByIdBadHtmlWrongElement', async () => {
   // code is expecting this to be an a element, not a div - verify
   // we throw a useful error
-
   document.body.innerHTML = `
 <div>
   <div id='foo'>1</div>
@@ -260,6 +260,7 @@ test('waitForElementWrongType', () => {
   <div id='baz'>3</div>
 </div>
 `;
+
   expect(async () => waitForElement('#bar', HTMLAnchorElement)).rejects.toEqual(new Error('element with selector #bar not an HTMLAnchorElement as expected!'));
 });
 

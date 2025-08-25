@@ -3,7 +3,7 @@
 type Class<T> = new (...args: any[]) => T;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-export const ensureNotNull = <T>(value: T | null): T => {
+export const ensureNotNull = <T>(value: T | null | undefined): T => {
   if (value == null) {
     throw new Error('value is null');
   }
@@ -81,13 +81,17 @@ export const htmlElementBySelector = <T extends HTMLElement>(selector: string,
   return element;
 };
 
-export const htmlElementsBySelector = <T extends HTMLElement>(selector: string,
+export const htmlElementsBySelector = <T extends Element>(selector: string,
   clazz: Class<T>): T[] => {
   const elements = Array.from(document.querySelectorAll(selector));
-  return ensureArrayType(elements, clazz);
+  try {
+    return ensureArrayType(elements, clazz);
+  } catch {
+    throw new Error(`element with selector ${selector} not an ${clazz.name} as expected!`);
+  }
 };
 
-export const htmlElementByClass = <T extends HTMLElement>(className: string,
+export const htmlElementByClass = <T extends Element>(className: string,
   clazz: Class<T>): T => {
   const elements = document.getElementsByClassName(className);
   if (elements.length === 0) {
@@ -104,37 +108,45 @@ export const htmlElementByClass = <T extends HTMLElement>(className: string,
 };
 
 // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-export function waitForElement<T extends Element>(
+export function waitForElements<T extends Element>(
+  selector: string,
+  clazz: Class<T> = Element as Class<T>
+): Promise<T[]> {
+  return new Promise<T[]>((resolve, reject) => {
+    const e = htmlElementsBySelector(selector, clazz);
+    if (e.length > 0) {
+      try {
+        resolve(e);
+      } catch (err) {
+        reject(err);
+      }
+    } else {
+      const observer = new MutationObserver(() => {
+        const elements = htmlElementsBySelector(selector, clazz);
+        if (elements.length > 0) {
+          observer.disconnect();
+          try {
+            resolve(elements);
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
+  });
+}
+
+export async function waitForElement<T extends Element>(
   selector: string,
   clazz: Class<T> = Element as Class<T>
 ): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
-    const e = document.querySelector(selector);
-    if (e) {
-      if (!(e instanceof clazz)) {
-        reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
-      } else {
-        resolve(e);
-      }
-    }
-
-    const observer = new MutationObserver(() => {
-      const element = document.querySelector(selector);
-      if (element) {
-        if (!(element instanceof clazz)) {
-          reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected: ${element}`));
-        } else {
-          resolve(element);
-          observer.disconnect();
-        }
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-  });
+  const elements = await waitForElements(selector, clazz);
+  return ensureNotNull(elements[0]);
 }
 
 export const parent = (element: Element): Element => {
