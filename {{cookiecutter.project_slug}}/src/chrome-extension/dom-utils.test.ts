@@ -252,6 +252,18 @@ test('waitForElementAlreadyExists', async () => {
   expect(element.textContent).toEqual('2');
 });
 
+test('waitForElementDefaultType', async () => {
+  document.body.innerHTML = `
+<div>
+  <div id='foo'>1</div>
+  <div id='bar'>2</div>
+  <div id='baz'>3</div>
+</div>
+`;
+  const element = await waitForElement('#bar');
+  expect(element.textContent).toEqual('2');
+});
+
 test('waitForElementWrongType', () => {
   document.body.innerHTML = `
 <div>
