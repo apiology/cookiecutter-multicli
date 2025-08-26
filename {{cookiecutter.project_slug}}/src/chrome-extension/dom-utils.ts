@@ -107,29 +107,34 @@ export const htmlElementByClass = <T extends Element>(className: string,
   return element;
 };
 
+const lookForElements = <T extends Element>(
+  resolve: (value: T[] | PromiseLike<T[]>) => void,
+  reject: (reason?: any) => void, // eslint-disable-line @typescript-eslint/no-explicit-any
+  selector: string,
+  clazz: Class<T>
+): boolean => {
+  try {
+    const e = htmlElementsBySelector(selector, clazz);
+    if (e.length > 0) {
+      resolve(e);
+      return true;
+    }
+  } catch (err) {
+    reject(err);
+  }
+  return false;
+};
+
 // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
 export function waitForElements<T extends Element>(
   selector: string,
   clazz: Class<T> = Element as Class<T>
 ): Promise<T[]> {
   return new Promise<T[]>((resolve, reject) => {
-    const e = htmlElementsBySelector(selector, clazz);
-    if (e.length > 0) {
-      try {
-        resolve(e);
-      } catch (err) {
-        reject(err);
-      }
-    } else {
+    if (!lookForElements(resolve, reject, selector, clazz)) {
       const observer = new MutationObserver(() => {
-        const elements = htmlElementsBySelector(selector, clazz);
-        if (elements.length > 0) {
+        if (lookForElements(resolve, reject, selector, clazz)) {
           observer.disconnect();
-          try {
-            resolve(elements);
-          } catch (err) {
-            reject(err);
-          }
         }
       });
 
