@@ -89,7 +89,9 @@ latest_ruby_version() {
   #
   # https://github.com/rbenv/rbenv/issues/1441
   set +e
-  rbenv install --list 2>/dev/null | cat | grep "^${major_minor}."
+  # ruby-build 202605+ dropped EOL Rubies from `--list`; use `--list-all`.
+  # Match only patch releases, not prereleases (preview/rc/dev).
+  rbenv install --list-all 2>/dev/null | grep "^${major_minor}\\." | grep -v -- -preview | grep -v -- -rc | grep -v -- -dev | tail -1
   set -e
 }
 
@@ -189,9 +191,7 @@ ensure_bundle() {
   bundler_version_major=$(cut -d. -f1 <<< "${bundler_version}")
   bundler_version_minor=$(cut -d. -f2 <<< "${bundler_version}")
   bundler_version_patch=$(cut -d. -f3 <<< "${bundler_version}")
-  # Version <2.2.22 of bundler isn't compatible with Ruby 3.3:
-  #
-  # https://stackoverflow.com/questions/70800753/rails-calling-didyoumeanspell-checkers-mergeerror-name-spell-checker-h
+  # Install bundler >=2.6.9 when older versions fail `bundle lock` on git-branch deps (aff6a48).
   need_better_bundler=false
   if [ "${bundler_version_major}" -lt 2 ]
   then
@@ -241,6 +241,7 @@ set_ruby_local_version() {
   then
     echo "${latest_ruby_version}" > .ruby-version
   fi
+  set_rbenv_env_variables
 }
 
 latest_python_version() {
@@ -405,6 +406,29 @@ ensure_shellcheck() {
   fi
 }
 
+ensure_hooks_path() {
+  if [ -d .git ]
+  then
+    git config core.hooksPath .githooks
+  fi
+}
+
+install_bootstrap_post_checkout_hook() {
+  if [ ! -d .githooks ]
+  then
+    mkdir -p .githooks
+  fi
+
+  cat > .githooks/post-checkout << 'EOF'
+#!/bin/bash
+
+set -euo pipefail
+
+exec ./bin/git-post-checkout-fix "$@"
+EOF
+  chmod +x .githooks/post-checkout
+}
+
 ensure_overcommit() {
   # don't run if we're in the middle of a cookiecutter child project
   # test, or otherwise don't have a Git repo to install hooks into...
@@ -413,14 +437,19 @@ ensure_overcommit() {
     bundle exec overcommit --install
     bundle exec overcommit --sign
     bundle exec overcommit --sign pre-commit
+    install_bootstrap_post_checkout_hook
   else
     >&2 echo 'Not in a git repo; not installing git hooks'
   fi
 }
 
+ensure_rbenv
+
 ensure_types_built() {
   make build-typecheck
 }
+
+ensure_hooks_path
 
 ensure_ruby_versions
 
