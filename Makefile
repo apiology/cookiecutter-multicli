@@ -127,7 +127,7 @@ clean: clean-build clean-pyc clean-test clean-typecoverage clean-typecheck clean
 test: ## run tests quickly
 	pytest --maxfail=1 tests/test_bake_project.py --capture=no --keep-baked-projects -v
 
-citest:  ## Run unit tests from CircleCI
+citest: ## Run unit tests from CircleCI
 	pytest --keep-baked-projects  --maxfail=1 tests/test_bake_project.py --capture=no -v
 
 overcommit: ## run precommit quality checks
@@ -164,20 +164,4 @@ update_apt: .make/apt_updated
 cicoverage: citest ## check code coverage
 
 update_from_cookiecutter: ## Bring in changes from template project used to create this repo
-	bin/overcommit --uninstall
-	cookiecutter_project_upgrader --help >/dev/null
-	IN_COOKIECUTTER_PROJECT_UPGRADER=1 cookiecutter_project_upgrader || true
-	git checkout cookiecutter-template && git push --no-verify
-	git checkout main; overcommit --sign && overcommit --sign pre-commit && overcommit --sign pre-push && git checkout main && git pull && git checkout -b update-from-cookiecutter-$$(date +%Y-%m-%d-%H%M)
-	git merge cookiecutter-template || true
-	git checkout --ours Gemfile.lock || true
-	# update frequently security-flagged gems while we're here
-	bundle update --conservative json rexml || true
-	( make build && git add Gemfile.lock ) || true
-	bin/overcommit --install || true
-	@echo
-	@echo "Please resolve any merge conflicts below and push up a PR with:"
-	@echo
-	@echo '   gh pr create --title "Update from cookiecutter" --body "Automated PR to update from cookiecutter boilerplate"'
-	@echo
-	@echo
+	bin/cookiecutter_project_upgrader.sh
