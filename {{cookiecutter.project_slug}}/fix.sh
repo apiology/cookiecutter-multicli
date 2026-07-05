@@ -65,7 +65,8 @@ ensure_yarn() {
   npm install -g corepack
   yarn set version 4.9.2 </dev/null
   touch yarn.lock
-  YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
+  # --ignore-scripts: alfy-init needs Alfred.app (not available in CI bake)
+  YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install --prefer-offline --no-progress --non-interactive --ignore-scripts
 }
 
 ensure_npm_modules() {
