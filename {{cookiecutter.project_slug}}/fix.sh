@@ -505,12 +505,6 @@ ensure_overcommit() {
 
 ensure_rbenv
 
-ensure_types_built() {
-  make build-typecheck
-}
-
-ensure_hooks_path
-
 ensure_nvm
 
 ensure_node_versions
@@ -536,7 +530,5 @@ ensure_pip_and_wheel
 ensure_python_requirements
 
 ensure_shellcheck
-
-ensure_types_built
 
 ensure_overcommit
