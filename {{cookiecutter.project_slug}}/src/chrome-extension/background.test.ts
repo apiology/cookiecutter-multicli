@@ -1,25 +1,19 @@
-import { chrome } from 'jest-chrome';
+import { chrome } from '@mobile-next/jest-chrome';
+import { doWork } from '../{{cookiecutter.project_slug}}.js';
 import { setPlatform } from '../platform.js';
 import { TestPlatform } from '../__mocks__/test-platform.js';
 import { registerEventListeners } from './background.js';
-import { omniboxInputChangedListener, omniboxInputEnteredListener } from './omnibox.js';
 
-jest.mock('./omnibox');
+jest.mock('../{{cookiecutter.project_slug}}');
 
 test('registerEventListeners', async () => {
-  jest.mocked(omniboxInputChangedListener);
-
-  jest.mocked(omniboxInputEnteredListener);
+  jest.mocked(doWork);
 
   setPlatform(new TestPlatform());
 
   registerEventListeners();
 
-  chrome.omnibox.onInputChanged.callListeners('foo', () => undefined);
+  chrome.browserAction.onClicked.callListeners({} as never);
 
-  expect(omniboxInputChangedListener).toHaveBeenCalled();
-
-  chrome.omnibox.onInputEntered.callListeners('foo', 'currentTab');
-
-  expect(omniboxInputEnteredListener).toHaveBeenCalled();
+  expect(doWork).toHaveBeenCalled();
 });
