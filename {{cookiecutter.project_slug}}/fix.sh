@@ -68,8 +68,8 @@ ensure_yarn() {
 }
 
 ensure_npm_modules() {
-  # --ignore-scripts: alfy-init needs Alfred.app (not available in CI bake)
-  YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install --ignore-scripts
+  # alfy-init needs Alfred.app (not available in CI bake); yarn 4 uses YARN_ENABLE_SCRIPTS
+  YARN_ENABLE_SCRIPTS=false YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 }
 
 apt_upgraded=0
