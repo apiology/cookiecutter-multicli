@@ -8,7 +8,7 @@
     "alfred-start": "tsc --watch -p tsconfig.alfred.json ",
     "build-alfy": "tsc -p tsconfig.alfred.json",
     "test": "yarn run jest --coverage --collectCoverageFrom='./src/**'",
-    "postinstall": "alfy-init",
+    "postinstall": "bin/postinstall-alfy.sh",
     "preuninstall": "alfy-cleanup"
   },
   "files": [
