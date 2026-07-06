@@ -293,6 +293,10 @@ ensure_bundle() {
   # Docker builds where it's already installed if this is not run.
   make Gemfile.lock
   make bundle_install
+  for platform in arm64-darwin-23 x86_64-darwin-23 x86_64-linux x86_64-linux-musl
+  do
+    grep "${platform:?}" Gemfile.lock >/dev/null 2>&1 || bundle lock --add-platform "${platform:?}"
+  done
 }
 
 set_ruby_local_version() {
