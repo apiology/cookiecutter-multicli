@@ -293,7 +293,7 @@ ensure_bundle() {
   # Docker builds where it's already installed if this is not run.
   make Gemfile.lock
   make bundle_install
-  for platform in arm64-darwin-23 x86_64-darwin-23 x86_64-linux x86_64-linux-musl
+  for platform in x86_64-linux x86_64-linux-musl
   do
     grep "${platform:?}" Gemfile.lock >/dev/null 2>&1 || bundle lock --add-platform "${platform:?}"
   done
@@ -506,8 +506,6 @@ ensure_overcommit() {
     >&2 echo 'Not in a git repo; not installing git hooks'
   fi
 }
-
-ensure_rbenv
 
 ensure_nvm
 
