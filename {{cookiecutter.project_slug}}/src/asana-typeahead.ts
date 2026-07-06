@@ -9,6 +9,8 @@ import * as Asana from 'asana';
 import { platform } from './platform.js';
 import { fetchClient, fetchWorkspaceGid } from './asana-base.js';
 
+type AnyResourceList = Asana.resources.ResourceList<Asana.resources.Resource>;
+
 export async function pullResult(
   text: string, resourceType: 'task', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Tasks.Type>>;
@@ -26,9 +28,8 @@ export async function pullResult(
 export async function pullResult(
   text: string, resourceType: 'tag', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Tags.Type>>;
-export async function pullResult(
-  text: string, resourceType: string, optFields: string
-): Promise<Asana.resources.ResourceList<Asana.resources.Resource>> {
+export async function pullResult(text: string, resourceType: string, optFields: string):
+  Promise<AnyResourceList> {
   const query: Asana.resources.Typeahead.TypeaheadParams = {
     resource_type: resourceType,
     query: text,
