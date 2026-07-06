@@ -29,7 +29,7 @@ export async function pullResult(
   text: string, resourceType: 'tag', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Tags.Type>>;
 export async function pullResult(text: string, resourceType: string, optFields: string):
-  Promise<AnyResourceList> {
+Promise<AnyResourceList> {
   const query: Asana.resources.Typeahead.TypeaheadParams = {
     resource_type: resourceType,
     query: text,
