@@ -16,36 +16,39 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+gemfile: Gemfile
+
 PreCommit:
   # Extend default config at
   # https://github.com/sds/overcommit/blob/master/config/default.yml
-  ALL:
+  BrokenSymlinks:
+    enabled: true
+    exclude:
+      # used for development
+      - 'config/env.1p'
+      - 'config/env.local'
+  FixMe:
+    enabled: true
     exclude:
       # Files are templated and the raw version is not always valid
       # syntax as a result; these will be tested in pytest after being
       # templated.
       - '{{cookiecutter.project_slug}}/**/*'
-  BrokenSymlinks:
-    enabled: true
-    description: 'Check for broken symlinks'
-    quiet: true
-    exclude:
-      # This is a symlink to sibling checkout of plate-spinner, used
-      # only in local development
-      - config/env.1p
+      # sorbet sure likes to crash
+      - 'core.*'
+      # don't freak out over line below
+      - '.overcommit.yml'
+    keywords: ['BROKEN', 'BUG', 'FIXME', 'HACK', 'OPTIMIZE', 'REVIEW', 'TODO', 'WTF', 'XXX']
   PythonFlake8:
     enabled: true
-    on_warn: fail
   ShellCheck:
     enabled: true
-    on_warn: fail
     include:
       - '.envrc'
       - '**/*.sh'
   YamlLint:
     enabled: true
     flags: ['-c', '.yamllint.yml', '--format=parsable', '--strict']
-    on_warn: fail
   CircleCi:
     required_executable: 'circleci'
     flags: ['config', 'validate']
@@ -55,7 +58,58 @@ PreCommit:
   Punchlist:
     command: ['bundle', 'exec', 'punchlist']
     enabled: true
+    exclude:
+      # Files are templated and the raw version is not always valid
+      # syntax as a result; these will be tested in pytest after being
+      # templated.
+      - '{{cookiecutter.project_slug}}/**/*'
+      # used for development
+      - 'config/env.1p'
+      - 'config/env.local'
+      # sorbet sure likes to crash
+      - 'core.*'
+      # don't freak out over line below
+      - '.overcommit.yml'
+  CustomScript:
+    enabled: true
+    requires_files: false
+    required_executable: 'bin/git-commit-validate'
+  BundleInstall:
+    enabled: true
+  ALL:
+    exclude:
+      # Files are templated and the raw version is not always valid
+      # syntax as a result; these will be tested in pytest after being
+      # templated.
+      - '{{cookiecutter.project_slug}}/**/*'
+    on_warn: fail
     problem_on_unmodified_line: warn
+    quiet: false
+
+PostCheckout:
+  BundleInstall:
+    enabled: true
+
+PostCommit:
+  BundleInstall:
+    enabled: true
+
+PostMerge:
+  BundleInstall:
+    enabled: true
+
+PostRewrite:
+  BundleInstall:
+    enabled: true
+
+PrePush:
+  CustomScript:
+    enabled: true
+    requires_files: false
+    required_executable: 'bin/git-push-validate'
+# takes too long; might as well just run it once in CI
+#  Pytest:
+#    enabled: true
 
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type
@@ -63,11 +117,3 @@ PreCommit:
 #
 #  IndexTags:
 #    enabled: true # Generate a tags file with `ctags` each time HEAD changes
-
-# The tests in cookiecutter-multicli take a bit too long to repeat
-# between a push and CircleCI.
-#
-# PrePush:
-# takes too long; might as well just run it once in CI
-#  Pytest:
-#    enabled: true

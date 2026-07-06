@@ -1,5 +1,5 @@
 {%- if cookiecutter.asana_api == 'yes' -%}
-import { chrome } from 'jest-chrome';
+import { chrome } from '@mobile-next/jest-chrome';
 {% endif -%}
 import { ChromeExtensionConfig } from './chrome-extension-config.js';
 
