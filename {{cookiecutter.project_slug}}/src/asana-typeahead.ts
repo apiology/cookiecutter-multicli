@@ -10,24 +10,24 @@ import { platform } from './platform.js';
 import { fetchClient, fetchWorkspaceGid } from './asana-base.js';
 
 export async function pullResult(
-  text: string, resourceType: 'task', optFields: string,
+  text: string, resourceType: 'task', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Tasks.Type>>;
 export async function pullResult(
-  text: string, resourceType: 'project', optFields: string,
+  text: string, resourceType: 'project', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Projects.Type>>;
 export async function pullResult(
-  text: string, resourceType: 'custom_field', optFields: string,
+  text: string, resourceType: 'custom_field', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.CustomFields.Type>>;
 export async function pullResult(
-  text: string, resourceType: 'project', optFields: string,
+  text: string, resourceType: 'project', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Projects.Type>>;
 // export async function pullResult(text: string, resourceType: 'portfolio', optFields: string):
 //  Promise<Asana.resources.ResourceList<Asana.resources.Portfolios.Type>>;
 export async function pullResult(
-  text: string, resourceType: 'tag', optFields: string,
+  text: string, resourceType: 'tag', optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Tags.Type>>;
 export async function pullResult(
-  text: string, resourceType: string, optFields: string,
+  text: string, resourceType: string, optFields: string
 ): Promise<Asana.resources.ResourceList<Asana.resources.Resource>> {
   const query: Asana.resources.Typeahead.TypeaheadParams = {
     resource_type: resourceType,
