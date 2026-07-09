@@ -1,9 +1,153 @@
 {
+  "name": "alfred-{{ cookiecutter.project_slug }}",
+  "version": "{{ cookiecutter.version }}",
+  "description": "{{ cookiecutter.project_short_description.replace('\"', '\\\"') }}",
+  "private": {% if cookiecutter.open_source_license == 'Not open source' -%}true{% else %}false{% endif %},
+  "scripts": {
+    "chrome-extension-start": "yarn run webpack --mode=development --watch",
+    "alfred-start": "tsc --watch -p tsconfig.alfred.json ",
+    "build-alfy": "tsc -p tsconfig.alfred.json",
+    "test": "yarn run jest --coverage --collectCoverageFrom='./src/**'",
+    "postinstall": "bin/postinstall-alfy.sh",
+    "preuninstall": "alfy-cleanup"
+  },
+  "files": [
+    "info.plist",
+    "dist/alfred/**/*.js",
+    "icon.png"
+  ],
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}.git"
+  },
+  "keywords": [
+    "chrome-extension"{% if cookiecutter.asana_related == 'yes' -%},
+    "asana"
+{%- endif %}
+  ],
+  "author": {
+    "name": "{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
+    "email": "{{ cookiecutter.email }}",
+    "url": "https://github.com/{{ cookiecutter.github_username }}/"
+  },
+{%-
+set license_name = {
+  "MIT license": "MIT",
+  "BSD license": "BSD-3-Clause",
+  "ISC license": "ISC",
+  "Apache Software License 2.0": "Apache-2.0"
+}
+-%}
+{%- if cookiecutter.open_source_license != 'Not open source' %}
+  "license": "{{ license_name[cookiecutter.open_source_license] }}",
+{%- endif %}
+  "bugs": {
+    "url": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+  },
+  "homepage": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}#readme",
+  "_devDependenciesNotes": "copy-webpack-plugin 10 failed with this - https://stackoverflow.com/questions/70080671/copy-webpack-plugin-error-invalid-host-defined-options.  webpack <5.76 has CVE-2023-28154",
+  "devDependencies": {
+    "@eslint/compat": "^1.3.1",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.32.0",
+    "@mobile-next/jest-chrome": "^1.1",
+    "@stylistic/eslint-plugin": "^5.2.3",
+{%- if cookiecutter.asana_api == 'yes' %}
+    "@types/asana": "^0.18.9",
+{%- endif %}
+    "@types/chrome": "^0.0.289",
+    "@types/jest": "^29.2.3",
+    "@types/jsdom": "^20.0.1",
+    "@types/lodash": "^4.14.176",
+    "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "airbnb-eslint9": "^1.0.3",
+    "copy-webpack-plugin": "^9",
+    "eslint": "^9.33.0",
+    "eslint-formatter-compact": "^8.40.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.27.5",
+    "globals": "^16.3.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.2.1",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-resolve": "^29.7.0",
+    "jest-ts-webcompat-resolver": "^1.0.0",
+    "jest-util": "^30.0.5",
+    "resolve-typescript-plugin": "^1.2.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.3.0",
+    "typescript": "^5.7.2",
+    "webpack": "^5.100.2",
+    "webpack-cli": "^6.0.1"
+  },
+{%- if cookiecutter.asana_api == 'yes' %}
+  "_dependenciesComments": "buffer, process, stream-browserify, url and util are node polyfills needed by asana library",
+{%- endif %}
+  "dependencies": {
+    "alfy": "^1.0.0",
+{%- if cookiecutter.asana_api == 'yes' %}
+    "asana": "^0.18.5",
+    "buffer": "^6.0.3",
+{%- endif %}
+    "hook-std": "^3.0.0",
+{%- if cookiecutter.asana_api == 'yes' %}
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.0",
+    "util": "^0.12.4",
+{%- endif %}
+    "lodash": "^4.17.21"
+  },{% if cookiecutter.asana_api == 'yes' %}
+  "_asanaResolutionsComments": "asana requires request ^2.88.2 (which is deprecated and not receiving updates), which requires http-signature ~1.2.0, which requires jsprim ^1.2.2, which requires json-schema@0.2.3, which is perhaps vulnerable to CVE-2021-3918 (moderate).",
+  "_minimatchResolutionsComments": "minimatch < 3.0.5 is vulnerable to CVE-2022-3517",
+{%- endif %}
+  "_json5ResolutionsComments": "json5 < 1.0.2 is vulnerable to CVE-2022-46175",
+  "_alfyResolutionsComments": "alfy@1.0.0 requires plist@^2.0.1 (which has a critical security bug) via a transitive dependency on {alfred-link@0.3.1,alfred-notifier@0.2.3}.  alfy@1.0.0 requires got@^6.7.1 (which has a moderate security bug) via a transitive dependency on package-json@4.0.1.  alfy@1.0.0 requires got@^12.0.3 (which has a moderate security bug)",
+  "resolutions": {
+{%- if cookiecutter.asana_api == 'yes' %}
+    "asana/**/browser-request": "file:polyfills/browser-request-via-fetch",
+    "asana/**/request": "file:polyfills/browser-request-via-fetch",
+    "asana/**/json-schema": "^0.4",
+    "**/minimatch": "^3.0.5",
+{%- endif %}
+    "**/json5": "^1.0.2",
+    "alfy/**/plist": "^3.0.5",
+    "alfy/**/got": "^12.1.0"
+  },
+  "__jest_comments": "https://kulshekhar.github.io/ts-jest/docs/guides/esm-support",
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "resolver": "jest-ts-webcompat-resolver",
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.(ts|tsx)$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts",
+      ".tsx",
+      ".jsx"
+    ]
+  },
   "remarkConfig": {
     "settings": {
       "bullet": "*",
       "listItemIndent": "one"
     },
     "plugins": []
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }
