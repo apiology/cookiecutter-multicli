@@ -1,4 +1,4 @@
-.PHONY: build build-typecheck bundle_install cicoverage citypecheck citest citypecoverage clean clean-coverage clean-typecheck clean-typecoverage coverage default gem_dependencies help overcommit quality repl report-coverage report-coverage-to-codecov test typecheck typecoverage update_from_cookiecutter docs
+.PHONY: clean test help typecheck quality
 .DEFAULT_GOAL := default
 
 define PRINT_HELP_PYSCRIPT
@@ -15,37 +15,50 @@ export PRINT_HELP_PYSCRIPT
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-default: clean-typecoverage build typecheck typecoverage clean-coverage test coverage overcommit_branch quality ## run default typechecking, tests and quality
+repl: ## Bring up an interactive JavaScript prompt
+{%- if cookiecutter.asana_api == 'yes' %}
+	@echo "const asana = require('asana');"
+	@echo "const clientOptions = {"
+	@echo "    defaultHeaders: {"
+	@echo "      'Asana-Enable': 'new_user_task_lists,new_project_templates,new_memberships,new_goal_memberships',"
+	@echo "    },"
+	@echo "};"
+	@echo "const asanaAccessToken = process.env.ASANA_API_TOKEN;"
+	@echo "const client = asana.Client.create(clientOptions).useAccessToken(asanaAccessToken);"
+	@echo "const workspaceGid = (await client.workspaces.getWorkspaces()).data.find((workspace) => workspace.name == 'VB').gid;"
+	@echo "const customField = (await client.customFields.findByWorkspace(workspaceGid)).data.find((customField) => customField.name == 'stars')"
+	@echo "await client.tasks.getTask('123')"
+	@echo "const user = (await client.users.findAll({workspace: workspaceGid})).data.find(user => user.name == 'Vince Broz');"
+	@ASANA_API_TOKEN=$$(op read 'op://private/Asana access token - upvoter-opener-filer chrome extensions/password') node
+{%- else %}
+	node
+{%- endif %}
 
-SOURCE_FILE_GLOBS = ['{config,lib,app,script,spec}/**/*.rb', 'ext/**/*.{c,rb}']
+webpack: ## run webpack and tie together modules for use by browser
+	npx webpack
 
-SOURCE_FILES := $(shell ruby -e "puts Dir.glob($(SOURCE_FILE_GLOBS))")
+chrome-extension-start: ## run webpack continuously and watch files
+	npm run chrome-extension-start
 
-start: ## run code continously and watch files for changes
-	echo "Teach me how to 'make start'"
-	exit 1
+alfred-start: ## run tsc continuously and watch files
+	npm run alfred-start
 
-build: bundle_install pip_install build-typecheck ## Update 3rd party packages as well and produce any artifacts needed from code
+build-alfy:
+	npm run build-alfy
 
-types.installed: Gemfile.lock Gemfile.lock.installed ## Ensure typechecking dependencies are in place
-	touch types.installed
+build-chrome-extension: webpack
 
-build-typecheck: types.installed  ## Fetch information that type checking depends on
+build: build-alfy build-chrome-extension
 
-docs: ## Generate documentation
+default: clean-typecoverage typecheck typecoverage build package clean-coverage test coverage quality ## run default typechecking and tests, then package up and check code quality
 
-clean-typecheck: ## Refresh the easily-regenerated information that type checking depends on
-	rm -f types.installed
-	echo all clear
+package: package-chrome-extension
 
-realclean-typecheck: clean-typecheck ## Remove all type checking artifacts
+package-chrome-extension: build-chrome-extension
+	cd dist/chrome-extension && zip -r ../../package.zip .
 
-realclean: clean realclean-typecheck
-	rm -fr vendor/bundle .bundle/config
-	rm -f .make/*
-	rm -f *.installed
-
-typecheck: build-typecheck ## validate types in code and configuration
+typecheck: webpack  ## validate types in code and configuration
+	jsonschema --instance static/chrome-extension/manifest.json docs/chrome-manifest-v3-schema.json
 
 citypecheck: typecheck ## Run type check from CircleCI
 
@@ -53,10 +66,7 @@ typecoverage: typecheck ## Run type checking and then ratchet coverage in metric
 
 clean-typecoverage: ## Clean out type-related coverage previous results to avoid flaky results
 
-citypecoverage: citypecheck ## Run type checking, ratchet coverage, and then complain if ratchet needs to be committed
-
-config/env: config/env.1p  ## Create file suitable for docker-compose usage
-	cat config/env.1p | cut -d= -f1 > config/env
+citypecoverage: typecoverage ## Run type checking, ratchet coverage, and then complain if ratchet needs to be committed
 
 requirements_dev.txt.installed: requirements_dev.txt
 	pip install -q --disable-pip-version-check -r requirements_dev.txt
@@ -64,47 +74,29 @@ requirements_dev.txt.installed: requirements_dev.txt
 
 pip_install: requirements_dev.txt.installed ## Install Python dependencies
 
-Gemfile.lock: Gemfile .bundle/config
-	if [ ! -f Gemfile.lock ]; then \
-	  bundle install; \
-	else \
-	  bundle lock; \
-	fi
+# bundle install doesn't get run here so that we can catch it below in
+# fresh-checkout and fresh-rbenv cases
+Gemfile.lock: Gemfile
 
-.bundle/config:
-	touch .bundle/config
-
-gem_dependencies: .bundle/config
-
-# Ensure any Gemfile.lock changes, even pulled from git, ensure a
-# bundle is installed.
-Gemfile.lock.installed: Gemfile vendor/.keep
-	touch Gemfile.lock.installed
-
-vendor/.keep: Gemfile.lock .ruby-version
-	make gem_dependencies
+# Ensure any Gemfile.lock changes ensure a bundle is installed.
+Gemfile.lock.installed: Gemfile.lock
 	bundle install
-	touch vendor/.keep
+	touch Gemfile.lock.installed
 
 bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 
-clean: clean-typecoverage clean-typecheck clean-coverage ## remove all built artifacts
+clean: ## remove all built artifacts
+	rm -fr package.zip dist/alfred/* dist/chrome-extension/* || true
 
 test: ## run tests quickly
+	npm test
 
 citest: test ## Run unit tests from CircleCI
 
 overcommit: ## run precommit quality checks
-	bin/overcommit --run
-
-overcommit_branch: ## run precommit quality checks only on changed files
-	bin/overcommit --run --diff origin/main
+	bundle exec overcommit --run
 
 quality: overcommit ## run precommit quality checks
-
-repl: ## Launch an interactive development shell
-	@echo "Teach me how to make repl"
-	@exit 1
 
 clean-coverage: ## Clean out previous output of test coverage to avoid flaky results from previous runs
 
@@ -115,15 +107,21 @@ report-coverage: test ## Report summary of coverage to stdout, and generate HTML
 report-coverage-to-codecov: report-coverage ## use codecov.io for PR-scoped code coverage reports
 	@curl -Os https://uploader.codecov.io/latest/linux/codecov
 	@chmod +x codecov
-	@./codecov --file coverage.xml --nonZero
+	@./codecov --file coverage/lcov.info --nonZero
 
-update_apt: .make/apt_updated
-
-.make/apt_updated:
-	sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-	touch .make/apt_updated
-
-cicoverage: citest report-coverage-to-codecov ## check code coverage
+cicoverage: report-coverage-to-codecov ## check code coverage, then report to codecov
 
 update_from_cookiecutter: ## Bring in changes from template project used to create this repo
-	bin/cookiecutter_project_upgrader.sh
+	bundle exec overcommit --uninstall
+	cookiecutter_project_upgrader --help >/dev/null
+	IN_COOKIECUTTER_PROJECT_UPGRADER=1 cookiecutter_project_upgrader || true
+	git checkout cookiecutter-template && git push && git checkout main
+	git checkout main && git pull && git checkout -b update-from-cookiecutter-$$(date +%Y-%m-%d-%H%M)
+	git merge cookiecutter-template || true
+	bundle exec overcommit --install || true
+	@echo
+	@echo "Please resolve any merge conflicts below and push up a PR with:"
+	@echo
+	@echo '   gh pr create --title "Update from cookiecutter" --body "Automated PR to update from cookiecutter boilerplate"'
+	@echo
+	@echo
