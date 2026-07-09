@@ -20,66 +20,23 @@ debug_timing() {
 # copy this into any function you want to debug further
 debug_timing
 
-install_nvm() {
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-}
+set -o pipefail
 
-set_nvm_env_variables() {
-  #
-  # nvm doesn't seem to be -e clean:
-  #
-  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/72/workflows/789c4aac-d150-4b0c-962f-83f8d04dd288/jobs/98
-  #
-  set +e
-  export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1090,SC1091
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  # shellcheck disable=SC1090,SC1091
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  set -e
-}
-
-ensure_nvm() {
-  if ! [ -f "${HOME}/.nvm/nvm.sh" ]
+ensure_homebrew_path() {
+  if [ "$(uname)" != "Darwin" ]
   then
-    install_nvm
+    return 0
   fi
-  if ! type nvm >/dev/null 2>&1
-  then
-    set_nvm_env_variables
-  fi
-}
 
-ensure_node_versions() {
-  # Looks like nvm isn't -u clean
-  #
-  # https://github.com/nvm-sh/nvm/issues/2420
-  #
-  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/67/workflows/ae764563-1f72-49d1-a663-a6cc6e64060a/jobs/88
-  set +u
-  nvm install
-  set -u
-}
-
-ensure_yarn() {
-  npm install -g corepack
-  yarn set version 4.9.2 </dev/null
-  touch yarn.lock
-}
-
-ensure_npm_modules() {
-  # alfy-init needs Alfred.app (not available in CI bake); yarn 4 uses YARN_ENABLE_SCRIPTS
-  YARN_ENABLE_SCRIPTS=false YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
-}
-
-apt_upgraded=0
-
-update_apt() {
-  if [ "${apt_upgraded}" = 0 ]
-  then
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
-    apt_upgraded=1
-  fi
+  local prefix
+  for prefix in /opt/homebrew /usr/local
+  do
+    if [ -x "${prefix}/bin/brew" ]
+    then
+      export PATH="${prefix}/bin:${prefix}/sbin:${PATH}"
+      return 0
+    fi
+  done
 }
 
 install_rbenv() {
@@ -105,6 +62,7 @@ EOF
 }
 
 set_rbenv_env_variables() {
+  ensure_homebrew_path
   export PATH="${HOME}/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 }
@@ -127,6 +85,8 @@ ensure_ruby_build() {
 }
 
 ensure_rbenv() {
+  ensure_homebrew_path
+
   if ! type rbenv >/dev/null 2>&1 && ! [ -f "${HOME}/.rbenv/bin/rbenv" ]
   then
     install_rbenv
@@ -248,6 +208,12 @@ ensure_bundle() {
       bundler_version=$(bundle --version | cut -d ' ' -f 3)
   fi
   echo "Bundler version: ${bundler_version}"
+  active_bundler_version=$(bundle --version 2>/dev/null | cut -d ' ' -f 3)
+  if [ -n "${bundler_version}" ] && [ "${bundler_version}" != "${active_bundler_version}" ]
+  then
+    gem install "bundler:${bundler_version}"
+    hash -r
+  fi
   bundler_version_major=$(cut -d. -f1 <<< "${bundler_version}")
   bundler_version_minor=$(cut -d. -f2 <<< "${bundler_version}")
   bundler_version_patch=$(cut -d. -f3 <<< "${bundler_version}")
@@ -258,12 +224,12 @@ ensure_bundle() {
     need_better_bundler=true
   elif [ "${bundler_version_major}" -eq 2 ]
   then
-    if [ "${bundler_version_minor}" -lt 2 ]
+    if [ "${bundler_version_minor}" -lt 6 ]
     then
       need_better_bundler=true
-    elif [ "${bundler_version_minor}" -eq 2 ]
+    elif [ "${bundler_version_minor}" -eq 6 ]
     then
-      if [ "${bundler_version_patch}" -lt 23 ]
+      if [ "${bundler_version_patch}" -lt 9 ]
       then
         need_better_bundler=true
       fi
@@ -272,10 +238,10 @@ ensure_bundle() {
   if [ "${need_better_bundler}" = true ]
   then
     >&2 echo "Original bundler version: ${bundler_version}"
+    gem install bundler:2.6.9
     # need to do this first before 'bundle update --bundler' will work
     make bundle_install
     bundle update --bundler
-    gem install bundler:2.2.23
     >&2 echo "Updated bundler version: $(bundle --version)"
     # ensure next step installs fresh bundle
     rm -f Gemfile.lock.installed
@@ -293,10 +259,6 @@ ensure_bundle() {
   # Docker builds where it's already installed if this is not run.
   make Gemfile.lock
   make bundle_install
-  for platform in x86_64-linux x86_64-linux-musl
-  do
-    grep "${platform:?}" Gemfile.lock >/dev/null 2>&1 || bundle lock --add-platform "${platform:?}"
-  done
 }
 
 set_ruby_local_version() {
@@ -343,23 +305,23 @@ set_pyenv_env_variables() {
   #
   # https://app.circleci.com/pipelines/github/apiology/cookiecutter-pypackage/15/workflows/10506069-7662-46bd-b915-2992db3f795b/jobs/15
   set +u
+  ensure_homebrew_path
   export PYENV_ROOT="${HOME}/.pyenv"
-  export PATH="${PYENV_ROOT}/bin:$PATH"
+  export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
   eval "$(pyenv init --path)"
   eval "$(pyenv virtualenv-init -)"
   set -u
 }
 
 ensure_pyenv() {
+  ensure_homebrew_path
+
   if ! type pyenv >/dev/null 2>&1 && ! [ -f "${HOME}/.pyenv/bin/pyenv" ]
   then
     install_pyenv
   fi
 
-  if ! type pyenv >/dev/null 2>&1
-  then
-    set_pyenv_env_variables
-  fi
+  set_pyenv_env_variables
 }
 
 update_package() {
@@ -493,6 +455,34 @@ EOF
   chmod +x .githooks/post-checkout
 }
 
+patch_overcommit_hooks() {
+  # Inject bootstrap so Cursor worktrees inherit .local-overcommit.yml before
+  # Overcommit loads config (gitignored file is absent on fresh worktree checkout).
+  # Do NOT patch overcommit-hook: it must match the gem template or Overcommit
+  # self-update will reinstall all hooks and strip these patches.
+  local hook hooks_dir bootstrap_line
+  hooks_dir="$(git config --get core.hooksPath 2>/dev/null || echo .git/hooks)"
+  bootstrap_line="repo_root = String(\`git rev-parse --show-toplevel 2>/dev/null\`).strip; load File.join(repo_root, '.git-hooks', 'bootstrap_local_overcommit.rb') rescue nil if repo_root != '' # OVERCOMMIT_REPO_BOOTSTRAP"
+
+  for hook in "${hooks_dir}"/*
+  do
+    [ -f "$hook" ] || continue
+    [[ "$(basename "$hook")" == "overcommit-hook" ]] && continue
+    grep -q 'OVERCOMMIT_REPO_BOOTSTRAP' "$hook" && continue
+    grep -q 'Entrypoint for Overcommit hook integration' "$hook" || continue
+    ruby - "$hook" "$bootstrap_line" <<'RUBY'
+hook_path = ARGV[0]
+bootstrap_line = ARGV[1]
+contents = File.read(hook_path)
+marker = "if ENV['OVERCOMMIT_DISABLE'].to_i != 0 || ENV['OVERCOMMIT_DISABLED'].to_i != 0\n  exit\nend\n"
+unless contents.include?('OVERCOMMIT_REPO_BOOTSTRAP')
+  raise "bootstrap insertion point not found in #{hook_path}" unless contents.include?(marker)
+  File.write(hook_path, contents.sub(marker, "#{marker}\n#{bootstrap_line}\n"))
+end
+RUBY
+  done
+}
+
 ensure_overcommit() {
   # don't run if we're in the middle of a cookiecutter child project
   # test, or otherwise don't have a Git repo to install hooks into...
@@ -501,19 +491,20 @@ ensure_overcommit() {
     bundle exec overcommit --install
     bundle exec overcommit --sign
     bundle exec overcommit --sign pre-commit
+    patch_overcommit_hooks
     install_bootstrap_post_checkout_hook
   else
     >&2 echo 'Not in a git repo; not installing git hooks'
   fi
 }
 
-ensure_nvm
+ensure_rbenv
 
-ensure_node_versions
+ensure_types_built() {
+  make build-typecheck
+}
 
-ensure_yarn
-
-ensure_npm_modules
+ensure_hooks_path
 
 ensure_ruby_versions
 
@@ -532,5 +523,7 @@ ensure_pip_and_wheel
 ensure_python_requirements
 
 ensure_shellcheck
+
+ensure_types_built
 
 ensure_overcommit

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import shutil
 import subprocess
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
@@ -22,46 +21,13 @@ def remove_file(filepath):
     os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
 
 
-def remove_directory(filepath):
-    shutil.rmtree(filepath)
-
-
 if __name__ == '__main__':
     # Add bin directory at start of PATH
     os.environ['PATH'] = os.path.join(PROJECT_DIRECTORY, 'bin') + os.pathsep + os.environ['PATH']
 
-    if 'no' == '{{ cookiecutter.options }}':
-        remove_file('src/config.ts')
-        remove_file('src/config.test.ts')
-        remove_file('src/__mocks__/test-config.ts')
-        remove_file('src/chrome-extension/chrome-extension-config.ts')
-        remove_file('src/chrome-extension/chrome-extension-config.test.ts')
-        remove_file('src/cache.ts')
-        remove_file('src/alfred/alfred-config.ts')
-        remove_file('src/alfred/alfred-cache.ts')
-        remove_file('src/chrome-extension/chrome-extension-cache.ts')
-        remove_file('src/chrome-extension/chrome-extension-cache.test.ts')
-        remove_file('src/chrome-extension/options.ts')
-        remove_file('src/chrome-extension/options.test.ts')
-        remove_file('static/chrome-extension/options.html')
-
-    if 'no' == '{{ cookiecutter.asana_api }}':
-        remove_file('src/asana-base.ts')
-        remove_file('src/asana-typeahead.ts')
-        remove_file('src/asana-typeahead.test.ts')
-        remove_directory('polyfills')
-
-    if 'no' == '{{ cookiecutter.service_worker }}':
-        remove_file('src/chrome-extension/background.ts')
-        remove_file('src/chrome-extension/background.test.ts')
-
-    if 'no' == '{{ cookiecutter.content_script }}':
-        remove_file('src/chrome-extension/content-script.ts')
-        remove_file('src/chrome-extension/content-script.test.ts')
-
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
-        remove_file('CONTRIBUTING.rst')
+        remove_file('CONTRIBUTING.md')
 
     if os.environ.get('IN_COOKIECUTTER_PROJECT_UPGRADER', '0') == '1':
         os.environ['SKIP_GIT_CREATION'] = '1'
@@ -84,7 +50,7 @@ if __name__ == '__main__':
     #
     # (commit here if you brought in any files above)
     #
-    run(['make', 'build'])  # update from bundle updates
+    run(['make', 'build-typecheck'])  # update from bundle updates
     run(['git', 'add', '-A'])
     run(['bundle', 'exec', 'git', 'commit', '--allow-empty', '-m',
          'reformat'])

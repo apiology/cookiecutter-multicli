@@ -40,7 +40,6 @@ Temporary Items
 
 # Used by Makefile to track what we have and haven't installed
 Gemfile.lock.installed
-yarn.lock.installed
 requirements_dev.txt.installed
 types.installed
 
@@ -60,33 +59,11 @@ types.installed
 /config/env.local
 
 # Overcommit installs hooks here; only bootstrap post-checkout is tracked
+.local-overcommit.yml
 .githooks/*
 !.githooks/post-checkout
 
 # Ignore make target files
 /.make/*
 !/.make/.keep
-
-# From package.json and npm
-/node_modules
-/.yarn
-
-# From release process
-/package.zip
-/alfred-{{cookiecutter.project_slug}}-*.tgz
-/{{cookiecutter.project_name}}.alfredworkflow
-
-# Provided by user
-/config.js
-
-# from jest
-/coverage
-
-# from webpack
-/dist/chrome-extension
-/dist/alfred
-
-# from yarn
-/yarn-error.log
-/.pnp.cjs
-/.pnp.loader.mjs
+.env-local-probe-path

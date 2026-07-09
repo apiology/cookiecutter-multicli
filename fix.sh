@@ -7,47 +7,6 @@ if [ -n "${FIX_SH_TIMING_LOG+x}" ]; then
     if ! type gdate >/dev/null 2>&1; then sudo ln -sf /bin/date /bin/gdate; fi
 fi
 
-install_nvm() {
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-}
-
-set_nvm_env_variables() {
-  #
-  # nvm doesn't seem to be -e clean:
-  #
-  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/72/workflows/789c4aac-d150-4b0c-962f-83f8d04dd288/jobs/98
-  #
-  set +e
-  export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1090,SC1091
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  # shellcheck disable=SC1090,SC1091
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  set -e
-}
-
-ensure_nvm() {
-  if ! [ -f "${HOME}/.nvm/nvm.sh" ]
-  then
-    install_nvm
-  fi
-  if ! type nvm >/dev/null 2>&1
-  then
-    set_nvm_env_variables
-  fi
-}
-
-ensure_node_versions() {
-  # Looks like nvm isn't -u clean
-  #
-  # https://github.com/nvm-sh/nvm/issues/2420
-  #
-  # https://app.circleci.com/pipelines/github/apiology/cookiecutter-chrome-extension/67/workflows/ae764563-1f72-49d1-a663-a6cc6e64060a/jobs/88
-  set +u
-  nvm install
-  set -u
-}
-
 debug_timing() {
   if [ -n "${FIX_SH_TIMING_LOG+x}" ]; then
     # shellcheck disable=SC2034
@@ -62,6 +21,23 @@ debug_timing() {
 debug_timing
 
 set -o pipefail
+
+ensure_homebrew_path() {
+  if [ "$(uname)" != "Darwin" ]
+  then
+    return 0
+  fi
+
+  local prefix
+  for prefix in /opt/homebrew /usr/local
+  do
+    if [ -x "${prefix}/bin/brew" ]
+    then
+      export PATH="${prefix}/bin:${prefix}/sbin:${PATH}"
+      return 0
+    fi
+  done
+}
 
 install_rbenv() {
   if [ "$(uname)" == "Darwin" ]
@@ -86,6 +62,7 @@ EOF
 }
 
 set_rbenv_env_variables() {
+  ensure_homebrew_path
   export PATH="${HOME}/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 }
@@ -108,6 +85,8 @@ ensure_ruby_build() {
 }
 
 ensure_rbenv() {
+  ensure_homebrew_path
+
   if ! type rbenv >/dev/null 2>&1 && ! [ -f "${HOME}/.rbenv/bin/rbenv" ]
   then
     install_rbenv
@@ -229,6 +208,12 @@ ensure_bundle() {
       bundler_version=$(bundle --version | cut -d ' ' -f 3)
   fi
   echo "Bundler version: ${bundler_version}"
+  active_bundler_version=$(bundle --version 2>/dev/null | cut -d ' ' -f 3)
+  if [ -n "${bundler_version}" ] && [ "${bundler_version}" != "${active_bundler_version}" ]
+  then
+    gem install "bundler:${bundler_version}"
+    hash -r
+  fi
   bundler_version_major=$(cut -d. -f1 <<< "${bundler_version}")
   bundler_version_minor=$(cut -d. -f2 <<< "${bundler_version}")
   bundler_version_patch=$(cut -d. -f3 <<< "${bundler_version}")
@@ -320,23 +305,23 @@ set_pyenv_env_variables() {
   #
   # https://app.circleci.com/pipelines/github/apiology/cookiecutter-pypackage/15/workflows/10506069-7662-46bd-b915-2992db3f795b/jobs/15
   set +u
+  ensure_homebrew_path
   export PYENV_ROOT="${HOME}/.pyenv"
-  export PATH="${PYENV_ROOT}/bin:$PATH"
+  export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
   eval "$(pyenv init --path)"
   eval "$(pyenv virtualenv-init -)"
   set -u
 }
 
 ensure_pyenv() {
+  ensure_homebrew_path
+
   if ! type pyenv >/dev/null 2>&1 && ! [ -f "${HOME}/.pyenv/bin/pyenv" ]
   then
     install_pyenv
   fi
 
-  if ! type pyenv >/dev/null 2>&1
-  then
-    set_pyenv_env_variables
-  fi
+  set_pyenv_env_variables
 }
 
 update_package() {
@@ -370,7 +355,7 @@ ensure_python_build_requirements() {
 ensure_python_versions() {
   # You can find out which feature versions are still supported / have
   # been release here: https://www.python.org/downloads/
-  python_versions="$(latest_python_version 3.12)"
+  python_versions="$(latest_python_version 3.12) $(latest_python_version 3.11) $(latest_python_version 3.10) $(latest_python_version 3.9) $(latest_python_version 3.8)"
 
   echo "Latest Python versions: ${python_versions}"
 
@@ -406,7 +391,7 @@ ensure_python_versions() {
 
 ensure_pyenv_virtualenvs() {
   latest_python_version="$(cut -d' ' -f1 <<< "${python_versions}")"
-  virtualenv_name="cookiecutter-chrome-extension-${latest_python_version}"
+  virtualenv_name="cookiecutter-multicli-${latest_python_version}"
   if ! [ -d ~/".pyenv/versions/${virtualenv_name}" ]
   then
     pyenv virtualenv "${latest_python_version}" "${virtualenv_name}" || true
@@ -470,6 +455,34 @@ EOF
   chmod +x .githooks/post-checkout
 }
 
+patch_overcommit_hooks() {
+  # Inject bootstrap so Cursor worktrees inherit .local-overcommit.yml before
+  # Overcommit loads config (gitignored file is absent on fresh worktree checkout).
+  # Do NOT patch overcommit-hook: it must match the gem template or Overcommit
+  # self-update will reinstall all hooks and strip these patches.
+  local hook hooks_dir bootstrap_line
+  hooks_dir="$(git config --get core.hooksPath 2>/dev/null || echo .git/hooks)"
+  bootstrap_line="repo_root = String(\`git rev-parse --show-toplevel 2>/dev/null\`).strip; load File.join(repo_root, '.git-hooks', 'bootstrap_local_overcommit.rb') rescue nil if repo_root != '' # OVERCOMMIT_REPO_BOOTSTRAP"
+
+  for hook in "${hooks_dir}"/*
+  do
+    [ -f "$hook" ] || continue
+    [[ "$(basename "$hook")" == "overcommit-hook" ]] && continue
+    grep -q 'OVERCOMMIT_REPO_BOOTSTRAP' "$hook" && continue
+    grep -q 'Entrypoint for Overcommit hook integration' "$hook" || continue
+    ruby - "$hook" "$bootstrap_line" <<'RUBY'
+hook_path = ARGV[0]
+bootstrap_line = ARGV[1]
+contents = File.read(hook_path)
+marker = "if ENV['OVERCOMMIT_DISABLE'].to_i != 0 || ENV['OVERCOMMIT_DISABLED'].to_i != 0\n  exit\nend\n"
+unless contents.include?('OVERCOMMIT_REPO_BOOTSTRAP')
+  raise "bootstrap insertion point not found in #{hook_path}" unless contents.include?(marker)
+  File.write(hook_path, contents.sub(marker, "#{marker}\n#{bootstrap_line}\n"))
+end
+RUBY
+  done
+}
+
 ensure_overcommit() {
   # don't run if we're in the middle of a cookiecutter child project
   # test, or otherwise don't have a Git repo to install hooks into...
@@ -478,6 +491,7 @@ ensure_overcommit() {
     bundle exec overcommit --install
     bundle exec overcommit --sign
     bundle exec overcommit --sign pre-commit
+    patch_overcommit_hooks
     install_bootstrap_post_checkout_hook
   else
     >&2 echo 'Not in a git repo; not installing git hooks'
@@ -489,10 +503,6 @@ ensure_rbenv
 ensure_types_built() {
   make build-typecheck
 }
-
-ensure_nvm
-
-ensure_node_versions
 
 ensure_hooks_path
 

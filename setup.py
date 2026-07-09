@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package metadata for the cookiecutter-chrome-extension cookiecutter template."""
+"""Package metadata for the cookiecutter-multicli cookiecutter template."""
 
 from distutils.core import setup
 
