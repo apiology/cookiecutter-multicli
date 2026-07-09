@@ -90,9 +90,14 @@ if __name__ == '__main__':
     nvm_sh = os.path.join(nvm_dir, 'nvm.sh')
     if os.path.isfile(nvm_sh):
         os.environ['NVM_DIR'] = nvm_dir
+        nvm_path_cmd = (
+            f'. "{nvm_sh}" && '
+            '(nvm use default >/dev/null 2>&1 || '
+            'nvm use >/dev/null 2>&1 || true); '
+            'printf %s "$PATH"'
+        )
         path_with_nvm = subprocess.check_output(
-            ['bash', '-c',
-             f'. "{nvm_sh}" && (nvm use default >/dev/null 2>&1 || nvm use >/dev/null 2>&1 || true); printf %s "$PATH"'],
+            ['bash', '-c', nvm_path_cmd],
             text=True,
         )
         os.environ['PATH'] = path_with_nvm
