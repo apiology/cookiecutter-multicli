@@ -1,0 +1,27 @@
+# typed: true
+# frozen_string_literal: true
+
+require 'overcommit'
+require 'overcommit/hook/pre_commit/base'
+
+module Overcommit
+  module Hook
+    module PreCommit
+      # CircleCI plugin for Overcommit to validate config file (.circleci/config.yml)
+      class CircleCi < Base
+        # @return [Symbol, Array<Symbol, String>]
+        def run
+          # @type [Overcommit::Subprocess::Result]
+          result = execute(command)
+          return :pass if result.success?
+
+          if result.success?
+            :pass
+          else
+            [:fail, result.stderr]
+          end
+        end
+      end
+    end
+  end
+end

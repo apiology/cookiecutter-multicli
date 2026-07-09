@@ -2,62 +2,172 @@
 version: 2.1
 
 commands:
-  overcommit:
-    description: "Run overcommit"
+  run_with_languages:
+    description: "Run the given command in an environment that includes relevant langauges in the PATH"
+    parameters:
+      command:
+        type: string
+        description: "What command to execute"
+      label:
+        type: string
+        description: "What to label the run"
+        default: <<parameters.command>>
+    steps:
+      - run:
+          name: <<parameters.label>>
+          no_output_timeout: 30m
+          command: |
+            export PATH="${HOME}/.pyenv/bin:${PATH}"
+            export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
+            export PATH="${HOME}/project/node_modules/.bin:${PATH}"
+            export PATH="$(pwd)/bin:${PATH}"
+            eval "$(pyenv init --path)"
+            eval "$(pyenv virtualenv-init -)"
+            eval "$(rbenv init -)"
+
+            <<parameters.command>>
+          environment:
+            # https://app.circleci.com/pipelines/github/apiology/cookiecutter-pypackage/4/workflows/29074dc8-944c-4600-8aaa-5116575fed90/jobs/4
+            "LC_ALL": "C.UTF-8"
+            "LANG": "C.UTF-8"
+  set_up_environment:
+    description: "Install source environment"
     steps:
       - checkout
+      - run:
+          name: Update timestamps to original commit time
+          command: |
+            git ls-tree -r --name-only HEAD | while read filename; do \
+              unixtime=$(git log -1 --format="%at" -- "${filename}")
+              touchtime=$(date -d @$unixtime +'%Y%m%d%H%M.%S')
+              touch -ht ${touchtime} "${filename}"
+            done
       - restore_cache:
-          key: fix.sh-v1-{% raw %}{{  checksum "fix.sh" }}{% endraw %}
+          name: Restore rbenv cache
+          keys:
+            - rbenv-v5-{% raw %}{{ checksum "Gemfile" }}{% endraw %}-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}-{% raw %} {{ checksum "Makefile"  }}{% endraw %}-{% raw %} {{ checksum ".circleci/config.yml" }}{% endraw %}- # yamllint disable-line rule:line-length
+            - rbenv-v5-{% raw %}{{ checksum "Gemfile" }}{% endraw %}-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}-{% raw %} {{ checksum "Makefile"  }}{% endraw %}- # yamllint disable-line rule:line-length
+            - rbenv-v5-{% raw %}{{ checksum "Gemfile" }}{% endraw %}-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}-
+            - rbenv-v5-{% raw %}{{ checksum "Gemfile" }}{% endraw %}-
+            - rbenv-v5-
+            - rbenv-
+      - restore_cache:
+          name: Restore pyenv cache
+          keys:
+            - pyenv-v2-{% raw %}{{ checksum "requirements_dev.txt" }}{% endraw %}-
+            - pyenv-v2-
+            - pyenv-
       - run:
           name: Initialize packages
-          command: './fix.sh'
+          no_output_timeout: 30m
+          command: |
+            # measuring slows down the script - only enable when you
+            # want to debug where this is spending time
+
+            # export FIX_SH_TIMING_LOG=/tmp/fix_sh_timing.log
+
+            PATH="$(pwd)/bin:${PATH}"
+            export PATH
+
+            './fix.sh'
+      - store_artifacts:
+          path: /tmp/fix_sh_timing.log
       - save_cache:
-          key: fix.sh-v1-{% raw %}{{  checksum "fix.sh" }}{% endraw %}
+          name: 'Save pyenv cache'
+          key: pyenv-v2-{% raw %}{{ checksum "requirements_dev.txt" }}{% endraw %}-{% raw %}{{ checksum ".python-version" }}{% endraw %}
           paths:
-            - "/home/circleci/.rbenv"
+            - "requirements_dev.txt.installed"
+            - "/home/circleci/.cache/pip/wheels"
             - "/home/circleci/.pyenv"
+      - save_cache:
+          name: 'Save rbenv cache'
+          key: rbenv-v5-{% raw %}{{ checksum "Gemfile" }}{% endraw %}-{% raw %}{{ checksum "Gemfile.lock" }}{% endraw %}-{% raw %}{{ checksum "Makefile" }}{% endraw %}-{% raw %}{{ checksum ".circleci/config.yml" }}{% endraw %}-{% raw %}{{ checksum ".ruby-version" }}{% endraw %} # yamllint disable-line rule:line-length
+          paths:
+            - "Gemfile.lock.installed"
+            - 'vendor/.keep'
+            - "vendor/bundle"
+            - "/home/circleci/.rbenv"
+            - ".bundle"
+            - ".ruby-version"
       - run:
           name: Download new circleci tool
           command: |
             curl -fLSs \
             https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | sudo bash
-      - run:
-          name: Run overcommit
+  quality:
+    description: "Quality checks"
+    steps:
+      - set_up_environment
+      - run_with_languages:
+          label: Run overcommit
           command: |
-            export PATH="${HOME}/.pyenv/bin:${PATH}"
-            export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
-            eval "$(pyenv init -)"
-            eval "$(pyenv virtualenv-init -)"
-            eval "$(rbenv init -)"
             # Coax overcommit into working
             git config --global user.email "test@test.test"
             git config --global user.name "Test Test"
-            bundle exec overcommit --sign
-            bundle exec overcommit --sign pre-commit
+            bin/overcommit --sign
+            bin/overcommit --sign pre-commit
+            bin/overcommit --sign pre-push
 
-            bundle exec overcommit --run
-          environment:
-            # https://app.circleci.com/pipelines/github/apiology/cookiecutter-pypackage/4/workflows/29074dc8-944c-4600-8aaa-5116575fed90/jobs/4
-            "LC_ALL": "C.UTF-8"
-            "LANG": "C.UTF-8"
 
+            # bundle exec overcommit --diff # if full run takes too long in this repo
+            bin/overcommit --run
 jobs:
-  overcommit:
+  quality:
+    working_directory: ~/{{cookiecutter.project_slug}}
     docker:
-      - image: circleci/ruby
+      - image: cimg/base:current
     steps:
-      - when:
-          condition:
-            equal: [<< pipeline.git.branch >>, "main"]
-          steps:
-            - overcommit
-      - unless:
-          condition:
-            equal: [<< pipeline.git.branch >>, "main"]
-          steps:
-            - run: echo "overcommit only runs on main branch"
+      - quality
+  build:
+    working_directory: ~/{{cookiecutter.project_slug}}
+    docker:
+      - image: cimg/base:current
+    steps:
+      - set_up_environment
+      - run_with_languages:
+          label: Typecheck
+          command: make citypecheck citypecoverage
+      - run:
+          label: Verify deltas
+          command: |
+            if [ -n "$(git status --porcelain)" ]
+            then
+              git status --porcelain
+              git diff -u .
+              >&2 echo "Please check in all files"
+              exit 1
+            fi
+      - run_with_languages:
+          label: Test
+          command: |
+            # Set timezone as same on dev box for test consistency
+
+            # https://stackoverflow.com/questions/44331836/apt-get-install-tzdata-noninteractive
+            sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
+            export TZ=America/New_York
+            date
+
+            make citest cicoverage
+    # This seemed to shave 5ish% of the build time off when added
+    resource_class: large.gen2
+
 workflows:
   version: 2
-  test:
+  weekly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * 6"
+          filters:
+            branches:
+              only:
+                - main
     jobs:
-      - overcommit
+      - build
+      - quality
+  quality:
+    jobs:
+      - quality
+  build:
+    jobs:
+      - build

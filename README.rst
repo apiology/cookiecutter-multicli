@@ -5,6 +5,8 @@ Cookiecutter Multi-CLI
 .. image:: https://circleci.com/gh/apiology/cookiecutter-multicli.svg?style=svg
     :target: https://circleci.com/gh/apiology/cookiecutter-multicli
 
+A cookiecutter template for text-based commands, featuring Chrome Omnibox support for now, with other platforms like Alfred and OS-level CLI in the future
+
 This is a fork
 --------------
 
@@ -52,7 +54,7 @@ Features
 
 * Testing setup with ``unittest`` and ``python setup.py test`` or ``pytest``
 * Travis-CI_: Ready for Travis Continuous Integration testing
-* Tox_ testing: Setup to easily test for Python 3.6, 3.7, 3.8, 3.9
+* Tox_ testing: Setup to easily test for Python 3.7, 3.8, 3.9 and 3.10
 * Sphinx_ docs: Documentation ready for generation with, for example, `Read the Docs`_
 * bump2version_: Pre-configured version bumping with a single command
 * Auto-release to PyPI_ when you push a new tag to main (optional)
