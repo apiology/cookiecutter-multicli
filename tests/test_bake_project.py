@@ -125,4 +125,34 @@ def test_bake_and_run_build(cookies):
         license_file_path = result.project_path / 'LICENSE'
         now = datetime.datetime.now()
         assert str(now.year) in license_file_path.open().read()
-        print('test_bake_and_run_build path', str(result.project_path))
+        print("test_bake_and_run_build path", str(result.project_path))
+
+
+def test_bake_and_run_build_christmas_tree(cookies):
+    with bake_in_temp_dir(cookies,
+                          extra_context={
+                              'full_name': 'name "quote" O\'connor',
+                              'project_short_description':
+                              'The greatest project ever created by name "quote" O\'connor.',
+                              'asana_related': 'yes',
+                              'asana_api': 'yes',
+                              'options': 'yes',
+                              'service_worker': 'yes',
+                              'content_scirpt': 'yes',
+                          }) as result:
+        assert result.project_path.is_dir()
+        assert result.exit_code == 0
+        assert result.exception is None
+
+        assert run_inside_dir('make test', str(result.project_path)) == 0
+        assert run_inside_dir('make typecheck', str(result.project_path)) == 0
+        assert run_inside_dir('make quality', str(result.project_path)) == 0
+        # The supplied Makefile does not support win32
+        if sys.platform != "win32":
+            output = check_output_inside_dir(
+                'make help',
+                str(result.project_path)
+            )
+            assert b"run precommit quality checks" in \
+                output
+        print("test_bake_and_run_build path", str(result.project_path))
