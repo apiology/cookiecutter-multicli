@@ -84,7 +84,24 @@ if __name__ == '__main__':
     #
     # (commit here if you brought in any files above)
     #
-    run(['make', 'build'])  # update from bundle updates
+    # fix.sh installs Node via nvm in a subprocess; reload nvm into this
+    # process so make/npm are on PATH for the bake build step.
+    nvm_dir = os.environ.get('NVM_DIR', os.path.expanduser('~/.nvm'))
+    nvm_sh = os.path.join(nvm_dir, 'nvm.sh')
+    if os.path.isfile(nvm_sh):
+        os.environ['NVM_DIR'] = nvm_dir
+        nvm_path_cmd = (
+            f'. "{nvm_sh}" && '
+            '(nvm use default >/dev/null 2>&1 || '
+            'nvm use >/dev/null 2>&1 || true); '
+            'printf %s "$PATH"'
+        )
+        path_with_nvm = subprocess.check_output(
+            ['bash', '-c', nvm_path_cmd],
+            text=True,
+        )
+        os.environ['PATH'] = path_with_nvm
+    run(['make', 'build-typecheck'])  # update from bundle updates
     run(['git', 'add', '-A'])
     run(['bundle', 'exec', 'git', 'commit', '--allow-empty', '-m',
          'reformat'])

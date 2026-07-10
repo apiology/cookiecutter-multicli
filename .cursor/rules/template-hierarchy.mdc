@@ -1,14 +1,14 @@
 ---
 description: >-
-  Editing cookiecutter-chrome-extension cookiecutter boilerplate — what to port at
-  this hierarchy level (Chrome Extension); never push specificity
+  Editing cookiecutter-multicli cookiecutter boilerplate — what to port at
+  this hierarchy level (Multi-CLI); never push specificity
   to ancestor templates or pull child-only config from reference repos
 alwaysApply: false
 ---
 
 # Template hierarchy (language/tool)
 
-Cookiecutter templates in this family stack **general → specific** (meta → language/tool → project). **This repo** is `cookiecutter-chrome-extension` (Chrome Extension scope). See also the meta rule `template-hierarchy.mdc` at the ancestor repo root.
+Cookiecutter templates in this family stack **general → specific** (meta → language/tool → project). **This repo** is `cookiecutter-multicli` (Multi-CLI scope). See also the meta rule `template-hierarchy.mdc` at the ancestor repo root.
 
 ## Where to put changes (this family)
 
@@ -17,7 +17,7 @@ Cookiecutter templates in this family stack **general → specific** (meta → l
 | `overcommit-signing.mdc` | Yes | Yes | Yes |
 | `template-hierarchy.mdc` | Yes | Yes (this file) | No |
 | `fix.sh`, `bin/git-*` hooks, `.githooks/post-checkout`, shared `.overcommit.yml` bootstrap | Yes | Yes | Yes |
-| Boilerplate sync skill + `SYNCING_BOILERPLATE.md` | Baked path only | **Yes** | No |
+| Boilerplate sync doc (`SYNCING_BOILERPLATE.md`) | Baked path only | **Yes** | No |
 | Language hooks (RuboCop, etc.) | No | **Yes** | Framework-only → nested |
 | Pytest bake tips in `DEVELOPMENT.md` | Meta repo | **Yes** if this template uses pytest | No — not every baked project uses Python |
 
@@ -31,16 +31,16 @@ Interpret every sync or edit against three directions:
 
 | Direction | Rule |
 |-----------|------|
-| **Reference → this template** | Port only what matches **this** level’s scope (Chrome Extension). |
+| **Reference → this template** | Port only what matches **this** level’s scope (Multi-CLI). |
 | **Reference → descendant templates** | Do **not** add here — belongs in a **more specific** child cookiecutter. |
 | **Ancestor → this template** | Pull **agnostic** improvements down from upstream templates; never push language/framework specifics **up**. |
-| **This template → descendants** | Push Chrome Extension-appropriate config **down**; reserve narrower framework/app bits for child templates. |
+| **This template → descendants** | Push Multi-CLI-appropriate config **down**; reserve narrower framework/app bits for child templates. |
 
 ## At this level
 
 - Shared boilerplate files (`.circleci`, `.envrc`, `.yamllint.yml`, hooks maintenance, etc.) should reflect **this** template’s tier — not everything a reference repo contains.
 - If a reference repo is more specific than this template (e.g. Rails app vs Ruby repo), treat extra config as **descendant** material.
-- If this template is more specific than an ancestor, you **may** add Chrome Extension-specific rules here that ancestors must not carry.
+- If this template is more specific than an ancestor, you **may** add Multi-CLI-specific rules here that ancestors must not carry.
 
 ## Referenced paths must exist here
 

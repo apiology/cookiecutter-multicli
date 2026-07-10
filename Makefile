@@ -142,7 +142,7 @@ bake: ## generate project using defaults
 	cookiecutter $(BAKE_OPTIONS) . --overwrite-if-exists
 
 watch: bake ## generate project using defaults and watch for changes
-	watchmedo shell-command -p '*.*' -c 'make bake -e BAKE_OPTIONS=$(BAKE_OPTIONS)' -W -R -D \cookiecutter-chrome-extension/
+	watchmedo shell-command -p '*.*' -c 'make bake -e BAKE_OPTIONS=$(BAKE_OPTIONS)' -W -R -D \cookiecutter-multicli/
 
 replay: BAKE_OPTIONS=--replay ## replay last cookiecutter run and watch for changes
 replay: watch
