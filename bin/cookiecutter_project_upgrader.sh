@@ -1,6 +1,7 @@
 #!/bin/bash
 # Run cookiecutter_project_upgrader and the update_from_cookiecutter finish phase.
 # Handles linked git worktrees (gitdir: .git pointer) and worktree-safe git branch ops.
+# Ecosystem-specific post-sync steps belong in Makefile post_cookiecutter_sync.
 
 set -euo pipefail
 
@@ -148,8 +149,6 @@ if [ -f "${MAKE_DIR}/cookiecutter_makefile_stashed" ]; then
   rm -f "${MAKE_DIR}/cookiecutter_makefile_stashed"
 fi
 
-bundle update --conservative json rexml || true
-( make build && git add Gemfile.lock ) || true
 bin/overcommit --install || true
 
 cat <<'EOF'
